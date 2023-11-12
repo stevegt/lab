@@ -1,6 +1,4 @@
-import wasmExec from "./wasm_exec_noglobals.js";
-
-
+import wasmExec from "./wasm_exec_module.js";
 
 async function init() {
 	const go = new wasmExec.Go();

@@ -4,8 +4,9 @@
 
 "use strict";
 
-// create a local object to avoid polluting the global namespace
-var wasmExec = {};
+// Create a local object to avoid polluting the global namespace with
+// the Go() class.  
+const wasmExec = {};
 export default wasmExec;
 
 (() => {
@@ -16,9 +17,9 @@ export default wasmExec;
 		return err;
 	};
 
-	if (!wasmExec.fs) {
+	if (!globalThis.fs) {
 		let outputBuf = "";
-		wasmExec.fs = {
+		globalThis.fs = {
 			constants: { O_WRONLY: -1, O_RDWR: -1, O_CREAT: -1, O_TRUNC: -1, O_APPEND: -1, O_EXCL: -1 }, // unused
 			writeSync(fd, buf) {
 				outputBuf += decoder.decode(buf);
@@ -63,8 +64,8 @@ export default wasmExec;
 		};
 	}
 
-	if (!wasmExec.process) {
-		wasmExec.process = {
+	if (!globalThis.process) {
+		globalThis.process = {
 			getuid() { return -1; },
 			getgid() { return -1; },
 			geteuid() { return -1; },
@@ -78,28 +79,24 @@ export default wasmExec;
 		}
 	}
 
-	/*
-	 XXX
-
-	if (!wasmExec.crypto) {
-		throw new Error("wasmExec.crypto is not available, polyfill required (crypto.getRandomValues only)");
+	if (!globalThis.crypto) {
+		throw new Error("globalThis.crypto is not available, polyfill required (crypto.getRandomValues only)");
 	}
 
-	if (!wasmExec.performance) {
-		throw new Error("wasmExec.performance is not available, polyfill required (performance.now only)");
+	if (!globalThis.performance) {
+		throw new Error("globalThis.performance is not available, polyfill required (performance.now only)");
 	}
 
-	if (!wasmExec.TextEncoder) {
-		throw new Error("wasmExec.TextEncoder is not available, polyfill required");
+	if (!globalThis.TextEncoder) {
+		throw new Error("globalThis.TextEncoder is not available, polyfill required");
 	}
 
-	if (!wasmExec.TextDecoder) {
-		throw new Error("wasmExec.TextDecoder is not available, polyfill required");
+	if (!globalThis.TextDecoder) {
+		throw new Error("globalThis.TextDecoder is not available, polyfill required");
 	}
 
 	const encoder = new TextEncoder("utf-8");
 	const decoder = new TextDecoder("utf-8");
-	*/
 
 	wasmExec.Go = class {
 		constructor() {
@@ -483,7 +480,7 @@ export default wasmExec;
 				null,
 				true,
 				false,
-				wasmExec,
+				globalThis,
 				this,
 			];
 			this._goRefCounts = new Array(this._values.length).fill(Infinity); // number of references that Go has to a JS value, indexed by reference id
@@ -492,7 +489,7 @@ export default wasmExec;
 				[null, 2],
 				[true, 3],
 				[false, 4],
-				[wasmExec, 5],
+				[globalThis, 5],
 				[this, 6],
 			]);
 			this._idPool = [];   // unused ids that have been garbage collected
@@ -568,3 +565,4 @@ export default wasmExec;
 		}
 	}
 })();
+
