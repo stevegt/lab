@@ -9,7 +9,12 @@ async function run(wasmExec, wasmBinaryUrl) {
 }
 
 async function init() {
-	// run the main function in the 1.21.3 WASM module
+	// calling my run() function with the wasmExec object and the wasm binary URL is like calling e.g.:
+	//
+	// const wasmExec_1_19_1 = new wasmExec.Go();
+	// let result = await WebAssembly.instantiateStreaming(fetch("./1.19.1/main.wasm"), wasmExec_1_19_1.importObject);
+	// wasmExec_1_19_1.run(result.instance);
+	//
 	run(wasmExec_1_19_1, "./1.19.1/main.wasm");
 	run(wasmExec_1_21_3, "./1.21.3/main.wasm");
 }
