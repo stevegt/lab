@@ -27,3 +27,7 @@ work with promises in a more comfortable synchronous way. If you use
 top-level code, you will get a syntax error because JavaScript isn't
 expecting `await` to be used there.
 
+XXX todo:
+- find existing tests
+- write additional tests as needed
+- write proposal, comparing with rust example at https://wasmbyexample.dev/home.en-us.html
