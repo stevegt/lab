@@ -181,6 +181,10 @@ type Result struct {
 	// output messages produced by the parsing operation.
 	Messages []Message
 	// number of input messages consumed by the parsing operation.
+	// XXX do we want to count message, or bytes within a message?  Or
+	// do we really want to keep track of overall position in the
+	// input stream?  Maybe this chould be bytes consumed, or maybe it
+	// should be a [messageCount, byteCount] tuple.
 	Consumed int
 }
 
@@ -191,9 +195,9 @@ type Parser func([]Message) Result
 // Combinator is a function that takes parsers and returns a new parser.
 type Combinator func(...Parser) Parser
 
-// Sequence is a combinator that takes a sequence of parsers and
-// returns a new parser that matches the sequence.
-func Sequence(parsers ...Parser) Parser {
+// Cat is a combinator that takes a sequence of parsers and
+// returns a new parser that is a concatenation of the input parsers.
+func Cat(parsers ...Parser) Parser {
 	return func(input []Message) Result {
 		var output Result
 		for _, parser := range parsers {
