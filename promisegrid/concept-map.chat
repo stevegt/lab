@@ -1,0 +1,840 @@
+{"Sysmsg":"You are a helpful assistant.","Version":"3.0.4"}
+USER:
+in graphviz, create a directed graph showing a concept map for the
+following:
+ 
+- hashes
+    - content-addressable storage
+- capability-based security
+- promise theory
+- javascript-style promises
+- multi-agent AI
+    - pong demo
+- neural nets
+- LLMs
+- context, vector databases, similarity search
+    - error propagation
+    - demo of how this dampens with iterations
+    - other techniques
+    - control theory, negative feedback
+    - self-healing behavior
+- git
+    - pitfalls, benefits
+    - history
+        - bitkeeper
+    - internals
+- git vs github features
+- blockchain
+    - why we’re not using it, not a cryptocurrency, culture
+- github copilot
+- PromiseGrid
+    - PromiseBase
+        - from pitbase
+- sandboxing/testing/containers/WASM
+- docker 
+    - internals
+    - layers, hashing
+- WASM
+    - WASI
+    - package management
+- ultimate goal
+    - community infrastructure
+    - organizational infrastructure
+    - better decision-making
+    - better communication
+    - better coordination of human effort
+    - better work-life balance
+    - assuage tragedy of the commons
+        - better governance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G {
+    "hashes" -> "content-addressable storage"
+    "capability-based security"
+    "promise theory"
+    "javascript-style promises"
+    "multi-agent AI" -> "pong demo"
+    
+    "neural nets"
+    "LLMs"
+    "context, vector databases, similarity search" -> "error propagation"
+    "context, vector databases, similarity search" -> "demo of how this dampens with iterations"
+    "context, vector databases, similarity search" -> "other techniques"
+    "context, vector databases, similarity search" -> "control theory, negative feedback"
+    "context, vector databases, similarity search" -> "self-healing behavior"
+    
+    "git" -> "pitfalls, benefits"
+    "git" -> "history" -> "bitkeeper"
+    "git" -> "internals"
+    
+    "git vs github features"
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture"
+    "github copilot"
+    
+    "PromiseGrid" -> "PromiseBase" -> "from pitbase"
+    "sandboxing/testing/containers/WASM"
+    "docker" -> "internals"
+    "docker" -> "layers, hashing"
+    
+    "WASM" -> "WASI"
+    "WASM" -> "package management"
+    
+    "ultimate goal" -> "community infrastructure"
+    "ultimate goal" -> "organizational infrastructure"
+    "ultimate goal" -> "better decision-making"
+    "ultimate goal" -> "better communication"
+    "ultimate goal" -> "better coordination of human effort"
+    "ultimate goal" -> "better work-life balance"
+    "ultimate goal" -> "assuage tragedy of the commons" -> "better governance"
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+To the best of your abilities, add edges as
+needed to create a single directed graph that
+connects all of the concepts below.  The tail of each
+edge should be a concept that is a prerequisite for
+the head of the edge.  If you can't find a way to
+connect two concepts, add a new concept as needed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "sandboxing/testing/containers/WASM";
+
+    "sandboxing/testing/containers/WASM" -> "WASM";
+    "WASM" -> "WASI";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+
+    "PromiseGrid" -> "PromiseBase";
+    "PromiseBase" -> "from pitbase";
+
+    "capability-based security" -> "sandboxing/testing/containers/WASM";
+    "sandboxing/testing/containers/WASM" -> "docker";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    "LLMs" -> "context, vector databases, similarity search";
+
+    "context, vector databases, similarity search" -> "error propagation";
+    "context, vector databases, similarity search" -> "demo of how this dampens with iterations";
+    "context, vector databases, similarity search" -> "other techniques";
+    "context, vector databases, similarity search" -> "control theory, negative feedback";
+    "context, vector databases, similarity search" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "ultimate goal" -> "assuage tragedy of the commons" -> "better governance";
+    "better governance" -> "PromiseGrid";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+reverse edge from pitbase to promisebase.  remove edge between
+governance and promisegrid.  add edge from promisegrid to
+ultimate.  reverse edge from promisebase to promisegrid.  add
+key/value store concept and add edge from it to promisebase.
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "sandboxing/testing/containers/WASM";
+
+    "sandboxing/testing/containers/WASM" -> "WASM";
+    "WASM" -> "WASI";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing/testing/containers/WASM";
+    "sandboxing/testing/containers/WASM" -> "docker";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+
+    "neural nets" -> "LLMs";
+    "LLMs" -> "context, vector databases, similarity search";
+
+    "context, vector databases, similarity search" -> "error propagation";
+    "context, vector databases, similarity search" -> "demo of how this dampens with iterations";
+    "context, vector databases, similarity search" -> "other techniques";
+    "context, vector databases, similarity search" -> "control theory, negative feedback";
+    "context, vector databases, similarity search" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "ultimate goal" -> "assuage tragedy of the commons";
+    "assuage tragedy of the commons" -> "better governance";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+swap governance and tragedy.  split sandboxing etc into separate
+concepts.  add test-driven development.  move multi-agent AI to
+postreq of LLMs. split context etc into separate concepts.
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+    
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+    
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+    
+    "self-healing behavior" -> "PromiseGrid";
+    
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+    
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+add cfengine, isconf, puppet, chef, devops as prereqs of PromiseGrid.
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+    
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "PromiseGrid";
+    "isconf" -> "PromiseGrid";
+    "puppet" -> "PromiseGrid";
+    "chef" -> "PromiseGrid";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+    
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+    
+    "self-healing behavior" -> "PromiseGrid";
+    
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+    
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+make cfengine and isconf prereqs of puppet -> chef -> devops
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+    
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "assuage tragedy of the commons" -> "ultimate goal";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+arrange goal -> governance -> tragedy.  make governance a postreq of
+community organizational, decison making, communications,
+coordination, balance.
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+
+    "community infrastructure" -> "better governance";
+    "organizational infrastructure" -> "better governance";
+    "better decision-making" -> "better governance";
+    "better communication" -> "better governance";
+    "better coordination of human effort" -> "better governance";
+    "better work-life balance" -> "better governance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+make ultimate goal a prereq of 
+community organizational, decison making, communications,
+coordination, balance.
+
+File: concept-map.dot
+```digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+
+    "community infrastructure" -> "better governance";
+    "organizational infrastructure" -> "better governance";
+    "better decision-making" -> "better governance";
+    "better communication" -> "better governance";
+    "better coordination of human effort" -> "better governance";
+    "better work-life balance" -> "better governance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+}
+
+```
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+}
+```
+EOF_concept-map.dot
+
+

@@ -1,0 +1,6 @@
+github.com/dlclark/regexp2 v1.9.0 h1:pTK/l/3qYIKaRXuHnEnIf7Y5NxfRPfpb7dis6/gdlVI=
+github.com/dlclark/regexp2 v1.9.0/go.mod h1:DHkYz0B9wPfa6wondMfaivmHpzrQ3v9q8cnmRbL6yW8=
+github.com/stevegt/goadapt v0.5.0 h1:W9il99vNfdj11T4y9k9uMWbIi+1DqYhbNOekJctzLYM=
+github.com/stevegt/goadapt v0.5.0/go.mod h1:vquRbAl0Ek4iJHCvFUEDxziTsETR2HOT7r64NolhDKs=
+github.com/tiktoken-go/tokenizer v0.1.0 h1:c1fXriHSR/NmhMDTwUDLGiNhHwTV+ElABGvqhCWLRvY=
+github.com/tiktoken-go/tokenizer v0.1.0/go.mod h1:7SZW3pZUKWLJRilTvWCa86TOVIiiJhYj3FQ5V3alWcg=

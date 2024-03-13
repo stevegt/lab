@@ -1,0 +1,4302 @@
+{"Sysmsg":"You are a helpful assistant.","Version":"3.0.6"}
+USER:
+write a README.md for promisegrid
+
+
+
+
+
+
+
+
+
+
+
+AI:
+Sure, here's a README.md file example for PromiseGrid.
+
+```
+File: README.md
+```markdown
+# PromiseGrid
+
+## Introduction
+PromiseGrid is a JavaScript library that provides a powerful, flexible, and easy-to-use API for working with asynchronous operations, particularly JavaScript Promises. It enhances the functionality provided by the native Promise object and provides an API for working with collections of promises, regardless of their state.
+
+## Features
+1. Efficient handling of multiple promises
+2. Methods for manipulating collections of promises
+3. Improved error handling capabilities
+
+## Installation
+To install PromiseGrid, run the following command in your project directory:
+
+```bash
+npm install promise-grid
+```
+
+## Usage
+Here is a basic example showing how to use PromiseGrid:
+
+```javascript
+const PromiseGrid = require('promise-grid');
+
+let promiseArray = [Promise.resolve(1), Promise.resolve(2), Promise.reject("Error")];
+
+try {
+  const results = PromiseGrid.allSettled(promiseArray);
+  console.log(results);
+} catch (error) {
+  console.error(error);
+}
+```
+
+In the above example, PromiseGrid's `allSettled` method is used to resolve an array of promises. It returns an array of objects that describes the outcome of each promise.
+
+## Contributing
+If you would like to contribute to the PromiseGrid project, please see CONTRIBUTING.md for guidelines.
+
+## License
+PromiseGrid is released under the MIT License.
+```
+EOF_README.md
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+no, promisegrid is about capabilities being a type of promise
+
+
+
+
+
+
+
+
+
+AI:
+I apologize for the misunderstanding earlier. Here's a revised README.md for PromiseGrid based on your clarification.
+
+```
+File: README.md
+```markdown
+# PromiseGrid
+
+## Introduction
+PromiseGrid is a JavaScript library that encapsulates "capabilities" as a type of promise. This library is predominantly designed to decrease complexity and improve reliability in distributed systems by using the promise model. It utilizes the principles of communication with Promise for more robust and secure software development.
+
+## Features
+1. Improved communication: The library promotes better, more secure communication between distributed systems.
+2. Capability-based Security: PromiseGrid uses the Capability-based Security model, enabling robust granular control.
+3. Easy Integration: It can be easily integrated into various JavaScript-based systems.
+
+## Installation
+To install PromiseGrid, run the following command in your project directory:
+
+```bash
+npm install promise-grid
+```
+
+## Usage
+Here is a basic example showing how to use PromiseGrid:
+
+```javascript
+const PromiseGrid = require('promise-grid');
+
+// Define a capability
+let capability = PromiseGrid.newCapability();
+
+// Use the capability as a promise
+capability.promise.then((value) => {
+    console.log("Capability resolved with value: ", value);
+}).catch((error) => {
+    console.log("Error in capability: ", error);
+});
+
+// Resolve the capability
+capability.resolve('Hello, PromiseGrid!');
+
+```
+
+In the above example, a new capability is created and then used as a promise.
+
+## Contributing
+If you would like to contribute to the PromiseGrid project, please see CONTRIBUTING.md for guidelines.
+  
+## License
+PromiseGrid is released under the MIT License.
+```
+EOF_README.md
+
+
+
+
+
+
+
+
+
+
+
+USER:
+no, promisegrid is not javascript. it is a decentralized computing platform. use the concept map for clues to write the README
+
+File: concept-map.chat
+```{"Sysmsg":"You are a helpful assistant.","Version":"3.0.4"}
+
+
+
+
+
+
+USER:
+in graphviz, create a directed graph showing a concept map for the
+following:
+ 
+- hashes
+    - content-addressable storage
+- capability-based security
+- promise theory
+- javascript-style promises
+- multi-agent AI
+    - pong demo
+- neural nets
+- LLMs
+- context, vector databases, similarity search
+    - error propagation
+    - demo of how this dampens with iterations
+    - other techniques
+    - control theory, negative feedback
+    - self-healing behavior
+- git
+    - pitfalls, benefits
+    - history
+        - bitkeeper
+    - internals
+- git vs github features
+- blockchain
+    - why we’re not using it, not a cryptocurrency, culture
+- github copilot
+- PromiseGrid
+    - PromiseBase
+        - from pitbase
+- sandboxing/testing/containers/WASM
+- docker 
+    - internals
+    - layers, hashing
+- WASM
+    - WASI
+    - package management
+- ultimate goal
+    - community infrastructure
+    - organizational infrastructure
+    - better decision-making
+    - better communication
+    - better coordination of human effort
+    - better work-life balance
+    - assuage tragedy of the commons
+        - better governance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G {
+    "hashes" -> "content-addressable storage"
+    "capability-based security"
+    "promise theory"
+    "javascript-style promises"
+    "multi-agent AI" -> "pong demo"
+    
+    "neural nets"
+    "LLMs"
+    "context, vector databases, similarity search" -> "error propagation"
+    "context, vector databases, similarity search" -> "demo of how this dampens with iterations"
+    "context, vector databases, similarity search" -> "other techniques"
+    "context, vector databases, similarity search" -> "control theory, negative feedback"
+    "context, vector databases, similarity search" -> "self-healing behavior"
+    
+    "git" -> "pitfalls, benefits"
+    "git" -> "history" -> "bitkeeper"
+    "git" -> "internals"
+    
+    "git vs github features"
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture"
+    "github copilot"
+    
+    "PromiseGrid" -> "PromiseBase" -> "from pitbase"
+    "sandboxing/testing/containers/WASM"
+    "docker" -> "internals"
+    "docker" -> "layers, hashing"
+    
+    "WASM" -> "WASI"
+    "WASM" -> "package management"
+    
+    "ultimate goal" -> "community infrastructure"
+    "ultimate goal" -> "organizational infrastructure"
+    "ultimate goal" -> "better decision-making"
+    "ultimate goal" -> "better communication"
+    "ultimate goal" -> "better coordination of human effort"
+    "ultimate goal" -> "better work-life balance"
+    "ultimate goal" -> "assuage tragedy of the commons" -> "better governance"
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+To the best of your abilities, add edges as
+needed to create a single directed graph that
+connects all of the concepts below.  The tail of each
+edge should be a concept that is a prerequisite for
+the head of the edge.  If you can't find a way to
+connect two concepts, add a new concept as needed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "sandboxing/testing/containers/WASM";
+
+    "sandboxing/testing/containers/WASM" -> "WASM";
+    "WASM" -> "WASI";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+
+    "PromiseGrid" -> "PromiseBase";
+    "PromiseBase" -> "from pitbase";
+
+    "capability-based security" -> "sandboxing/testing/containers/WASM";
+    "sandboxing/testing/containers/WASM" -> "docker";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    "LLMs" -> "context, vector databases, similarity search";
+
+    "context, vector databases, similarity search" -> "error propagation";
+    "context, vector databases, similarity search" -> "demo of how this dampens with iterations";
+    "context, vector databases, similarity search" -> "other techniques";
+    "context, vector databases, similarity search" -> "control theory, negative feedback";
+    "context, vector databases, similarity search" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "ultimate goal" -> "assuage tragedy of the commons" -> "better governance";
+    "better governance" -> "PromiseGrid";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+reverse edge from pitbase to promisebase.  remove edge between
+governance and promisegrid.  add edge from promisegrid to
+ultimate.  reverse edge from promisebase to promisegrid.  add
+key/value store concept and add edge from it to promisebase.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "sandboxing/testing/containers/WASM";
+
+    "sandboxing/testing/containers/WASM" -> "WASM";
+    "WASM" -> "WASI";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing/testing/containers/WASM";
+    "sandboxing/testing/containers/WASM" -> "docker";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+
+    "neural nets" -> "LLMs";
+    "LLMs" -> "context, vector databases, similarity search";
+
+    "context, vector databases, similarity search" -> "error propagation";
+    "context, vector databases, similarity search" -> "demo of how this dampens with iterations";
+    "context, vector databases, similarity search" -> "other techniques";
+    "context, vector databases, similarity search" -> "control theory, negative feedback";
+    "context, vector databases, similarity search" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "ultimate goal" -> "assuage tragedy of the commons";
+    "assuage tragedy of the commons" -> "better governance";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+swap governance and tragedy.  split sandboxing etc into separate
+concepts.  add test-driven development.  move multi-agent AI to
+postreq of LLMs. split context etc into separate concepts.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+    
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+    
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+    
+    "self-healing behavior" -> "PromiseGrid";
+    
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+    
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+add cfengine, isconf, puppet, chef, devops as prereqs of PromiseGrid.
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+    
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "PromiseGrid";
+    "isconf" -> "PromiseGrid";
+    "puppet" -> "PromiseGrid";
+    "chef" -> "PromiseGrid";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+    
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+    
+    "self-healing behavior" -> "PromiseGrid";
+    
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+    
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+make cfengine and isconf prereqs of puppet -> chef -> devops
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+    
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "assuage tragedy of the commons" -> "ultimate goal";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+arrange goal -> governance -> tragedy.  make governance a postreq of
+community organizational, decison making, communications,
+coordination, balance.
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+
+    "community infrastructure" -> "better governance";
+    "organizational infrastructure" -> "better governance";
+    "better decision-making" -> "better governance";
+    "better communication" -> "better governance";
+    "better coordination of human effort" -> "better governance";
+    "better work-life balance" -> "better governance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+make ultimate goal a prereq of 
+community organizational, decison making, communications,
+coordination, balance.
+
+File: concept-map.dot
+```digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+
+    "community infrastructure" -> "better governance";
+    "organizational infrastructure" -> "better governance";
+    "better decision-making" -> "better governance";
+    "better communication" -> "better governance";
+    "better coordination of human effort" -> "better governance";
+    "better work-life balance" -> "better governance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+}
+
+```
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+}
+```
+EOF_concept-map.dot
+
+
+
+```
+
+
+File: concept-map.dot
+```digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "hashes" -> "image layers";
+
+    "docker" -> "multi-agent AI";
+    "WASM" -> "multi-agent AI";
+    "OpenAI" -> "GPT-4";
+
+    "hashes" -> "git";
+
+    "docker" -> "PromiseGrid";
+    "capability-based security" -> "PromiseGrid";
+    "multi-agent AI" -> "better development tools";
+
+    "double auction" -> "pricing";
+    "pricing" -> "consensus";
+    "consensus" -> "better decision-making";
+    "LLMs" -> "consensus";
+
+    "promise == capability" -> "PromiseGrid";
+
+    "key/value store" -> "image layers";
+    "image layers" -> "docker";
+    
+    "dogfooding" -> "github copilot";
+    "dogfooding" -> "OpenAI";
+
+    "Chomsky hierarchy" -> "regular expressions";
+    "regular expressions" -> "Postel’s law" -> "GPT-4" -> "better development tools";
+
+    "github copilot" -> "better development tools";
+    "better development tools" -> "PromiseGrid";
+
+    "levels of abstraction" -> "CS theory";
+    "Turing machines" -> "CS theory";
+    "Lambda calculus" -> "CS theory";
+    "CS theory" -> "PromiseGrid";
+
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "PromiseGrid";
+    "sandboxing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+    "git history" -> "git";
+    "bitkeeper" -> "git history";
+
+    "RCS" -> "CVS";
+    "CVS" -> "SVN";
+    "SVN" -> "git history";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+
+    "promise theory" -> "javascript-style promises";
+    "promise theory" -> "capability-based security";
+    "javascript-style promises" -> "PromiseGrid";
+
+    "LLMs" -> "multi-agent AI";
+    "pong demo" -> "multi-agent AI";
+
+    "multi-agent AI" -> "PromiseGrid";
+
+    "functional programming" -> "Lambda calculus";
+    "imperative programming" -> "Turing machines";
+
+    "javascript-style promises" -> "promise == capability";
+    "capability-based security" -> "promise == capability";
+    
+    "neural nets" -> "LLMs";
+    
+    "similarity search" -> "LLMs";
+    "context" -> "LLMs";
+    "tokenization" -> "LLMs";
+    "N-dimensional vector space" -> "vector databases";
+    "LLMs" -> "better development tools";
+    "control theory, negative feedback" -> "dampen error propagation";
+    "dampen error propagation" -> "multi-agent AI";
+    "vector databases" -> "LLMs";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "pitbase";
+    "key/value store" -> "vector databases";
+    "key/value store" -> "git";
+
+    "test-driven development" -> "multi-agent AI";
+
+    "ultimate goal" -> "better community infrastructure";
+    "ultimate goal" -> "better organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better community infrastructure" -> "better governance";
+    "better organizational infrastructure" -> "better governance";
+    "better decision-making" -> "better governance";
+    "better communication" -> "better governance";
+    "better coordination of human effort" -> "better governance";
+    "better work-life balance" -> "better governance";
+    "better governance" -> "assuage tragedy of the commons";
+
+}
+
+```
+
+
+
+
+
+
+
+
+AI:
+File: README.md
+```markdown
+This repository contains a 'dot' file which represents a concept map for various technologies, methodologies, and concepts. 
+
+The 'dot' file, named 'concept-map.dot', is in the Graphviz format, which allows it to be converted into graphs using Graphviz tools. The nodes represent concepts or entities, while the edges represent relationships between those concepts. This concept map can be a helpful tool for understanding complex relationships among different components and technologies. 
+
+The graph structure of this concept map has been updated based on user's requests. Notably, the 'ultimate goal' node has now been made a prerequisite to nodes like 'better community infrastructure', 'better organizational infrastructure', 'better decision-making', 'better communication', 'better coordination of human effort', and 'better work-life balance'. 
+
+Swiftly navigate thru this file for a better understanding of the connections between these concepts.
+```
+EOF_README.md
+
+
+
+
+
+
+
+
+
+USER:
+no, write the README about promisegrid, not about the concept map itself. grokker is to be a promisegrid app. there will be other apps -- community support, communications, accounting and finance, essentially anything a computer can do. apps might be WASM in the browser, WASM CLI, containerized, or native.
+
+File: concept-map.chat
+```{"Sysmsg":"You are a helpful assistant.","Version":"3.0.4"}
+
+
+USER:
+in graphviz, create a directed graph showing a concept map for the
+following:
+ 
+- hashes
+    - content-addressable storage
+- capability-based security
+- promise theory
+- javascript-style promises
+- multi-agent AI
+    - pong demo
+- neural nets
+- LLMs
+- context, vector databases, similarity search
+    - error propagation
+    - demo of how this dampens with iterations
+    - other techniques
+    - control theory, negative feedback
+    - self-healing behavior
+- git
+    - pitfalls, benefits
+    - history
+        - bitkeeper
+    - internals
+- git vs github features
+- blockchain
+    - why we’re not using it, not a cryptocurrency, culture
+- github copilot
+- PromiseGrid
+    - PromiseBase
+        - from pitbase
+- sandboxing/testing/containers/WASM
+- docker 
+    - internals
+    - layers, hashing
+- WASM
+    - WASI
+    - package management
+- ultimate goal
+    - community infrastructure
+    - organizational infrastructure
+    - better decision-making
+    - better communication
+    - better coordination of human effort
+    - better work-life balance
+    - assuage tragedy of the commons
+        - better governance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G {
+    "hashes" -> "content-addressable storage"
+    "capability-based security"
+    "promise theory"
+    "javascript-style promises"
+    "multi-agent AI" -> "pong demo"
+    
+    "neural nets"
+    "LLMs"
+    "context, vector databases, similarity search" -> "error propagation"
+    "context, vector databases, similarity search" -> "demo of how this dampens with iterations"
+    "context, vector databases, similarity search" -> "other techniques"
+    "context, vector databases, similarity search" -> "control theory, negative feedback"
+    "context, vector databases, similarity search" -> "self-healing behavior"
+    
+    "git" -> "pitfalls, benefits"
+    "git" -> "history" -> "bitkeeper"
+    "git" -> "internals"
+    
+    "git vs github features"
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture"
+    "github copilot"
+    
+    "PromiseGrid" -> "PromiseBase" -> "from pitbase"
+    "sandboxing/testing/containers/WASM"
+    "docker" -> "internals"
+    "docker" -> "layers, hashing"
+    
+    "WASM" -> "WASI"
+    "WASM" -> "package management"
+    
+    "ultimate goal" -> "community infrastructure"
+    "ultimate goal" -> "organizational infrastructure"
+    "ultimate goal" -> "better decision-making"
+    "ultimate goal" -> "better communication"
+    "ultimate goal" -> "better coordination of human effort"
+    "ultimate goal" -> "better work-life balance"
+    "ultimate goal" -> "assuage tragedy of the commons" -> "better governance"
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+To the best of your abilities, add edges as
+needed to create a single directed graph that
+connects all of the concepts below.  The tail of each
+edge should be a concept that is a prerequisite for
+the head of the edge.  If you can't find a way to
+connect two concepts, add a new concept as needed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "sandboxing/testing/containers/WASM";
+
+    "sandboxing/testing/containers/WASM" -> "WASM";
+    "WASM" -> "WASI";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+
+    "PromiseGrid" -> "PromiseBase";
+    "PromiseBase" -> "from pitbase";
+
+    "capability-based security" -> "sandboxing/testing/containers/WASM";
+    "sandboxing/testing/containers/WASM" -> "docker";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    "LLMs" -> "context, vector databases, similarity search";
+
+    "context, vector databases, similarity search" -> "error propagation";
+    "context, vector databases, similarity search" -> "demo of how this dampens with iterations";
+    "context, vector databases, similarity search" -> "other techniques";
+    "context, vector databases, similarity search" -> "control theory, negative feedback";
+    "context, vector databases, similarity search" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "ultimate goal" -> "assuage tragedy of the commons" -> "better governance";
+    "better governance" -> "PromiseGrid";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+reverse edge from pitbase to promisebase.  remove edge between
+governance and promisegrid.  add edge from promisegrid to
+ultimate.  reverse edge from promisebase to promisegrid.  add
+key/value store concept and add edge from it to promisebase.
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "sandboxing/testing/containers/WASM";
+
+    "sandboxing/testing/containers/WASM" -> "WASM";
+    "WASM" -> "WASI";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing/testing/containers/WASM";
+    "sandboxing/testing/containers/WASM" -> "docker";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+
+    "neural nets" -> "LLMs";
+    "LLMs" -> "context, vector databases, similarity search";
+
+    "context, vector databases, similarity search" -> "error propagation";
+    "context, vector databases, similarity search" -> "demo of how this dampens with iterations";
+    "context, vector databases, similarity search" -> "other techniques";
+    "context, vector databases, similarity search" -> "control theory, negative feedback";
+    "context, vector databases, similarity search" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "ultimate goal" -> "assuage tragedy of the commons";
+    "assuage tragedy of the commons" -> "better governance";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+swap governance and tragedy.  split sandboxing etc into separate
+concepts.  add test-driven development.  move multi-agent AI to
+postreq of LLMs. split context etc into separate concepts.
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+    
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+    
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+    
+    "self-healing behavior" -> "PromiseGrid";
+    
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+    
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+add cfengine, isconf, puppet, chef, devops as prereqs of PromiseGrid.
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+    
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "PromiseGrid";
+    "isconf" -> "PromiseGrid";
+    "puppet" -> "PromiseGrid";
+    "chef" -> "PromiseGrid";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+    
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+    
+    "self-healing behavior" -> "PromiseGrid";
+    
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+    
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+make cfengine and isconf prereqs of puppet -> chef -> devops
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+    
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "assuage tragedy of the commons" -> "ultimate goal";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+arrange goal -> governance -> tragedy.  make governance a postreq of
+community organizational, decison making, communications,
+coordination, balance.
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+
+    "community infrastructure" -> "better governance";
+    "organizational infrastructure" -> "better governance";
+    "better decision-making" -> "better governance";
+    "better communication" -> "better governance";
+    "better coordination of human effort" -> "better governance";
+    "better work-life balance" -> "better governance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+make ultimate goal a prereq of 
+community organizational, decison making, communications,
+coordination, balance.
+
+File: concept-map.dot
+```digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+
+    "community infrastructure" -> "better governance";
+    "organizational infrastructure" -> "better governance";
+    "better decision-making" -> "better governance";
+    "better communication" -> "better governance";
+    "better coordination of human effort" -> "better governance";
+    "better work-life balance" -> "better governance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+}
+
+```
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+}
+```
+EOF_concept-map.dot
+
+
+
+```
+
+
+File: concept-map.dot
+```digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "hashes" -> "image layers";
+
+    "docker" -> "multi-agent AI";
+    "WASM" -> "multi-agent AI";
+    "OpenAI" -> "GPT-4";
+
+    "hashes" -> "git";
+
+    "docker" -> "PromiseGrid";
+    "capability-based security" -> "PromiseGrid";
+    "multi-agent AI" -> "better development tools";
+
+    "double auction" -> "pricing";
+    "pricing" -> "consensus";
+    "consensus" -> "better decision-making";
+    "LLMs" -> "consensus";
+
+    "promise == capability" -> "PromiseGrid";
+
+    "key/value store" -> "image layers";
+    "image layers" -> "docker";
+    
+    "dogfooding" -> "github copilot";
+    "dogfooding" -> "OpenAI";
+
+    "Chomsky hierarchy" -> "regular expressions";
+    "regular expressions" -> "Postel’s law" -> "GPT-4" -> "better development tools";
+
+    "github copilot" -> "better development tools";
+    "better development tools" -> "PromiseGrid";
+
+    "levels of abstraction" -> "CS theory";
+    "Turing machines" -> "CS theory";
+    "Lambda calculus" -> "CS theory";
+    "CS theory" -> "PromiseGrid";
+
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "PromiseGrid";
+    "sandboxing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+    "git history" -> "git";
+    "bitkeeper" -> "git history";
+
+    "RCS" -> "CVS";
+    "CVS" -> "SVN";
+    "SVN" -> "git history";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+
+    "promise theory" -> "javascript-style promises";
+    "promise theory" -> "capability-based security";
+    "javascript-style promises" -> "PromiseGrid";
+
+    "LLMs" -> "multi-agent AI";
+    "pong demo" -> "multi-agent AI";
+
+    "multi-agent AI" -> "PromiseGrid";
+
+    "functional programming" -> "Lambda calculus";
+    "imperative programming" -> "Turing machines";
+
+    "javascript-style promises" -> "promise == capability";
+    "capability-based security" -> "promise == capability";
+    
+    "neural nets" -> "LLMs";
+    
+    "similarity search" -> "LLMs";
+    "context" -> "LLMs";
+    "tokenization" -> "LLMs";
+    "N-dimensional vector space" -> "vector databases";
+    "LLMs" -> "better development tools";
+    "control theory, negative feedback" -> "dampen error propagation";
+    "dampen error propagation" -> "multi-agent AI";
+    "vector databases" -> "LLMs";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "pitbase";
+    "key/value store" -> "vector databases";
+    "key/value store" -> "git";
+
+    "test-driven development" -> "multi-agent AI";
+
+    "ultimate goal" -> "better community infrastructure";
+    "ultimate goal" -> "better organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better community infrastructure" -> "better governance";
+    "better organizational infrastructure" -> "better governance";
+    "better decision-making" -> "better governance";
+    "better communication" -> "better governance";
+    "better coordination of human effort" -> "better governance";
+    "better work-life balance" -> "better governance";
+    "better governance" -> "assuage tragedy of the commons";
+
+}
+
+```
+
+
+File: /home/stevegt/lab/grokker/README.md
+```# grokker
+
+A swiss-army-knife tool for natural language processing, code and file
+interpretation and generation, and AI-based research and development.
+Uses OpenAI API services for backend.
+
+- Interactive conversation with one or more documents and/or code
+- Design, research, and rapid learning 
+- Local vector database with several useful interfaces
+- Easy VIM integration
+- Chat client with named file I/O
+- Able to accept and generate file content in natural language, code,
+  structured messages, or a combination
+- LLM tooling including system message inputs, token counting and
+  embedding subcommands
+
+Grokker helped create and maintain this document in a VIM session by
+reading its own source code along with iterations of this document.
+
+## Roadmap
+
+Here's where it appears this project is going:
+
+- Multi-agent collaboration (with human, AI, and algorithmic agents)
+   - working on this right now
+- Decentralized consensus tool
+   - a useful side-effect of multi-agent collaboration
+- Web Assembly (WASM/WASI) execution
+   - enables easy use and distribution
+- Web UI (while keeping CLI)
+   - enabled by WASM/WASI
+- Plugin architecture
+   - enabled by WASM/WASI
+- Decentralized storage
+   - enabled by WASM/WASI
+- Decentralized virtual machine
+   - enabled by WASM/WASI
+- Decentralized vector database 
+   - enabled by decentralized storage/VM
+- Decentralized neural nets
+   - enabled by decentralized computing/storage/VM
+- Decentralized LLM/AI
+   - enabled by all of the above
+- Decentralized community consensus and governance
+   - enabled by all of the above
+
+## Example Usage
+
+```
+
+$ grok init
+Initialized a new .grok file in the current directory.
+
+$ grok add README.md cmd/grok/main.go grokker.go TODO.md
+
+Creating .grok file... adding README.md... adding cmd/grok/main.go...
+adding grokker.go... adding TODO.md... done!
+
+$ grok q "What is grokker?"
+
+Grokker is a tool for interactive conversation with one or more
+documents, used for research, training, and rapid learning. It
+utilizes OpenAI API services for the backend. Essentially, you can
+input documents into Grokker and it will use natural language
+processing to analyze the text and help you answer questions about
+those documents.
+
+$ grok q "Describe grokker's subcommands."
+
+Grokker has several subcommands, including:
+
+1. `init`: Initializes a new .grok file in the current directory.
+2. `add`: Adds one or more documents to the database.
+3. `refresh`: Refreshes the embeddings for all documents.
+4. `ls`: Lists all the documents in the .grok file.
+5. `q`: Asks a question and returns an answer. You can include the
+   `-g` flag to also search the OpenAI global knowledge base.
+6. `qi`: Reads a question from standard input and returns an answer.
+7. `chat`: Runs one query in a chat session.  Context can read from
+   named files and documents in the local knowledge base as well as 
+   previous queries and answers.  Output can write to named files as
+   well as showing conversational text on stdout.
+
+The `init` subcommand is only used once to create the grok file, while
+the rest are used to manage and interact with the documents in the
+grok file.
+
+$ grok q "What is the `qi` subcommand for?"
+
+The 'qi' subcommand allows you to ask a question by providing it on
+standard input rather than passing it as a command-line argument.
+For example, you could say:
+
+  echo "What is the 'qi' subcommand for?" | grok qi 
+
+This would read the question from standard input and return the
+answer.  This subcommand is especially useful in editor sessions and
+when writing plugins -- more about this below. 
+```
+
+## Installation
+
+``` 
+go install github.com/stevegt/grokker/cmd/grok 
+``` 
+
+You'll need an account with OpenAI and an API key. You can create and
+manage your API keys in your OpenAI dashboard.
+
+Before using Grokker, you'll need to set your API key as an
+environment variable in your terminal session or .bashrc with the
+following command:
+
+``` 
+export OPENAI_API_KEY=<your_api_key> 
+```
+
+
+## Tell me more about the `chat` subcommand
+
+The `chat` subcommand allows you to interact with the system's
+knowledge base in a conversational manner. It accepts a `chatfile` as
+a mandatory argument, which is where the chat history is stored. The
+`-s` flag is optional and can be used to pass a system message, which
+controls the behavior of the OpenAI API. In usage, it might look like
+`grok chat chatfile -s sysmsg`, where `sysmsg` is an optional system
+message, and `chatfile` is the required text file where the chat
+history is stored.  There are several other optional flags that can be
+used with the `chat` subcommand, such as a `-m` flag so you can
+provide the prompt on the command line instead of on stdin, and `-i`
+and `-o` flags to specify input and output files.  There are also
+flags to control context sources.  See `grok chat -h` for more
+details.
+
+## Tell me more about the `qi` subcommand
+
+The `qi` subcommand allows you to ask a question by providing it on
+stdin. It's a way to generate quick answers to questions without
+having to provide the question as a command-line argument.
+
+The `qi` subcommand enables you to use grokker as a chat client in an
+editor session by typing questions directly in your document and
+receiving answers inline after the question.   
+
+## Using grokker as a chat client in an editor session
+
+Using Grokker as a chat client in an editor session can help you
+quickly find and summarize information from a set of documents in a
+local directory tree, including the documents you are editing. This
+can make your development, research, or learning process more
+efficient and streamlined. Additionally, having the context of your
+editor session available as part of the chat history can help you
+better keep track of and synthesize information as you work.
+
+It's a quick way to build a document and was used to build this one.
+
+Using grokker as a chat client in an editor session is also a way to
+access the backend servers used by ChatGPT without being constrained
+by the ChatGPT web frontend, all while maintaining your own chat
+history and any additional context in your own local files,
+versionable in git.  
+
+### How can I use grokker in a VIM editor session?
+
+To use the `qi` subcommand in a VIM editor session, you can add a
+keyboard mapping to your vimrc file. Here's an example mapping:
+
+``` 
+:map <leader>g vap:!grok qi<CR> 
+```
+
+This mapping will allow you to ask a question by typing it in VIM and
+then pressing `<leader>g`. The `vap` causes the current paragraph to be
+hightlighted, and the `:!grok qi` causes it to be sent as input to the
+`qi` subcommand of Grokker.  The answer will be inserted into the
+buffer below the current paragrpah. Note that the mapping assumes that
+Grokker's `grok` command is installed and in your system path.
+
+You will get better results if you `:set autowrite` so the current
+file's most recent content will be included in the question context. 
+
+Experiment with variations on these mappings -- you might emphasize
+more recent context by including the previous two paragraphs as part
+of the query, or the most recent 50 lines, or the output of `git
+diff`, etc.  (Future versions of grokker may help with this
+by timestamping individual document chunks and prioritizing more
+recent edits.)
+
+In practice, as of this writing I either hit `<leader>g` to highlight
+and use the current paragraph as the GPT query, or I use `<Shift-V>` to
+highlight several paragraphs for more context, and then run
+`:'<,'>!grok qi`.  Works.
+
+## Tell me more about the `-g` flag
+
+The `-g` flag is an optional parameter that you can include when
+running the `q` subcommand. It stands for "global" and when included,
+Grokker will provide answers not only from the local documents that
+you've added but also from OpenAI's global knowledge base. This means
+that you'll get a wider range of potentially useful answers, but it
+may take longer to receive your results as the global knowledge base
+is larger and may take more time to search through. If you don't
+include the `-g` flag, Grokker will prefer the local documents that
+you've added.
+
+## What are the `models` and `model` subcommands?
+
+The `models` subcommand is used to list all the available OpenAI
+models for text processing in Grokker, including their name and
+maximum token limit. 
+
+The `model` subcommand is used to set the default GPT model for use in
+queries.  This default is stored in the local .grok db.  (I haven't
+added a flag to override this default for a single query, but this
+would be doable.)
+
+## About the words `grokker` and `grok`
+
+The word `grok` is from Robert Heinlein's [Stranger in a Strange
+Land](https://en.wikipedia.org/wiki/Stranger_in_a_Strange_Land) --
+there's a good summary of the word's meaning and history in
+[Wikipedia](https://en.wikipedia.org/wiki/Grok).  Roughly translated,
+it means "to understand something so thoroughly that the observer
+becomes a part of the observed".  
+
+It's a popular word in science fiction and computer science and the
+namespace is crowded.  
+
+The name `grokker` is used by the company grokker.com, though the
+problem domains are different.  We are not affiliated with
+grokker.com.
+
+The folks at xAI released and filed a trademark application for the
+`grok` online AI tool several months after we were already using the
+word in this project.  We're not affiliated with xAI, but we wish them
+well.  
+
+Jordan Sissel's log file analysis tool also uses a `grok` command.  If
+you want to install grokker on the same machine, you can install it
+using an alternate command name.  Here's an example of installing
+grokker as `grokker` instead of `grok`:
+
+``` 
+cd /tmp 
+git clone http://github.com/stevegt/grokker 
+cd grokker/cmd/grok/ 
+go build -o grokker 
+cp grokker $GOPATH/bin 
+```
+
+## Is grokker done?  
+
+Grokker is not done, but I use it extensively every day. See
+[TODO.md](./TODO.md) for a pretty long list of wishlist and brainstorm
+items.  At this time, refactoring the storage for text chunks and
+embeddings is likely the most important -- that .grok file can get
+pretty big. So far I haven't seen performance problems even when
+grokking several dozen documents or source code files, but I want to
+be able to grok an entire tree of hundreds of files without concerns.
+
+In all of the following use cases, I'd say my own productivity has
+increased by an order of magnitude -- I'm finding myself finishing
+projects in days that previously would have taken weeks.  What's
+really nice is that I'm finally making progress on years-old complex
+projects that were previously stalled.  
+
+### What are some use cases grokker already supports?
+
+In all of the following use cases, I tend to create and `grok add` a
+`context.md` file that I use as a scratchpad, writing and refining
+questions and answers as I work on other files in the same directory
+or repository. This file is my interactive, animated [rubber
+duck](https://en.wikipedia.org/wiki/Rubber_duck_debugging).  This
+technique has worked well.  I'm considering switching to using
+something like `grok.md`, `grokker.md`, `groktext.md`, or `gpt.md` for
+this filename and proposing it as a best practice.
+
+Grokker has been a huge help in its original use case -- getting up to
+speed quickly on complex topics, documents, and code bases.  It's
+particularly good at translating the unique terminology that tends to
+exist in specialized papers and code. The large language models
+backing grokker are optimized for inferring meaning from context;
+this allows them to expand terms into more general language even in
+cases where the original author was unable to make that difficult
+leap.
+
+I've been pleasantly surprised by how much grokker has also helped
+translate my own ideas into documents and code.  I can describe things
+in my own terms in one or more files, and just as with others' works,
+the language models do a better job than I can of translating my
+terminology into more-general human language and executable code.  
+
+Another useful technique I've found is to prompt the model to ask me
+questions about a concept I'm having trouble getting out of my own
+head into text; I then ask the model to answer its own questions, then
+I manually edit the answers to reflect what I'm actually thinking.
+This clears writer's block, reduces my own typing workload by moving
+me into the role of editor, and helps to more quickly detect and
+resolve uncertainties.  Because grokker will include my edited text as
+context in future model queries, this provides feedback to the model,
+causing future answers to converge toward my intent.  (See
+[RLHF](https://en.wikipedia.org/wiki/Reinforcement_learning_from_human_feedback)
+for one possible way of formalizing this.)
+
+# Important disclaimer regarding sensitive and confidential information
+
+Using OpenAI's API services to analyze documents means that any
+document you `grok add`, and any question you ask of grokker, will be
+broken into chunks and sent to OpenAI's servers twice -- first to
+generate context embedding vectors, and again as relevant context when
+you run `grok q` or `grok qi`.
+
+If any of your document's content is sensitive or confidential, you'll
+want to review OpenAI's policies regarding data usage and retention.
+
+Additionally, some topics are banned by OpenAI's policies, so be sure
+to review and comply with their guidelines in order to prevent your
+API access being suspended or revoked. 
+
+As always, it's a good idea to review the terms and conditions of any
+API service you're considering using to ensure that you're comfortable
+with how your data will be handled.
+
+
+
+```
+
+
+
+
+AI:
+File: README.md
+```markdown
+# PromiseGrid
+
+PromiseGrid is a decentralized computing platform set to revolutionize the way we think about software applications, computing, and data management. It leverages a combination of advanced technologies, including WebAssembly (WASM), containerization, and blockchain-inspired capabilities, to provide a secure, efficient, and scalable infrastructure for developing and running distributed applications.
+
+## Concept
+
+PromiseGrid operates on the principle of decentralization, breaking away from the traditional, centralized computing model. It focuses on enabling capabilities as a form of promise, ensuring that resources and data are available where and when they are needed, securely and efficiently.
+
+### Key Features
+
+- **Capability-Based Security:** PromiseGrid emphasizes a capability-based security model, offering a granular, permission-based approach to accessing and managing resources.
+
+- **Decentralized Applications:** It is designed to support a wide range of applications, from simple WASM in-browser apps to containerized and native applications, covering various needs from community support and communication to complex accounting and financial operations.
+
+- **Multi-Format Support:** PromiseGrid apps might come in various formats, including WASM (both in the browser and CLI), containerized apps, or even native applications, offering developers flexibility in how they build and deploy their solutions.
+
+## PromiseGrid Apps
+
+- **Grokker:** An example of a PromiseGrid application, Grokker is an advanced tool for natural language processing, code and file interpretation and generation, and AI-based research and development that utilizes OpenAI’s API services. This showcases the potential of PromiseGrid to host sophisticated, AI-driven applications.
+
+- **Future Apps:** PromiseGrid is envisioned to host a variety of decentralized applications beyond Grokker, including tools for community support, communications, accounting, finance, and much more. Essentially, it aims to cover anything a computer can do, leveraging the decentralized model for improved security, privacy, and efficiency.
+
+## Technology Stack
+
+- **WebAssembly (WASM/WASI):** Providing a portable target for application development, enabling applications to run anywhere, from browsers to blockchain.
+
+- **Containerization:** Leveraging container technologies for isolating and running applications in lightweight environments.
+
+- **Blockchain-Inspired Technologies:** While PromiseGrid is not a blockchain and does not focus on cryptocurrency, it adopts principles from blockchain technology for decentralization and data integrity.
+
+## Goals
+
+PromiseGrid aims to create a comprehensive ecosystem for decentralized computing, addressing key challenges in:
+
+- **Infrastructure:** Building community and organizational infrastructure on decentralized principles.
+  
+- **Decision-Making:** Enhancing decision-making processes through distributed consensus mechanisms.
+  
+- **Communication and Coordination:** Improving communication and coordination of human effort across decentralized communities and organizations.
+
+- **Work-Life Balance:** Supporting initiatives for a better work-life balance, leveraging technology to efficiently manage and distribute workloads.
+
+- **Governance:** Promoting self-governance and managing the commons through decentralized consensus and self-healing systems.
+
+## Getting Started
+
+Developers looking to build on PromiseGrid should keep an eye on this space for future updates on SDKs, API documentation, and guides on creating decentralized applications using PromiseGrid’s infrastructure.
+
+## Contribute
+
+PromiseGrid is built on the principles of openness and community collaboration. Contributions, whether in the form of code, ideas, or documentation, are welcome. Together, we can build a more decentralized, efficient, and humane computing future.
+```
+EOF_README.md
+
+
+
+
+USER:
+update the README based on the new information in everythings-a-capability.chat
+
+File: concept-map.chat
+```{"Sysmsg":"You are a helpful assistant.","Version":"3.0.4"}
+USER:
+in graphviz, create a directed graph showing a concept map for the
+following:
+ 
+- hashes
+    - content-addressable storage
+- capability-based security
+- promise theory
+- javascript-style promises
+- multi-agent AI
+    - pong demo
+- neural nets
+- LLMs
+- context, vector databases, similarity search
+    - error propagation
+    - demo of how this dampens with iterations
+    - other techniques
+    - control theory, negative feedback
+    - self-healing behavior
+- git
+    - pitfalls, benefits
+    - history
+        - bitkeeper
+    - internals
+- git vs github features
+- blockchain
+    - why we’re not using it, not a cryptocurrency, culture
+- github copilot
+- PromiseGrid
+    - PromiseBase
+        - from pitbase
+- sandboxing/testing/containers/WASM
+- docker 
+    - internals
+    - layers, hashing
+- WASM
+    - WASI
+    - package management
+- ultimate goal
+    - community infrastructure
+    - organizational infrastructure
+    - better decision-making
+    - better communication
+    - better coordination of human effort
+    - better work-life balance
+    - assuage tragedy of the commons
+        - better governance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G {
+    "hashes" -> "content-addressable storage"
+    "capability-based security"
+    "promise theory"
+    "javascript-style promises"
+    "multi-agent AI" -> "pong demo"
+    
+    "neural nets"
+    "LLMs"
+    "context, vector databases, similarity search" -> "error propagation"
+    "context, vector databases, similarity search" -> "demo of how this dampens with iterations"
+    "context, vector databases, similarity search" -> "other techniques"
+    "context, vector databases, similarity search" -> "control theory, negative feedback"
+    "context, vector databases, similarity search" -> "self-healing behavior"
+    
+    "git" -> "pitfalls, benefits"
+    "git" -> "history" -> "bitkeeper"
+    "git" -> "internals"
+    
+    "git vs github features"
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture"
+    "github copilot"
+    
+    "PromiseGrid" -> "PromiseBase" -> "from pitbase"
+    "sandboxing/testing/containers/WASM"
+    "docker" -> "internals"
+    "docker" -> "layers, hashing"
+    
+    "WASM" -> "WASI"
+    "WASM" -> "package management"
+    
+    "ultimate goal" -> "community infrastructure"
+    "ultimate goal" -> "organizational infrastructure"
+    "ultimate goal" -> "better decision-making"
+    "ultimate goal" -> "better communication"
+    "ultimate goal" -> "better coordination of human effort"
+    "ultimate goal" -> "better work-life balance"
+    "ultimate goal" -> "assuage tragedy of the commons" -> "better governance"
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+To the best of your abilities, add edges as
+needed to create a single directed graph that
+connects all of the concepts below.  The tail of each
+edge should be a concept that is a prerequisite for
+the head of the edge.  If you can't find a way to
+connect two concepts, add a new concept as needed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "sandboxing/testing/containers/WASM";
+
+    "sandboxing/testing/containers/WASM" -> "WASM";
+    "WASM" -> "WASI";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+
+    "PromiseGrid" -> "PromiseBase";
+    "PromiseBase" -> "from pitbase";
+
+    "capability-based security" -> "sandboxing/testing/containers/WASM";
+    "sandboxing/testing/containers/WASM" -> "docker";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    "LLMs" -> "context, vector databases, similarity search";
+
+    "context, vector databases, similarity search" -> "error propagation";
+    "context, vector databases, similarity search" -> "demo of how this dampens with iterations";
+    "context, vector databases, similarity search" -> "other techniques";
+    "context, vector databases, similarity search" -> "control theory, negative feedback";
+    "context, vector databases, similarity search" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "ultimate goal" -> "assuage tragedy of the commons" -> "better governance";
+    "better governance" -> "PromiseGrid";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+reverse edge from pitbase to promisebase.  remove edge between
+governance and promisegrid.  add edge from promisegrid to
+ultimate.  reverse edge from promisebase to promisegrid.  add
+key/value store concept and add edge from it to promisebase.
+
+
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "sandboxing/testing/containers/WASM";
+
+    "sandboxing/testing/containers/WASM" -> "WASM";
+    "WASM" -> "WASI";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing/testing/containers/WASM";
+    "sandboxing/testing/containers/WASM" -> "docker";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+
+    "neural nets" -> "LLMs";
+    "LLMs" -> "context, vector databases, similarity search";
+
+    "context, vector databases, similarity search" -> "error propagation";
+    "context, vector databases, similarity search" -> "demo of how this dampens with iterations";
+    "context, vector databases, similarity search" -> "other techniques";
+    "context, vector databases, similarity search" -> "control theory, negative feedback";
+    "context, vector databases, similarity search" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "ultimate goal" -> "assuage tragedy of the commons";
+    "assuage tragedy of the commons" -> "better governance";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+swap governance and tragedy.  split sandboxing etc into separate
+concepts.  add test-driven development.  move multi-agent AI to
+postreq of LLMs. split context etc into separate concepts.
+
+
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+    
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+    
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+    
+    "self-healing behavior" -> "PromiseGrid";
+    
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+    
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+add cfengine, isconf, puppet, chef, devops as prereqs of PromiseGrid.
+
+
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+    
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "PromiseGrid";
+    "isconf" -> "PromiseGrid";
+    "puppet" -> "PromiseGrid";
+    "chef" -> "PromiseGrid";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+    
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+    
+    "self-healing behavior" -> "PromiseGrid";
+    
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+    
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+make cfengine and isconf prereqs of puppet -> chef -> devops
+
+
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+    
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+    
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "assuage tragedy of the commons" -> "ultimate goal";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+arrange goal -> governance -> tragedy.  make governance a postreq of
+community organizational, decison making, communications,
+coordination, balance.
+
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+
+    "community infrastructure" -> "better governance";
+    "organizational infrastructure" -> "better governance";
+    "better decision-making" -> "better governance";
+    "better communication" -> "better governance";
+    "better coordination of human effort" -> "better governance";
+    "better work-life balance" -> "better governance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+}
+```
+EOF_concept-map.dot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+make ultimate goal a prereq of 
+community organizational, decison making, communications,
+coordination, balance.
+
+File: concept-map.dot
+```digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+
+    "community infrastructure" -> "better governance";
+    "organizational infrastructure" -> "better governance";
+    "better decision-making" -> "better governance";
+    "better communication" -> "better governance";
+    "better coordination of human effort" -> "better governance";
+    "better work-life balance" -> "better governance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+}
+
+```
+
+
+AI:
+File: concept-map.dot
+```dot
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "docker" -> "internals";
+    "docker" -> "layers, hashing";
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "testing";
+    "WASM" -> "containers";
+    "WASM" -> "WASI";
+    "sandboxing" -> "docker";
+    "testing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+    "capability-based security" -> "sandboxing";
+
+    "promise theory" -> "javascript-style promises";
+    "javascript-style promises" -> "github copilot";
+
+    "LLMs" -> "multi-agent AI";
+    "multi-agent AI" -> "pong demo";
+    "pong demo" -> "neural nets";
+    
+    "neural nets" -> "LLMs";
+    
+    "LLMs" -> "context";
+    "LLMs" -> "vector databases";
+    "LLMs" -> "similarity search";
+    "context" -> "error propagation";
+    "vector databases" -> "demo of how this dampens with iterations";
+    "similarity search" -> "other techniques";
+    "vector databases" -> "control theory, negative feedback";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "from pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "PromiseBase";
+
+    "test-driven development" -> "docker";
+
+    "ultimate goal" -> "community infrastructure";
+    "ultimate goal" -> "organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better governance" -> "ultimate goal";
+    "ultimate goal" -> "assuage tragedy of the commons";
+}
+```
+EOF_concept-map.dot
+
+
+
+```
+
+
+File: concept-map.dot
+```digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "hashes" -> "image layers";
+
+    "docker" -> "multi-agent AI";
+    "WASM" -> "multi-agent AI";
+    "OpenAI" -> "GPT-4";
+
+    "hashes" -> "git";
+
+    "docker" -> "PromiseGrid";
+    "capability-based security" -> "PromiseGrid";
+    "multi-agent AI" -> "better development tools";
+
+    "double auction" -> "pricing";
+    "pricing" -> "consensus";
+    "consensus" -> "better decision-making";
+    "LLMs" -> "consensus";
+
+    "promise == capability" -> "PromiseGrid";
+
+    "key/value store" -> "image layers";
+    "image layers" -> "docker";
+    
+    "dogfooding" -> "github copilot";
+    "dogfooding" -> "OpenAI";
+
+    "Chomsky hierarchy" -> "regular expressions";
+    "regular expressions" -> "Postel’s law" -> "GPT-4" -> "better development tools";
+
+    "github copilot" -> "better development tools";
+    "better development tools" -> "PromiseGrid";
+
+    "levels of abstraction" -> "CS theory";
+    "Turing machines" -> "CS theory";
+    "Lambda calculus" -> "CS theory";
+    "CS theory" -> "PromiseGrid";
+
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "PromiseGrid";
+    "sandboxing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+    "git history" -> "git";
+    "bitkeeper" -> "git history";
+
+    "RCS" -> "CVS";
+    "CVS" -> "SVN";
+    "SVN" -> "git history";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+
+    "promise theory" -> "javascript-style promises";
+    "promise theory" -> "capability-based security";
+    "javascript-style promises" -> "PromiseGrid";
+
+    "LLMs" -> "multi-agent AI";
+    "pong demo" -> "multi-agent AI";
+
+    "multi-agent AI" -> "PromiseGrid";
+
+    "functional programming" -> "Lambda calculus";
+    "imperative programming" -> "Turing machines";
+
+    "javascript-style promises" -> "promise == capability";
+    "capability-based security" -> "promise == capability";
+    
+    "neural nets" -> "LLMs";
+    
+    "similarity search" -> "LLMs";
+    "context" -> "LLMs";
+    "tokenization" -> "LLMs";
+    "N-dimensional vector space" -> "vector databases";
+    "LLMs" -> "better development tools";
+    "control theory, negative feedback" -> "dampen error propagation";
+    "dampen error propagation" -> "multi-agent AI";
+    "vector databases" -> "LLMs";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "pitbase";
+    "key/value store" -> "vector databases";
+    "key/value store" -> "git";
+
+    "test-driven development" -> "multi-agent AI";
+
+    "ultimate goal" -> "better community infrastructure";
+    "ultimate goal" -> "better organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better community infrastructure" -> "better governance";
+    "better organizational infrastructure" -> "better governance";
+    "better decision-making" -> "better governance";
+    "better communication" -> "better governance";
+    "better coordination of human effort" -> "better governance";
+    "better work-life balance" -> "better governance";
+    "better governance" -> "assuage tragedy of the commons";
+
+}
+
+```
+
+
+File: /home/stevegt/lab/grokker/README.md
+```# grokker
+
+A swiss-army-knife tool for natural language processing, code and file
+interpretation and generation, and AI-based research and development.
+Uses OpenAI API services for backend.
+
+- Interactive conversation with one or more documents and/or code
+- Design, research, and rapid learning 
+- Local vector database with several useful interfaces
+- Easy VIM integration
+- Chat client with named file I/O
+- Able to accept and generate file content in natural language, code,
+  structured messages, or a combination
+- LLM tooling including system message inputs, token counting and
+  embedding subcommands
+
+Grokker helped create and maintain this document in a VIM session by
+reading its own source code along with iterations of this document.
+
+## Roadmap
+
+Here's where it appears this project is going:
+
+- Multi-agent collaboration (with human, AI, and algorithmic agents)
+   - working on this right now
+- Decentralized consensus tool
+   - a useful side-effect of multi-agent collaboration
+- Web Assembly (WASM/WASI) execution
+   - enables easy use and distribution
+- Web UI (while keeping CLI)
+   - enabled by WASM/WASI
+- Plugin architecture
+   - enabled by WASM/WASI
+- Decentralized storage
+   - enabled by WASM/WASI
+- Decentralized virtual machine
+   - enabled by WASM/WASI
+- Decentralized vector database 
+   - enabled by decentralized storage/VM
+- Decentralized neural nets
+   - enabled by decentralized computing/storage/VM
+- Decentralized LLM/AI
+   - enabled by all of the above
+- Decentralized community consensus and governance
+   - enabled by all of the above
+
+## Example Usage
+
+```
+
+$ grok init
+Initialized a new .grok file in the current directory.
+
+$ grok add README.md cmd/grok/main.go grokker.go TODO.md
+
+Creating .grok file... adding README.md... adding cmd/grok/main.go...
+adding grokker.go... adding TODO.md... done!
+
+$ grok q "What is grokker?"
+
+Grokker is a tool for interactive conversation with one or more
+documents, used for research, training, and rapid learning. It
+utilizes OpenAI API services for the backend. Essentially, you can
+input documents into Grokker and it will use natural language
+processing to analyze the text and help you answer questions about
+those documents.
+
+$ grok q "Describe grokker's subcommands."
+
+Grokker has several subcommands, including:
+
+1. `init`: Initializes a new .grok file in the current directory.
+2. `add`: Adds one or more documents to the database.
+3. `refresh`: Refreshes the embeddings for all documents.
+4. `ls`: Lists all the documents in the .grok file.
+5. `q`: Asks a question and returns an answer. You can include the
+   `-g` flag to also search the OpenAI global knowledge base.
+6. `qi`: Reads a question from standard input and returns an answer.
+7. `chat`: Runs one query in a chat session.  Context can read from
+   named files and documents in the local knowledge base as well as 
+   previous queries and answers.  Output can write to named files as
+   well as showing conversational text on stdout.
+
+The `init` subcommand is only used once to create the grok file, while
+the rest are used to manage and interact with the documents in the
+grok file.
+
+$ grok q "What is the `qi` subcommand for?"
+
+The 'qi' subcommand allows you to ask a question by providing it on
+standard input rather than passing it as a command-line argument.
+For example, you could say:
+
+  echo "What is the 'qi' subcommand for?" | grok qi 
+
+This would read the question from standard input and return the
+answer.  This subcommand is especially useful in editor sessions and
+when writing plugins -- more about this below. 
+```
+
+## Installation
+
+``` 
+go install github.com/stevegt/grokker/cmd/grok 
+``` 
+
+You'll need an account with OpenAI and an API key. You can create and
+manage your API keys in your OpenAI dashboard.
+
+Before using Grokker, you'll need to set your API key as an
+environment variable in your terminal session or .bashrc with the
+following command:
+
+``` 
+export OPENAI_API_KEY=<your_api_key> 
+```
+
+
+## Tell me more about the `chat` subcommand
+
+The `chat` subcommand allows you to interact with the system's
+knowledge base in a conversational manner. It accepts a `chatfile` as
+a mandatory argument, which is where the chat history is stored. The
+`-s` flag is optional and can be used to pass a system message, which
+controls the behavior of the OpenAI API. In usage, it might look like
+`grok chat chatfile -s sysmsg`, where `sysmsg` is an optional system
+message, and `chatfile` is the required text file where the chat
+history is stored.  There are several other optional flags that can be
+used with the `chat` subcommand, such as a `-m` flag so you can
+provide the prompt on the command line instead of on stdin, and `-i`
+and `-o` flags to specify input and output files.  There are also
+flags to control context sources.  See `grok chat -h` for more
+details.
+
+## Tell me more about the `qi` subcommand
+
+The `qi` subcommand allows you to ask a question by providing it on
+stdin. It's a way to generate quick answers to questions without
+having to provide the question as a command-line argument.
+
+The `qi` subcommand enables you to use grokker as a chat client in an
+editor session by typing questions directly in your document and
+receiving answers inline after the question.   
+
+## Using grokker as a chat client in an editor session
+
+Using Grokker as a chat client in an editor session can help you
+quickly find and summarize information from a set of documents in a
+local directory tree, including the documents you are editing. This
+can make your development, research, or learning process more
+efficient and streamlined. Additionally, having the context of your
+editor session available as part of the chat history can help you
+better keep track of and synthesize information as you work.
+
+It's a quick way to build a document and was used to build this one.
+
+Using grokker as a chat client in an editor session is also a way to
+access the backend servers used by ChatGPT without being constrained
+by the ChatGPT web frontend, all while maintaining your own chat
+history and any additional context in your own local files,
+versionable in git.  
+
+### How can I use grokker in a VIM editor session?
+
+To use the `qi` subcommand in a VIM editor session, you can add a
+keyboard mapping to your vimrc file. Here's an example mapping:
+
+``` 
+:map <leader>g vap:!grok qi<CR> 
+```
+
+This mapping will allow you to ask a question by typing it in VIM and
+then pressing `<leader>g`. The `vap` causes the current paragraph to be
+hightlighted, and the `:!grok qi` causes it to be sent as input to the
+`qi` subcommand of Grokker.  The answer will be inserted into the
+buffer below the current paragrpah. Note that the mapping assumes that
+Grokker's `grok` command is installed and in your system path.
+
+You will get better results if you `:set autowrite` so the current
+file's most recent content will be included in the question context. 
+
+Experiment with variations on these mappings -- you might emphasize
+more recent context by including the previous two paragraphs as part
+of the query, or the most recent 50 lines, or the output of `git
+diff`, etc.  (Future versions of grokker may help with this
+by timestamping individual document chunks and prioritizing more
+recent edits.)
+
+In practice, as of this writing I either hit `<leader>g` to highlight
+and use the current paragraph as the GPT query, or I use `<Shift-V>` to
+highlight several paragraphs for more context, and then run
+`:'<,'>!grok qi`.  Works.
+
+## Tell me more about the `-g` flag
+
+The `-g` flag is an optional parameter that you can include when
+running the `q` subcommand. It stands for "global" and when included,
+Grokker will provide answers not only from the local documents that
+you've added but also from OpenAI's global knowledge base. This means
+that you'll get a wider range of potentially useful answers, but it
+may take longer to receive your results as the global knowledge base
+is larger and may take more time to search through. If you don't
+include the `-g` flag, Grokker will prefer the local documents that
+you've added.
+
+## What are the `models` and `model` subcommands?
+
+The `models` subcommand is used to list all the available OpenAI
+models for text processing in Grokker, including their name and
+maximum token limit. 
+
+The `model` subcommand is used to set the default GPT model for use in
+queries.  This default is stored in the local .grok db.  (I haven't
+added a flag to override this default for a single query, but this
+would be doable.)
+
+## About the words `grokker` and `grok`
+
+The word `grok` is from Robert Heinlein's [Stranger in a Strange
+Land](https://en.wikipedia.org/wiki/Stranger_in_a_Strange_Land) --
+there's a good summary of the word's meaning and history in
+[Wikipedia](https://en.wikipedia.org/wiki/Grok).  Roughly translated,
+it means "to understand something so thoroughly that the observer
+becomes a part of the observed".  
+
+It's a popular word in science fiction and computer science and the
+namespace is crowded.  
+
+The name `grokker` is used by the company grokker.com, though the
+problem domains are different.  We are not affiliated with
+grokker.com.
+
+The folks at xAI released and filed a trademark application for the
+`grok` online AI tool several months after we were already using the
+word in this project.  We're not affiliated with xAI, but we wish them
+well.  
+
+Jordan Sissel's log file analysis tool also uses a `grok` command.  If
+you want to install grokker on the same machine, you can install it
+using an alternate command name.  Here's an example of installing
+grokker as `grokker` instead of `grok`:
+
+``` 
+cd /tmp 
+git clone http://github.com/stevegt/grokker 
+cd grokker/cmd/grok/ 
+go build -o grokker 
+cp grokker $GOPATH/bin 
+```
+
+## Is grokker done?  
+
+Grokker is not done, but I use it extensively every day. See
+[TODO.md](./TODO.md) for a pretty long list of wishlist and brainstorm
+items.  At this time, refactoring the storage for text chunks and
+embeddings is likely the most important -- that .grok file can get
+pretty big. So far I haven't seen performance problems even when
+grokking several dozen documents or source code files, but I want to
+be able to grok an entire tree of hundreds of files without concerns.
+
+In all of the following use cases, I'd say my own productivity has
+increased by an order of magnitude -- I'm finding myself finishing
+projects in days that previously would have taken weeks.  What's
+really nice is that I'm finally making progress on years-old complex
+projects that were previously stalled.  
+
+### What are some use cases grokker already supports?
+
+In all of the following use cases, I tend to create and `grok add` a
+`context.md` file that I use as a scratchpad, writing and refining
+questions and answers as I work on other files in the same directory
+or repository. This file is my interactive, animated [rubber
+duck](https://en.wikipedia.org/wiki/Rubber_duck_debugging).  This
+technique has worked well.  I'm considering switching to using
+something like `grok.md`, `grokker.md`, `groktext.md`, or `gpt.md` for
+this filename and proposing it as a best practice.
+
+Grokker has been a huge help in its original use case -- getting up to
+speed quickly on complex topics, documents, and code bases.  It's
+particularly good at translating the unique terminology that tends to
+exist in specialized papers and code. The large language models
+backing grokker are optimized for inferring meaning from context;
+this allows them to expand terms into more general language even in
+cases where the original author was unable to make that difficult
+leap.
+
+I've been pleasantly surprised by how much grokker has also helped
+translate my own ideas into documents and code.  I can describe things
+in my own terms in one or more files, and just as with others' works,
+the language models do a better job than I can of translating my
+terminology into more-general human language and executable code.  
+
+Another useful technique I've found is to prompt the model to ask me
+questions about a concept I'm having trouble getting out of my own
+head into text; I then ask the model to answer its own questions, then
+I manually edit the answers to reflect what I'm actually thinking.
+This clears writer's block, reduces my own typing workload by moving
+me into the role of editor, and helps to more quickly detect and
+resolve uncertainties.  Because grokker will include my edited text as
+context in future model queries, this provides feedback to the model,
+causing future answers to converge toward my intent.  (See
+[RLHF](https://en.wikipedia.org/wiki/Reinforcement_learning_from_human_feedback)
+for one possible way of formalizing this.)
+
+# Important disclaimer regarding sensitive and confidential information
+
+Using OpenAI's API services to analyze documents means that any
+document you `grok add`, and any question you ask of grokker, will be
+broken into chunks and sent to OpenAI's servers twice -- first to
+generate context embedding vectors, and again as relevant context when
+you run `grok q` or `grok qi`.
+
+If any of your document's content is sensitive or confidential, you'll
+want to review OpenAI's policies regarding data usage and retention.
+
+Additionally, some topics are banned by OpenAI's policies, so be sure
+to review and comply with their guidelines in order to prevent your
+API access being suspended or revoked. 
+
+As always, it's a good idea to review the terms and conditions of any
+API service you're considering using to ensure that you're comfortable
+with how your data will be handled.
+
+
+
+```
+
+
+File: /home/stevegt/lab/openai/chatgpt/chat-export/f750f38072e1b83db749fffcdbfd3ff55b55ce5a7e0fd1e10d2e9bf4ac017b62-2024-01-10-17-33-56/everythings-a-capability.chat
+```{"Sysmsg":"You are a helpful assistant.","Version":"3.0.4"}
+USER:
+what if each message series (thread) started with a broadcast message
+providing a bearer capability, and subsequent messages in the thread
+were sent using either bearer capability or a capability returned by 
+using the capability in the broadcast message, or a capability returned
+by using a capability returned by using the capability in the broadcast
+message, etc.  and what if issuing a capability meant making a
+promise, and what if revoking a capability meant breaking the promise,
+and what if returning results or causing a side effect meant
+fulfilling the promise?  discuss implications on our design for a
+decentralized computing system.
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI:
+In this scenario, you've suggested an interesting approach to managing promises within a decentralized computing system. A brief summary of your proposition is that an initiating broadcast message provides a bearer capability that forms the basis of a promise. Following messages in the thread either utilize this original bearer capability or a derived capability that's been returned by the use of a previous capability. Issuing, revoking, and fulfilling a capability equate to making, breaking, and fulfilling a promise, respectively. 
+
+Here's how these ideas would impact the design of your system:
+
+**Identity and Trust Management:** Assuming every capability is bound to promise granting a right, the "issuer" of the capability is entering into a promise relationship with the receiver. This implies a level of trust between entities in your system and would necessitate mechanisms for identity and trust management.
+
+**Revocability and Accountability:** Since revoking a capability is akin to breaking a promise, you would need a robust system for tracking promise states and implementing a revocation mechanism. This impacts the function of your dispatcher, who would probably need to handle revoke messages or track the state of capabilities at a network level.
+
+**Nested Dependencies:** The ability for a capability to return another capability forms a possible chain of dependencies. This can make tracking capability-promise relationships complex, but also offers a flexible system for constructing complex behaviors or workflows.
+
+**System Complexity and Scalability:** On the whole, this model can increase complexity as promise relationships, revocations, and fulfillment need to be tracked. However, if implemented well, it can significantly improve system scalability and flexibility by shifting computation logic into the promise-capability relationship rather than hard-coding it into entities.
+
+**Security:** The security implications are important to consider. This promise-capability model would require diligent promise management, as lost or stolen capabilities could lead to unauthorized promise fulfillment or revocation.
+
+Overall, this model is possible and quite intriguing, implementing it would necessitate careful planning and rigorous attention to security, identity, and system state management.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+in mermaid, show me the message sequence diagram for a thread with a
+broadcast message and two rounds of capability issuance and usage.
+
+
+
+
+
+
+
+
+
+
+
+AI:
+Here's an example in a pseudo Mermaid sequence diagram code format for the scenario you described:
+
+File: capability-thread.mmd
+```mmd
+sequenceDiagram
+    participant Dispatcher
+    participant Entity_A
+    participant Entity_B
+    participant Entity_C
+
+    Dispatcher->>Entity_A: Broadcast (issue capability)
+    activate Entity_A
+    Entity_A->>Entity_B: Use Capability (passing capability to B)
+    activate Entity_B
+    Entity_B-->>Entity_A: Capability Return (issuing new capability)
+    deactivate Entity_A
+    Entity_B->>Entity_C: Use Returned Capability 
+    activate Entity_C
+    Entity_C-->>Entity_B: Capability Return (issuing new capability)
+    deactivate Entity_B
+    Entity_C->>Dispatcher: Use Returned Capability 
+    Dispatcher-->>Entity_C: Fulfill Promise
+    deactivate Entity_C
+```
+EOF_capability-thread.mmd
+
+This sample outlines a scenario where a broadcast from a dispatcher issues a capability to an entity (Entity_A). This capability is then used to delegate work to another entity (Entity_B) who returns a new capability, signifying the promise of future work. Entity_B then uses the returned capability to delegate work to Entity_C, who also returns a new capability. Finally, Entity_C uses this returned capability to delegate work back to the dispatcher, who then fulfills the original promise.
+
+
+
+
+
+
+
+
+
+
+
+
+USER:
+show only dispatcher and A.  name A Alice.
+
+File: capability-thread.mmd
+```sequenceDiagram
+    participant Dispatcher
+    participant Entity_A
+    participant Entity_B
+    participant Entity_C
+
+    Dispatcher->>Entity_A: Broadcast (issue capability)
+    activate Entity_A
+    Entity_A->>Entity_B: Use Capability (passing capability to B)
+    activate Entity_B
+    Entity_B-->>Entity_A: Capability Return (issuing new capability)
+    deactivate Entity_A
+    Entity_B->>Entity_C: Use Returned Capability 
+    activate Entity_C
+    Entity_C-->>Entity_B: Capability Return (issuing new capability)
+    deactivate Entity_B
+    Entity_C->>Dispatcher: Use Returned Capability 
+    Dispatcher-->>Entity_C: Fulfill Promise
+    deactivate Entity_C
+
+```
+
+
+
+
+
+
+
+
+
+
+AI:
+Sure, here's the modified sequence diagram featuring only the Dispatcher and Alice (previously Entity_A):
+
+File: capability-thread.mmd
+```mmd
+sequenceDiagram
+    participant Dispatcher
+    participant Alice
+
+    Dispatcher->>Alice: Broadcast (issue capability)
+    activate Alice
+    Alice->>Dispatcher: Use Capability (return capability to Dispatcher)
+    Dispatcher-->>Alice: Capability Return (issuing new capability)
+    deactivate Alice
+    Alice->>Dispatcher: Use Returned Capability
+    Dispatcher-->>Alice: Fulfill Promise
+    deactivate Alice
+```
+EOF_capability-thread.mmd
+
+This simplified diagram depicts a sequence where a capability is broadcasted from the Dispatcher to Alice. Alice then uses this capability and returns it to the Dispatcher. In return, the Dispatcher issues a new capability to Alice. Alice uses this newly returned capability, which prompts the Dispatcher to fulfill the original promise.
+
+
+
+
+
+
+
+
+
+
+
+USER:
+Error: Evaluation failed: Error: Parse error on line 12:
+...tivate Bob    Note right_of Bob: ...Thr
+----------------------^
+Expecting 'over', 'left_of', 'right_of', got 'ACTOR'
+
+File: capability-thread.mmd
+```sequenceDiagram
+    participant Alice
+    participant Bob
+
+    activate Alice
+    Alice->>Bob: Publish bearer promise 1 (broadcast)
+    activate Bob
+    Bob->>Alice: Invoke promise 1, publish conditional promise 2 
+    Alice->>Bob: Fulfill promise 1, invoke promise 2
+    deactivate Alice
+    deactivate Bob
+    Note right_of Bob: ...Thread continues indefinitely
+
+```
+
+
+
+
+
+
+AI:
+I'm sorry for the confusion. The syntax error came from the line 'Note right_of Bob: ...Thread continues indefinitely'. In sequenceDiagram syntax, the 'right of', 'over', and similar positional statements must be enclosed in parentheses, and a colon is needed after 'Note'. Here's the corrected file:
+
+File: capability-thread.mmd
+```mmd
+sequenceDiagram
+    participant Alice
+    participant Bob
+
+    activate Alice
+    Alice->>Bob: Publish bearer promise 1 (broadcast)
+    activate Bob
+    Bob->>Alice: Invoke promise 1, publish conditional promise 2 
+    Alice->>Bob: Fulfill promise 1, invoke promise 2
+    deactivate Alice
+    deactivate Bob
+    Note over Bob: ...Thread continues indefinitely
+
+```
+EOF_capability-thread.mmd
+
+This diagram depicts the exchange of promises between Alice and Bob. After the initial broadcast from Alice, Bob invokes the first promise and issues a conditional second promise. Alice then fulfills the initial promise and invokes the second one. After these exchanges, the thread is suggested to continue in this manner indefinitely.
+
+
+
+
+
+
+USER:
+let's call this system "promisegrid".  if promisegrid is a
+decentralized operating system, then what services does it provide?
+what does it do for apps? does it track outstanding, broken, and
+fulfilled promises?
+
+other than outstanding, broken, and fulfilled promises, what other
+states can a promise be in?  what does Mark Burgess say about this?
+
+
+
+AI:
+Promisegrid, as a decentralized operating system using promise theory, would provide the following types of services:
+
+1. **Promise Management:** It could manage the issuance of promises, tracking of promise fulfillment, revocation, tracking broken promises, and handling promise chaining or delegation. It would provide the necessary mechanics for capabilities to be passed, invoked, revoked, or fulfilled, tracking the progression and status of promises.
+
+2. **Access Control and Security:** It could provide functions for access control, resource partitioning, and security, preventing unauthorized promise issuance or fulfillment.
+
+3. **Resource Allocation:** Promisegrid could provide optimal resource allocation and management, ensuring the efficient utilization of resources by apps according to promised capabilities.
+
+4. **Communication and Coordination:** It would handle message dispatch and communication between entities, aiding in coordination across the decentralized network. 
+
+In terms of apps, Promisegrid would provide a consistent framework for apps to interact, allowing them to delegate tasks, share resources, make promises, and reciprocate by fulfilling promises. Essentially, it provides a platform for trusted and secure interactions within a decentralized environment. 
+
+Promisegrid would indeed track outstanding, broken, and fulfilled promises as these states are pivotal for maintaining the integrity of the system and for continued function of entities in the environment.
+
+In addition to outstanding, broken, and fulfilled promises, other states according to Mark Burgess's Promise Theory could include:
+
+1. **Imposed:** A promise has been imposed upon an agent, but hasn’t started.
+2. **Active:** A promise is currently active and is in the process of being fulfilled.
+3. **Expired:** A promise has passed its validity period without fulfillment.
+4. **Stale:** A promise is no longer relevant due to the changes in the system states.
+
+It's unique, flexible, and human-like interpretation of system behaviour is what sets Promise Theory apart. It treats systems as a set of voluntary actors or agents, minimizing imposed behavior, focusing instead on the promises agents make and keep with one another, leading to the emergence of system-wide behavior.
+
+
+
+
+
+USER:
+That's not right.  Imposed would be the antithesis of Mark's "promise" concept.
+Impositions are the opposite of promises.
+
+AI:
+You're right, I apologize for the oversight. In Promise Theory, the key is autonomous agents making voluntary 'promises' about their behaviour, as opposed to 'impositions' on their behaviour by others. 
+
+Additionally, each promise can be in several states:
+
+1. **Declared:** A promise is made but not yet enacted or being worked on.
+2. **Active:** The promise is in progress, and actions are being taken to fulfill it.
+3. **Fulfilled:** The promised action or state has been achieved.
+4. **Broken:** The promise has not been fulfilled, either due to an inability or an unwillingness to fulfill it.
+5. **Expired:** The validity of the promise is over, and it is no longer in effect.
+
+Mark Burgess' Promise Theory doesn't just classify promises based on these statuses, but is more focused on the behaviors and interactions between autonomous agents in a system, and how the system-wide behaviour emerges from localized promise-making between agents.
+
+Thank you for pointing out the error, and I appreciate your patience.
+
+
+```
+
+
+AI:
+File: README.md
+```markdown
+# PromiseGrid
+
+PromiseGrid is a conceptual decentralized operating system powered by the principles of Promise Theory, as explored by Mark Burgess. It reimagines the foundation of computing and application interaction on a decentralized platform, focusing on autonomy, voluntary cooperation, and explicit management of promises among agents within the system.
+
+## Overview
+
+PromiseGrid provides a rich infrastructure for developing and running applications in a decentralized environment. It is designed to be a flexible, secure, and efficient platform for both simple and complex applications, ranging from decentralized web applications to complex distributed systems.
+
+### Core Services
+
+PromiseGrid offers several core services aligned with Promise Theory principles:
+
+- **Promise Management:** Central to PromiseGrid, it facilitates the declaration, tracking, and fulfillment of promises between agents.
+- **Security and Trust:** Implements capability-based security, ensuring that interactions and promise exchanges are secure and trusted.
+- **Resource Allocation:** Manages resources through promises for optimized distribution and utilization across the network.
+- **Communication Coordination:** Provides the infrastructure for message exchange and coordination among decentralized agents, supporting the fulfillment and tracking of promises.
+
+### Application Support
+
+For applications, PromiseGrid acts as a facilitative layer that provides:
+
+- **Decentralized Execution Environment:** Apps can run in a decentralized manner, leveraging WebAssembly (WASM), containerization, or native execution environments.
+- **Promise-Based Interactions:** Apps interact based on promises, which can be created, fulfilled, or broken, thus managing their states and dependencies explicitly.
+- **Resource Access and Sharing:** Apps gain access to resources through promises, with PromiseGrid managing the access control and ensuring security through capability-based mechanisms.
+
+### Promise States
+
+Building on Mark Burgess' Promise Theory, PromiseGrid recognizes various states of promises:
+
+- **Declared:** A promise is made, setting the stage for future actions.
+- **Active:** Actions are being undertaken to fulfill the declared promise.
+- **Fulfilled:** The terms of the promise have been met.
+- **Broken:** For various reasons, the promise cannot be or has not been fulfilled.
+
+## Vision and Goals
+
+PromiseGrid aims to revolutionize decentralized computing by providing a robust framework that supports:
+
+- Efficient and secure application deployment and execution.
+- Enhanced cooperation and coordination among autonomous agents.
+- A trustworthy and transparent environment for managing promises.
+- The ability to build a resilient infrastructure that adapts and responds to changes dynamically.
+
+## Getting Started
+
+While PromiseGrid is conceptual at this stage, the foundation laid out by Promise Theory and existing technologies like WASM and containerization hint at a promising direction for its implementation. Developers interested in PromiseGrid and its applications are encouraged to explore Promise Theory further and contribute ideas towards realizing this vision of decentralized computing.
+
+## Contributing
+
+PromiseGrid is a collaborative effort, and contributions are welcome. Whether you are a developer, theorist, or enthusiast, your input can help shape the future of decentralized computing with PromiseGrid.
+
+For more information on how to contribute, please visit the project repository or contact the PromiseGrid team.
+```
+EOF_READREAD.md
+

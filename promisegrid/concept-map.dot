@@ -1,0 +1,122 @@
+digraph G{
+    rankdir = TB;
+    "hashes" -> "content-addressable storage";
+    "content-addressable storage" -> "git";
+    "git" -> "git vs github features";
+    "git vs github features" -> "github copilot";
+
+    "hashes" -> "docker";
+    "hashes" -> "image layers";
+
+    "docker" -> "multi-agent AI";
+    "WASM" -> "multi-agent AI";
+    "OpenAI" -> "GPT-4";
+
+    "hashes" -> "git";
+
+    "docker" -> "PromiseGrid";
+    "capability-based security" -> "PromiseGrid";
+    "multi-agent AI" -> "better development tools";
+
+    "double auction" -> "pricing";
+    "pricing" -> "consensus";
+    "consensus" -> "better decision-making";
+    "LLMs" -> "consensus";
+
+    "promise == capability" -> "PromiseGrid";
+
+    "key/value store" -> "image layers";
+    "image layers" -> "docker";
+    
+    "dogfooding" -> "github copilot";
+    "dogfooding" -> "OpenAI";
+
+    "Chomsky hierarchy" -> "regular expressions";
+    "regular expressions" -> "Postel’s law" -> "GPT-4" -> "better development tools";
+
+    "github copilot" -> "better development tools";
+    "better development tools" -> "PromiseGrid";
+
+    "levels of abstraction" -> "CS theory";
+    "Turing machines" -> "CS theory";
+    "Lambda calculus" -> "CS theory";
+    "CS theory" -> "PromiseGrid";
+
+
+    "WASM" -> "sandboxing";
+    "WASM" -> "PromiseGrid";
+    "sandboxing" -> "docker";
+    "containers" -> "docker";
+
+    "git" -> "blockchain";
+    "git history" -> "git";
+    "bitkeeper" -> "git history";
+
+    "RCS" -> "CVS";
+    "CVS" -> "SVN";
+    "SVN" -> "git history";
+
+    "blockchain" -> "why we’re not using it, not a cryptocurrency, culture";
+
+    "cfengine" -> "puppet";
+    "isconf" -> "puppet";
+    "puppet" -> "chef";
+    "chef" -> "devops";
+    "devops" -> "PromiseGrid";
+    "why we’re not using it, not a cryptocurrency, culture" -> "PromiseGrid";
+    "PromiseGrid" -> "ultimate goal";
+
+
+    "promise theory" -> "javascript-style promises";
+    "promise theory" -> "capability-based security";
+    "javascript-style promises" -> "PromiseGrid";
+
+    "LLMs" -> "multi-agent AI";
+    "pong demo" -> "multi-agent AI";
+
+    "multi-agent AI" -> "PromiseGrid";
+
+    "functional programming" -> "Lambda calculus";
+    "imperative programming" -> "Turing machines";
+
+    "javascript-style promises" -> "promise == capability";
+    "capability-based security" -> "promise == capability";
+    
+    "neural nets" -> "LLMs";
+    
+    "similarity search" -> "LLMs";
+    "context" -> "LLMs";
+    "tokenization" -> "LLMs";
+    "N-dimensional vector space" -> "vector databases";
+    "LLMs" -> "better development tools";
+    "control theory, negative feedback" -> "dampen error propagation";
+    "dampen error propagation" -> "multi-agent AI";
+    "vector databases" -> "LLMs";
+    "context" -> "self-healing behavior";
+
+    "self-healing behavior" -> "PromiseGrid";
+
+    "pitbase" -> "PromiseBase";
+    "PromiseBase" -> "PromiseGrid";
+
+    "key/value store" -> "pitbase";
+    "key/value store" -> "vector databases";
+    "key/value store" -> "git";
+
+    "test-driven development" -> "multi-agent AI";
+
+    "ultimate goal" -> "better community infrastructure";
+    "ultimate goal" -> "better organizational infrastructure";
+    "ultimate goal" -> "better decision-making";
+    "ultimate goal" -> "better communication";
+    "ultimate goal" -> "better coordination of human effort";
+    "ultimate goal" -> "better work-life balance";
+    "better community infrastructure" -> "better governance";
+    "better organizational infrastructure" -> "better governance";
+    "better decision-making" -> "better governance";
+    "better communication" -> "better governance";
+    "better coordination of human effort" -> "better governance";
+    "better work-life balance" -> "better governance";
+    "better governance" -> "assuage tragedy of the commons";
+
+}

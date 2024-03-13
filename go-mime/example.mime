@@ -1,0 +1,41 @@
+Certainly! Below is a simple example of a multipart MIME message with three parts filled with Lorem Ipsum text and using "apple" as the boundary. Note that each part of the multipart message can have its own headers (like `Content-Type`) and content.
+
+```
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="apple"
+
+--apple
+File: one
+Content-Type: text/plain; charset="utf-8"
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur euismod, nisl eget
+consectetur sagittis, nisl nunc iaculis dui, et laoreet enim lacus eget tellus. Mauris
+quis nulla ligula.
+
+--apple
+File: two
+Content-Type: text/plain; charset="utf-8"
+
+Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
+egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.
+Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est.
+
+--apple
+File: three
+Content-Type: text/plain; charset="utf-8"
+
+Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean
+fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus
+lacus enim ac dui. Donec non enim in turpis pulvinar facilisis.
+
+--apple--
+```
+
+Explanation of key parts:
+- `MIME-Version: 1.0` specifies the MIME version used.
+- The `Content-Type` header in the top-level specifies that this is a multipart message (`multipart/mixed`), and it includes a `boundary` parameter that defines the delimiter (in this case, "apple") marking the start of each part.
+- Each embedded part starts with `--apple` (as defined by the boundary parameter), followed by its own `Content-Type` header and content. Here, all parts are plain text (`text/plain`) and use UTF-8 encoding (`charset="utf-8"`).
+- The message ends with the boundary followed by `--` (`--apple--`), indicating there are no more parts to follow.
+
+Remember, the choice of boundary (in this case, "apple") is arbitrary, but it must be unique enough not to appear in the content of any of the parts, to avoid confusion with the actual boundary delimiters.
