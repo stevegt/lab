@@ -30,6 +30,12 @@ func NewSafeSlice() *SafeSlice {
 	return ss
 }
 
+// AddChan returns a channel that can be used to add elements to the SafeSlice.
+// The caller must not close the channel.
+func (ss *SafeSlice) AddChan() chan<- Element {
+	return ss.addChan
+}
+
 // Add appends an item to the end of the slice in a thread-safe manner
 // and notifies any goroutines waiting for this particular index.
 func (ss *SafeSlice) Add(value any) {
