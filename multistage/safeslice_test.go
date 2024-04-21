@@ -81,6 +81,6 @@ func TestSafeSliceAddChan(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		c := ss.GetChan(i)
 		value := <-c
-		Tassert(t, value == Element{Index: i, Value: i}, "GetChan returned %v for index %d", value, i)
+		Tassert(t, value == i, "GetChan returned %v for index %d", value, i)
 	}
 }
