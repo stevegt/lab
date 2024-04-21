@@ -1,57 +1,51 @@
 package multistage
 
-import (
-	"sync"
-)
+import "sync"
 
-// safeSlice is a thread-safe slice implementation using a mutex for synchronization.
+// safeSlice is a thread-safe slice that uses a mutex to synchronize
+// access.
 type safeSlice struct {
-	slice []any       // slice stores the data in a slice form
-	mu    sync.Mutex  // mu protects access to the slice
-	wg    sync.WaitGroup // wg is used for signaling the availability of new elements
+	slice []any
+	mu    sync.Mutex
+	wg    sync.WaitGroup
 }
 
-// Add appends a value to the safeSlice, ensuring thread-safety via mutex lock.
+// Add appends a value to the slice, locking the mutex to ensure thread safety
 func (s *safeSlice) Add(value any) {
 	s.mu.Lock()
+	defer s.mu.Unlock()
 	s.slice = append(s.slice, value)
-	s.mu.Unlock()
-	s.wg.Done() // Signal that a new element has been added
 }
 
-// Get retrieves a value at a given index from the safeSlice if the index is valid.
-func (s *safeSlice) Get(index int64) (value any, ok bool) {
+// Get safely retrieves a value from the slice by index
+func (s *safeSlice) Get(index int) (any, bool) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-
-	// Check if index is out of bounds
-	if index < 0 || int(index) >= len(s.slice) {
-		return nil, false
+	if index < 0 || index >= int(len(s.slice)) {
+		return 0, false
 	}
-
 	return s.slice[index], true
 }
 
-// GetWait retrieves a value at a given index from the safeSlice, waiting if necessary.
-func (s *safeSlice) GetWait(index int64) any {
-	var value any
+// GetWait safely retrieves a value from the slice by index, waiting
+// until the index is valid.
+func (s *safeSlice) GetWait(index int) any {
 	for {
 		s.mu.Lock()
-		if int(index) < len(s.slice) {
-			value = s.slice[index]
+		value, ok := s.Get(index)
+		if ok {
 			s.mu.Unlock()
-			break
+			return value
 		}
+		s.wg.Add(1)
 		s.mu.Unlock()
-		s.wg.Add(1) // Prepare to wait for the element to be added
-		s.wg.Wait() // Wait for the signal that a new element is added
+		// s.wg.Wait()
 	}
-	return value
 }
 
-// Flush clears all elements from the safeSlice.
+// Flush resets the slice to an empty state
 func (s *safeSlice) Flush() {
 	s.mu.Lock()
-	s.slice = []any{} // Reset the slice to an empty slice
-	s.mu.Unlock()
+	defer s.mu.Unlock()
+	s.slice = s.slice[:0]
 }

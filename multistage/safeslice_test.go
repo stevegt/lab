@@ -19,7 +19,7 @@ func TestSafeSlice(t *testing.T) {
 	// Attempt to retrieve elements
 	var retrieved []any
 	for i := 0; i <= 10; i++ {
-		value, ok := ss.Get(int64(i))
+		value, ok := ss.Get(i)
 		if !ok {
 			t.Errorf("Failed to get value at index %d", i)
 		}
