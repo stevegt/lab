@@ -122,7 +122,7 @@ func TestNoMutex(t *testing.T) {
 		_, ok := ss.getChans[i]
 		Tassert(t, !ok, "getChans[%d] is already initialized", i)
 		getChan := make(chan any)
-		ss.getChans[index] = append(ss.getChans[index], getChan)
+		ss.getChans[i] = append(ss.getChans[i], getChan)
 		gc[i] = getChan
 	}
 
