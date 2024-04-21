@@ -1,10 +1,5 @@
 package multistage
 
-import (
-	"fmt"
-	"sync"
-)
-
 // Backtracker is a simple generic backtracking buffer that can be
 // used to implement backtracking in a stage.  A stage imports the
 // backtracker and uses it to checkpoint and rollback messages it
@@ -21,7 +16,7 @@ type Backtracker struct {
 	done bool
 }
 
-type checkpoint struct {
+type Checkpoint struct {
 	// start is the message number of the first message in the buffer
 	// when the checkpoint was created.
 	start int64
@@ -30,6 +25,7 @@ type checkpoint struct {
 	pos int64
 }
 
+/*
 // NewBackTracker creates a new BackTracker
 func NewBacktracker[T any](input chan T) *Backtracker {
 	b := &Backtracker{
@@ -37,8 +33,10 @@ func NewBacktracker[T any](input chan T) *Backtracker {
 	}
 	// start the goroutine that reads from the input channel
 	go func() {
+		defer close(input)
 		for msg := range input {
 			b.buf.Add(msg)
+			break
 		}
 		b.done = true
 	}()
@@ -58,28 +56,29 @@ func (b *Backtracker) Next() (out chan any) {
 			msg := b.buf.GetWait(b.pos)
 			out <- msg
 			b.pos++
+			break
 		}
 	}()
 	// see if channel is closed
-	msg, ok := b.buf.Get(b.pos)
+	_, ok := b.buf.Get(b.pos)
 	if !ok {
-		return end
+		return
 	}
 	b.pos++
-	return msg
+	return
 }
 
 // Checkpoint returns a value that can be used to rollback to the
 // current position in the input channel.
-func (b *Backtracker) Checkpoint() checkpoint {
-	cp := checkpoint{start: b.start, pos: b.pos}
+func (b *Backtracker) Checkpoint() Checkpoint {
+	cp := Checkpoint{start: b.start, pos: b.pos}
 	return cp
 }
 
 // Rollback rolls back the input channel to the position specified
 // by the given checkpoint.  If a commit has been done since the
 // checkpoint was created, the rollback will fail.
-func (b *Backtracker) Rollback(cp checkpoint) (err error) {
+func (b *Backtracker) Rollback(cp Checkpoint) (err error) {
 	if cp.start != b.start {
 		return fmt.Errorf("rollback failed: checkpoint is invalid due to more recent commit")
 	}
@@ -95,50 +94,4 @@ func (b *Backtracker) Commit() {
 	b.buf.Flush()
 }
 
-// safeSlice is a thread-safe slice that uses a mutex to synchronize
-// access.
-type safeSlice struct {
-	slice []any
-	mu    sync.Mutex
-	wg    sync.WaitGroup
-}
-
-// Add appends a value to the slice, locking the mutex to ensure thread safety
-func (s *safeSlice) Add(value any) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	s.slice = append(s.slice, value)
-}
-
-// Get safely retrieves a value from the slice by index
-func (s *safeSlice) Get(index int64) (any, bool) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	if index < 0 || index >= int64(len(s.slice)) {
-		return 0, false
-	}
-	return s.slice[index], true
-}
-
-// GetWait safely retrieves a value from the slice by index, waiting
-// until the index is valid.
-func (s *safeSlice) GetWait(index int64) any {
-	for {
-		s.mu.Lock()
-		value, ok := s.Get(index)
-		if ok {
-			s.mu.Unlock()
-			return value
-		}
-		s.wg.Add(1)
-		s.mu.Unlock()
-		s.wg.Wait()
-	}
-}
-
-// Flush resets the slice to an empty state
-func (s *safeSlice) Flush() {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	s.slice = s.slice[:0]
-}
+*/
