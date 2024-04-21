@@ -69,15 +69,15 @@ func TestDaemonThread(t *testing.T) {
 	// slice operations and I/O.
 	ss := NewSafeSlice()
 
-	// get a channel that can be used to add elements to the safeSlice
-	addChan := ss.AddChan()
-	// ensure that ss.addChan is the same channel that is returned by
-	// AddChan()
-	Tassert(t, ss.addChan == addChan, "addChan is not the same as AddChan()")
+	// get a channel that can be used to write elements to the safeSlice
+	wChan := ss.WriteChan()
+	// ensure that ss.wChan is the same channel that is returned by
+	// WriteChan()
+	Tassert(t, ss.wChan == wChan, "wChan is not the same as WriteChan()")
 
 	// add an element to the safeSlice using the channel
 	element := Element{Index: 0, Value: 0}
-	addChan <- element
+	wChan <- element
 
 	// ensure the daemon thread has added the element to the slice
 	time.Sleep(100 * time.Millisecond)
@@ -92,7 +92,7 @@ func TestDaemonThread(t *testing.T) {
 	// (This will replace the element at index 0.)
 	for i := 0; i < 10; i++ {
 		element := Element{Index: i, Value: i}
-		addChan <- element
+		wChan <- element
 	}
 	Tassert(t, len(ss.slice) == 10, "Expected 10 elements in slice, found %d", len(ss.slice))
 
@@ -106,18 +106,18 @@ func TestDaemonThread(t *testing.T) {
 
 /*
 func TestNoMutex(t *testing.T) {
-	// Test to ensure we're not using a mutex, but instead using a
+	// Test to ensure we're using a
 	// daemon thread to manage the slice.  The daemon thread will
 	// be responsible for all slice operations and I/O.
 	ss := NewSafeSlice()
 
-	// NewSafeSlice should have initialized the addChan
+	// NewSafeSlice should have initialized the wChan
 	// channel, the getChans slice, and started the daemon thread.
 
-	// addChan is a channel that can be used to add elements to the safeSlice:
+	// wChan is a channel that can be used to add elements to the safeSlice:
 	//
-	// addChan chan Element
-	Tassert(t, ss.addChan != nil, "addChan is nil")
+	// wChan chan Element
+	Tassert(t, ss.wChan != nil, "wChan is nil")
 
 	// getChans is a map of slices of channels.  Each channel in each
 	// getChans map entry is used to retrieve a single element from
@@ -126,11 +126,11 @@ func TestNoMutex(t *testing.T) {
 	// getChans map[int][]chan any
 	Tassert(t, ss.getChans != nil, "getChan is nil")
 
-	// Add elements to the safeSlice using the addChan.  Normally,
-	// Add would do this, but we're going to test the addChan directly.
+	// Add elements to the safeSlice using the wChan.  Normally,
+	// Add would do this, but we're going to test the wChan directly.
 	for i := 0; i < 10; i++ {
 		element := Element{Index: i, Value: i}
-		ss.addChan <- element
+		ss.wChan <- element
 	}
 
 	// Populate the getChans map entries.  Normally, GetChan would do

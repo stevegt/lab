@@ -4,97 +4,91 @@ import (
 	"sync"
 )
 
-// Element is a struct that holds an index and a value. This struct is used
-// with the AddChan method to allow concurrent addition of elements at specified
-// indices in the SafeSlice. However, for the current implementation, the index is ignored,
-// and elements are appended in the sequence they are received.
+// Element struct is now adjusted to conform to the test cases, including an Index field.
+// However, the usage of Index will be ignored in current insertion logic as it merely appends items.
 type Element struct {
-	Index int // Index where the value should be added - not used in the current implementation
-	Value any // The value to be added
+	Index int // The index where the element is intended to be added; usage is context-dependent.
+	Value any // The actual value of the element to be added.
 }
 
-// SafeSlice is a thread-safe data structure that supports concurrent read, write, and notification operations.
+// SafeSlice struct definition remains unchanged, focusing on providing a thread-safe slice management mechanism.
 type SafeSlice struct {
 	mu       sync.Mutex
 	slice    []any
 	getChans map[int][]chan any
-	addChan  chan Element
+	wChan    chan Element
 }
 
-// NewSafeSlice creates a new SafeSlice instance.
+// NewSafeSlice initializes a SafeSlice with default values and starts
+// a listening goroutine for wChan.
 func NewSafeSlice() *SafeSlice {
 	ss := &SafeSlice{
 		getChans: make(map[int][]chan any),
-		addChan:  make(chan Element),
+		wChan:    make(chan Element, 10), // Use a buffered channel for non-blocking sends.
 	}
+	go ss.processAdds()
 	return ss
 }
 
-// AddChan returns a channel that can be used to add elements to the SafeSlice.
-// The caller must not close the channel.
-func (ss *SafeSlice) AddChan() chan<- Element {
-	return ss.addChan
+// WriteChan returns a channel that can be used to write elements to the SafeSlice.
+func (ss *SafeSlice) WriteChan() chan<- Element {
+	return ss.wChan
 }
 
-// Add appends an item to the end of the slice in a thread-safe manner
-// and notifies any goroutines waiting for this particular index.
+// Add immediately sends an element to the wChan for concurrent-safe addition.
 func (ss *SafeSlice) Add(value any) {
 	ss.mu.Lock()
+	defer ss.mu.Unlock()
 	index := len(ss.slice)
-	ss.slice = append(ss.slice, value)
-
-	// Notify all waiting goroutines for this index.
-	if waitingChans, ok := ss.getChans[index]; ok {
-		for _, ch := range waitingChans {
-			ch <- value // Send the value to the waiting goroutine.
-			close(ch)   // Close the channel to signify the value has been sent.
-		}
-		delete(ss.getChans, index) // Remove the getChans for this index as they have been notified.
-	}
-
-	ss.mu.Unlock()
+	ss.wChan <- Element{Index: index, Value: value}
 }
 
-// Get retrieves an item from the slice by index in a thread-safe manner.
-// Returns the item and true if the index is within bounds; otherwise, returns nil and false.
+// Get allows for retrieving an element by index, checking boundaries safely.
 func (ss *SafeSlice) Get(index int) (value any, ok bool) {
 	ss.mu.Lock()
 	defer ss.mu.Unlock()
 
-	if index < 0 || index >= len(ss.slice) {
-		return nil, false
+	if index >= 0 && index < len(ss.slice) {
+		return ss.slice[index], true
 	}
-
-	return ss.slice[index], true
+	return nil, false
 }
 
-// Flush clears the slice and its associated state in a thread-safe manner.
+// Flush clears the slice and its dependencies for reuse or disposal.
 func (ss *SafeSlice) Flush() {
 	ss.mu.Lock()
-	ss.slice = nil
+	ss.slice = []any{}
 	ss.getChans = make(map[int][]chan any)
 	ss.mu.Unlock()
 }
 
-// GetChan returns a channel that will either immediately receive the
-// requested item (if it is already present in the slice) or will receive
-// the item once it is added to the slice at the specified index.
+// GetChan waits for or immediately retrieves an element at a given index, depending on availability.
 func (ss *SafeSlice) GetChan(index int) chan any {
 	ss.mu.Lock()
 	defer ss.mu.Unlock()
 
 	ch := make(chan any, 1)
-
-	// If the requested index is already within the bounds of the slice,
-	// send the item immediately.
-	if index >= 0 && index < len(ss.slice) {
+	if index < len(ss.slice) {
 		ch <- ss.slice[index]
 		close(ch)
-		return ch
+	} else {
+		ss.getChans[index] = append(ss.getChans[index], ch)
 	}
-
-	// If the item at the requested index is not yet present, add the channel
-	// to the list of getChans to be notified when the item is added.
-	ss.getChans[index] = append(ss.getChans[index], ch)
 	return ch
+}
+
+// processAdds listens on wChan for new elements, appending them to the slice and handling waiters.
+func (ss *SafeSlice) processAdds() {
+	for elem := range ss.wChan {
+		ss.mu.Lock()
+		ss.slice = append(ss.slice, elem.Value)
+		if waiting, exists := ss.getChans[len(ss.slice)-1]; exists {
+			for _, ch := range waiting {
+				ch <- elem.Value
+				close(ch)
+			}
+			delete(ss.getChans, len(ss.slice)-1)
+		}
+		ss.mu.Unlock()
+	}
 }
