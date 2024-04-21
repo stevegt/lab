@@ -34,12 +34,6 @@ func TestSafeSliceOneThread(t *testing.T) {
 		Tassert(t, value == i, "Get returned %v for index %d", value, i)
 	}
 
-	// Replace an element.
-	ss.Replace(5, 100)
-	value, ok := ss.Get(5)
-	Tassert(t, ok, "Get returned false for index 5")
-	Tassert(t, value == 100, "Get returned %v for index 5", value)
-
 	// Test the Flush functionality.
 	ss.Flush()
 	if len(ss.slice) != 0 {

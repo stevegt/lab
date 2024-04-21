@@ -9,8 +9,7 @@ import (
 type SafeSlice struct {
 	mu       sync.RWMutex         // Protects access to the internal slice structure.
 	slice    []any                // The underlying slice that stores the actual data.
-	wChan    chan Element         // A channel for concurrent writes to the SafeSlice.
-	getChans map[int]chan<- any   // A map tracking channels waiting for data by index.
+	getChans map[int][]chan<- any // A map tracking channels waiting for data by index.
 }
 
 // Element represents a structure containing a value and its intended index within the SafeSlice.
@@ -24,42 +23,25 @@ type Element struct {
 func NewSafeSlice() *SafeSlice {
 	ss := &SafeSlice{
 		slice:    make([]any, 0),
-		wChan:    make(chan Element, 1024), // Buffered channel to reduce blocking on writes.
-		getChans: make(map[int]chan<- any),
+		getChans: make(map[int][]chan<- any),
 	}
-	go ss.listen() // Start the goroutine that listens for write operations and serves data requests.
 	return ss
 }
 
-// listen is a goroutine that handles write operations to the slice and serves data requests.
-// It ensures that all operations are performed in a safe, synchronized manner.
-func (ss *SafeSlice) listen() {
-	for el := range ss.wChan {
-		ss.mu.Lock()
-		if el.Index >= 0 && el.Index < len(ss.slice) {
-			ss.slice[el.Index] = el.Value // Update existing index.
-		} else if el.Index == len(ss.slice) {
-			ss.slice = append(ss.slice, el.Value) // Append to the end.
-		}
-		if ch, ok := ss.getChans[el.Index]; ok {
-			ch <- el.Value
-			delete(ss.getChans, el.Index)
-		}
-		ss.mu.Unlock()
-	}
-}
-
-// Append adds a new element to the end of the SafeSlice, using its concurrent write mechanism.
+// Append adds a new element to the end of the SafeSlice.
 func (ss *SafeSlice) Append(value any) {
-	ss.mu.RLock()
-	index := len(ss.slice)
-	ss.mu.RUnlock()
-	ss.wChan <- Element{Index: index, Value: value}
-}
-
-// Replace updates the element at the given index within the SafeSlice, if the index exists.
-func (ss *SafeSlice) Replace(index int, value any) {
-	ss.wChan <- Element{Index: index, Value: value}
+	ss.mu.Lock()
+	defer ss.mu.Unlock()
+	ss.slice = append(ss.slice, value)
+	// Notify any waiting channels.
+	index := len(ss.slice) - 1
+	if chans, ok := ss.getChans[index]; ok {
+		for _, ch := range chans {
+			ch <- value
+			close(ch)
+		}
+		delete(ss.getChans, index)
+	}
 }
 
 // Get retrieves the element at the specified index from the SafeSlice.
@@ -78,18 +60,21 @@ func (ss *SafeSlice) Flush() {
 	ss.mu.Lock()
 	defer ss.mu.Unlock()
 	ss.slice = make([]any, 0)
+	ss.getChans = make(map[int][]chan<- any)
 }
 
-// GetChan provides a way to asynchronously receive an element from the SafeSlice by index.
-// It returns a read-only channel that will either receive the requested element or remain empty.
+// GetChan returns a channel that can be used to retrieve the element at the specified index from the SafeSlice.
 func (ss *SafeSlice) GetChan(index int) <-chan any {
 	ch := make(chan any, 1) // Buffered channel for non-blocking send.
 	ss.mu.Lock()
-	if index >= 0 && index < len(ss.slice) {
+	defer ss.mu.Unlock()
+	if index < 0 {
+		return nil
+	}
+	if index < len(ss.slice) {
 		ch <- ss.slice[index]
 	} else {
-		ss.getChans[index] = ch
+		ss.getChans[index] = append(ss.getChans[index], ch)
 	}
-	ss.mu.Unlock()
 	return ch
 }
