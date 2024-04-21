@@ -71,8 +71,6 @@ func TestSafeSliceAddChan(t *testing.T) {
 
 	// Add elements to the safeSlice using the channel.
 	for i := 0; i < 10; i++ {
-		// delay to ensure the other goroutine is waiting
-		time.Sleep(100 * time.Millisecond)
 		element := Element{Index: i, Value: i}
 		addChan <- element
 	}
@@ -81,6 +79,56 @@ func TestSafeSliceAddChan(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		c := ss.GetChan(i)
 		value := <-c
+		Tassert(t, value == i, "GetChan returned %v for index %d", value, i)
+	}
+}
+
+func TestNoMutex(t *testing.T) {
+	// Test to ensure we're not using a mutex, but instead using a
+	// daemon thread to manage the slice.  The daemon thread will
+	// be responsible for all slice operations and I/O.
+	ss := NewSafeSlice()
+
+	// NewSafeSlice should have initialized the addChan
+	// channel, the getChans slice, and started the daemon thread.
+
+	// addChan is a channel that can be used to add elements to the safeSlice:
+	//
+	// addChan chan Element
+	Tassert(t, ss.addChan != nil, "addChan is nil")
+
+	// getChans is a map of slices of channels.  Each channel in each
+	// getChans map entry is used to retrieve a single element from
+	// the safeSlice:
+	//
+	// getChans map[int][]chan any
+	Tassert(t, ss.getChans != nil, "getChan is nil")
+
+	// ensure that addChan is the same channel that is returned by
+	// AddChan()
+	Tassert(t, ss.addChan == ss.AddChan(), "addChan is not the same as AddChan()")
+
+	// Add elements to the safeSlice using the addChan.  Normally,
+	// Add would do this, but we're going to test the addChan directly.
+	for i := 0; i < 10; i++ {
+		element := Element{Index: i, Value: i}
+		ss.addChan <- element
+	}
+
+	// Populate the getChans map entries.  Normally, GetChan would do
+	// this, but we're going to test the getChans map directly.
+	gc := make(map[int]chan any)
+	for i := 0; i < 10; i++ {
+		_, ok := ss.getChans[i]
+		Tassert(t, !ok, "getChans[%d] is already initialized", i)
+		getChan := make(chan any)
+		ss.getChans[index] = append(ss.getChans[index], getChan)
+		gc[i] = getChan
+	}
+
+	// Retrieve elements using the getChans map.
+	for i := 0; i < 10; i++ {
+		value := <-gc[i]
 		Tassert(t, value == i, "GetChan returned %v for index %d", value, i)
 	}
 }
