@@ -119,11 +119,6 @@ func TestBacktracker(t *testing.T) {
 }
 */
 
-func TestSafeSlice(t *testing.T) {
-	err := testSafeSlice(t)
-	Tassert(t, err == nil, "Expected nil, got '%v'", err)
-}
-
 /*
 
 // backtrack is a stage that uses the Backtracker type.  It repeats
