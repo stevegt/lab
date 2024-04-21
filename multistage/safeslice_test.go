@@ -68,6 +68,9 @@ func TestSafeSliceAddChan(t *testing.T) {
 
 	// get a channel that can be used to add elements to the safeSlice
 	addChan := ss.AddChan()
+	// ensure that ss.addChan is the same channel that is returned by
+	// AddChan()
+	Tassert(t, ss.addChan == ss.AddChan(), "addChan is not the same as AddChan()")
 
 	// Add elements to the safeSlice using the channel.
 	for i := 0; i < 10; i++ {
@@ -103,10 +106,6 @@ func TestNoMutex(t *testing.T) {
 	//
 	// getChans map[int][]chan any
 	Tassert(t, ss.getChans != nil, "getChan is nil")
-
-	// ensure that addChan is the same channel that is returned by
-	// AddChan()
-	Tassert(t, ss.addChan == ss.AddChan(), "addChan is not the same as AddChan()")
 
 	// Add elements to the safeSlice using the addChan.  Normally,
 	// Add would do this, but we're going to test the addChan directly.

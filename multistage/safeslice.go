@@ -9,23 +9,25 @@ import (
 // indices in the SafeSlice. However, for the current implementation, the index is ignored,
 // and elements are appended in the sequence they are received.
 type Element struct {
-	Index int   // Index where the value should be added - not used in the current implementation
-	Value any   // The value to be added
+	Index int // Index where the value should be added - not used in the current implementation
+	Value any // The value to be added
 }
-
 
 // SafeSlice is a thread-safe data structure that supports concurrent read, write, and notification operations.
 type SafeSlice struct {
 	mu       sync.Mutex
 	slice    []any
 	getChans map[int][]chan any
+	addChan  chan Element
 }
 
 // NewSafeSlice creates a new SafeSlice instance.
 func NewSafeSlice() *SafeSlice {
-	return &SafeSlice{
+	ss := &SafeSlice{
 		getChans: make(map[int][]chan any),
+		addChan:  make(chan Element),
 	}
+	return ss
 }
 
 // Add appends an item to the end of the slice in a thread-safe manner
@@ -88,17 +90,5 @@ func (ss *SafeSlice) GetChan(index int) chan any {
 	// If the item at the requested index is not yet present, add the channel
 	// to the list of getChans to be notified when the item is added.
 	ss.getChans[index] = append(ss.getChans[index], ch)
-	return ch
-}
-
-// AddChan returns a channel that can be used to add elements to the slice.
-// This is useful for concurrent scenarios where elements are produced and consumed by different goroutines.
-func (ss *SafeSlice) AddChan() chan<- Element {
-	ch := make(chan Element)
-	go func() {
-		for e := range ch {
-			ss.Add(e.Value) // Here e.Value is added to maintain consistency with the existing Add method's parameter.
-		}
-	}()
 	return ch
 }
