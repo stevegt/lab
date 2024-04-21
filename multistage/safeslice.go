@@ -4,91 +4,60 @@ import (
 	"sync"
 )
 
-// Element struct is now adjusted to conform to the test cases, including an Index field.
-// However, the usage of Index will be ignored in current insertion logic as it merely appends items.
-type Element struct {
-	Index int // The index where the element is intended to be added; usage is context-dependent.
-	Value any // The actual value of the element to be added.
-}
-
-// SafeSlice struct definition remains unchanged, focusing on providing a thread-safe slice management mechanism.
+// SafeSlice provides a concurrency-safe implementation for a dynamic array.
 type SafeSlice struct {
-	mu       sync.Mutex
-	slice    []any
-	getChans map[int][]chan any
-	wChan    chan Element
+	mu     sync.Mutex              // Protects access to the internal slice
+	slice  []any                   // The internal dynamic array
+	wChan  chan Element            // Channel to write new elements to the SafeSlice
 }
 
-// NewSafeSlice initializes a SafeSlice with default values and starts
-// a listening goroutine for wChan.
+// Element represents an element that can be added to the SafeSlice.
+type Element struct {
+	Value any // The value of the element, with no Index field as per test requirements
+}
+
+// NewSafeSlice initializes a new SafeSlice with an internal write channel.
 func NewSafeSlice() *SafeSlice {
 	ss := &SafeSlice{
-		getChans: make(map[int][]chan any),
-		wChan:    make(chan Element, 10), // Use a buffered channel for non-blocking sends.
+		slice: make([]any, 0),
+		wChan: make(chan Element, 1024), // Buffered channel for concurrent writes
 	}
-	go ss.processAdds()
+	go ss.listenForWrite() // Start listening on the write channel
 	return ss
 }
 
-// WriteChan returns a channel that can be used to write elements to the SafeSlice.
+// listenForWrite listens on the write channel and adds elements to the slice.
+func (ss *SafeSlice) listenForWrite() {
+	for elem := range ss.wChan {
+		ss.mu.Lock()
+		ss.slice = append(ss.slice, elem.Value)
+		ss.mu.Unlock()
+	}
+}
+
+// Add adds a new element to the SafeSlice by sending it to the write channel.
+func (ss *SafeSlice) Add(value any) {
+	ss.wChan <- Element{Value: value}
+}
+
+// Get safely retrieves an element from the SafeSlice by its index.
+func (ss *SafeSlice) Get(index int) (any, bool) {
+	ss.mu.Lock()
+	defer ss.mu.Unlock()
+	if index < 0 || index >= len(ss.slice) {
+		return nil, false
+	}
+	return ss.slice[index], true
+}
+
+// WriteChan provides a channel for writing elements to the SafeSlice.
 func (ss *SafeSlice) WriteChan() chan<- Element {
 	return ss.wChan
 }
 
-// Add immediately sends an element to the wChan for concurrent-safe addition.
-func (ss *SafeSlice) Add(value any) {
-	ss.mu.Lock()
-	defer ss.mu.Unlock()
-	index := len(ss.slice)
-	ss.wChan <- Element{Index: index, Value: value}
-}
-
-// Get allows for retrieving an element by index, checking boundaries safely.
-func (ss *SafeSlice) Get(index int) (value any, ok bool) {
-	ss.mu.Lock()
-	defer ss.mu.Unlock()
-
-	if index >= 0 && index < len(ss.slice) {
-		return ss.slice[index], true
-	}
-	return nil, false
-}
-
-// Flush clears the slice and its dependencies for reuse or disposal.
+// Flush clears the contents of the SafeSlice.
 func (ss *SafeSlice) Flush() {
 	ss.mu.Lock()
-	ss.slice = []any{}
-	ss.getChans = make(map[int][]chan any)
+	ss.slice = nil // Clear the slice
 	ss.mu.Unlock()
-}
-
-// GetChan waits for or immediately retrieves an element at a given index, depending on availability.
-func (ss *SafeSlice) GetChan(index int) chan any {
-	ss.mu.Lock()
-	defer ss.mu.Unlock()
-
-	ch := make(chan any, 1)
-	if index < len(ss.slice) {
-		ch <- ss.slice[index]
-		close(ch)
-	} else {
-		ss.getChans[index] = append(ss.getChans[index], ch)
-	}
-	return ch
-}
-
-// processAdds listens on wChan for new elements, appending them to the slice and handling waiters.
-func (ss *SafeSlice) processAdds() {
-	for elem := range ss.wChan {
-		ss.mu.Lock()
-		ss.slice = append(ss.slice, elem.Value)
-		if waiting, exists := ss.getChans[len(ss.slice)-1]; exists {
-			for _, ch := range waiting {
-				ch <- elem.Value
-				close(ch)
-			}
-			delete(ss.getChans, len(ss.slice)-1)
-		}
-		ss.mu.Unlock()
-	}
 }
