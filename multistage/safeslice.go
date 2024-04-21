@@ -4,6 +4,16 @@ import (
 	"sync"
 )
 
+// Element is a struct that holds an index and a value. This struct is used
+// with the AddChan method to allow concurrent addition of elements at specified
+// indices in the SafeSlice. However, for the current implementation, the index is ignored,
+// and elements are appended in the sequence they are received.
+type Element struct {
+	Index int   // Index where the value should be added - not used in the current implementation
+	Value any   // The value to be added
+}
+
+
 // SafeSlice is a thread-safe data structure that supports concurrent read, write, and notification operations.
 type SafeSlice struct {
 	mu       sync.Mutex
@@ -79,12 +89,6 @@ func (ss *SafeSlice) GetChan(index int) chan any {
 	// to the list of getChans to be notified when the item is added.
 	ss.getChans[index] = append(ss.getChans[index], ch)
 	return ch
-}
-
-// Element type is used for demonstration
-type Element struct {
-	Index int
-	Value any
 }
 
 // AddChan returns a channel that can be used to add elements to the slice.
