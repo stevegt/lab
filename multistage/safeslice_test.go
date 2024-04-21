@@ -15,7 +15,6 @@ func TestStructs(t *testing.T) {
 
 	// Test the SafeSlice struct.
 	ss := NewSafeSlice()
-	Tassert(t, ss.wChan != nil, "SafeSlice.wChan is nil")
 	Tassert(t, ss.getChans != nil, "SafeSlice.getChans is nil")
 }
 
@@ -68,7 +67,7 @@ func TestSafeSliceTwoThreads(t *testing.T) {
 
 	// Retrieve channels using GetChan.  GetChan returns a channel
 	// that contains the value when the value becomes available.
-	chans := make([]chan any, 10)
+	chans := make([]<-chan any, 10)
 	for i := 0; i < 10; i++ {
 		c := ss.GetChan(i)
 		chans[i] = c
