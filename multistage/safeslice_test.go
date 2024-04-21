@@ -6,7 +6,7 @@ import (
 
 // testSafeSlice is designed to fully exercise the safeSlice's functionality in a multithreaded scenario
 func TestSafeSlice(t *testing.T) {
-	ss := &safeSlice{}
+	ss := NewSafeSlice()
 
 	// Add elements to the safeSlice in a separate goroutine to simulate concurrent access
 	go func() {

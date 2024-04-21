@@ -10,12 +10,14 @@ type Backtracker struct {
 	// cursor position in the buffer
 	pos int64
 	// buffer of messages from the input channel
-	buf *safeSlice
+	buf *SafeSlice
 	// done is a boolean that is set to true when the input channel
 	// is closed.
 	done bool
 }
 
+// Checkpoint is a value that can be used to rollback to a previous
+// position in the input channel.
 type Checkpoint struct {
 	// start is the message number of the first message in the buffer
 	// when the checkpoint was created.
