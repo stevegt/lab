@@ -68,7 +68,7 @@ func backtrack(input chan string) (output chan string) {
 		cp1 := backtracker.Checkpoint()
 		var cp2 checkpoint
 		// pass through the entire input
-		for _, word := range backtracker.Next() {
+		for word := range backtracker.Next() {
 			out <- word
 			if strings.HasSuffix(word, ".") {
 				cp2 = backtracker.Checkpoint()
@@ -76,12 +76,12 @@ func backtrack(input chan string) (output chan string) {
 		}
 		// repeat the last sentence
 		backtracker.Rollback(cp2)
-		for _, word := range backtracker.Next() {
+		for word := range backtracker.Next() {
 			out <- word
 		}
 		// repeat the first sentence
 		backtracker.Rollback(cp1)
-		for _, word := range backtracker.Next() {
+		for word := range backtracker.Next() {
 			out <- word
 			if strings.HasSuffix(word, ".") {
 				break

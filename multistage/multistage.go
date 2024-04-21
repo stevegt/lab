@@ -7,7 +7,7 @@ import (
 
 // Backtracker is a simple generic backtracking buffer that can be
 // used to implement backtracking in a stage.  A stage imports the
-// backtracker and uses it checkpoint and rollback messages it
+// backtracker and uses it to checkpoint and rollback messages it
 // receives from the input channel.
 type Backtracker struct {
 	// message number of the first message in the buffer.
@@ -40,7 +40,7 @@ func NewBacktracker[T any](input chan T) *Backtracker {
 		for msg := range input {
 			b.buf.Add(msg)
 		}
-		done = true
+		b.done = true
 	}()
 	return b
 }
@@ -56,8 +56,10 @@ func (b *Backtracker) Next() (out chan any) {
 		defer close(out)
 		for {
 			msg := b.buf.GetWait(b.pos)
-
-
+			out <- msg
+			b.pos++
+		}
+	}()
 	// see if channel is closed
 	msg, ok := b.buf.Get(b.pos)
 	if !ok {
@@ -98,7 +100,7 @@ func (b *Backtracker) Commit() {
 type safeSlice struct {
 	slice []any
 	mu    sync.Mutex
-	wg	sync.WaitGroup
+	wg    sync.WaitGroup
 }
 
 // Add appends a value to the slice, locking the mutex to ensure thread safety
