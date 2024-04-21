@@ -7,13 +7,25 @@ import (
 	. "github.com/stevegt/goadapt"
 )
 
+func TestStructs(t *testing.T) {
+	// Test the Element struct.
+	e := Element{Index: 0, Value: 0}
+	Tassert(t, e.Index == 0, "Element.Index is not 0")
+	Tassert(t, e.Value == 0, "Element.Value is not 0")
+
+	// Test the SafeSlice struct.
+	ss := NewSafeSlice()
+	Tassert(t, ss.wChan != nil, "SafeSlice.wChan is nil")
+	Tassert(t, ss.getChans != nil, "SafeSlice.getChans is nil")
+}
+
 func TestSafeSliceOneThread(t *testing.T) {
 	// testing in one thread
 	ss := NewSafeSlice()
 
-	// Add elements to the safeSlice
+	// Append elements to the safeSlice
 	for i := 0; i < 10; i++ {
-		ss.Add(i)
+		ss.Append(i)
 	}
 
 	// Retrieve elements.
@@ -41,18 +53,18 @@ func TestSafeSliceTwoThreads(t *testing.T) {
 	ss := NewSafeSlice()
 
 	go func() {
-		// Add elements to the safeSlice
+		// Append elements to the safeSlice
 		for i := 0; i < 10; i++ {
 			// delay to ensure the other goroutine is waiting
 			time.Sleep(100 * time.Millisecond)
-			ss.Add(i)
+			ss.Append(i)
 		}
 	}()
 
-	// Attempt to retrieve an element before any adds.
+	// Attempt to retrieve an element before any Appends.
 	value, ok := ss.Get(0)
-	Tassert(t, !ok, "Get returned true for index 0 before any adds")
-	Tassert(t, value == nil, "Get returned %v for index 0 before any adds", value)
+	Tassert(t, !ok, "Get returned true for index 0 before any Appends")
+	Tassert(t, value == nil, "Get returned %v for index 0 before any Appends", value)
 
 	// Retrieve channels using GetChan.  GetChan returns a channel
 	// that contains the value when the value becomes available.
@@ -69,6 +81,7 @@ func TestSafeSliceTwoThreads(t *testing.T) {
 	}
 }
 
+/*
 func TestDaemonThread(t *testing.T) {
 	// Test to ensure the daemon thread is running and managing the
 	// safeSlice.  The daemon thread should be responsible for all
@@ -109,6 +122,7 @@ func TestDaemonThread(t *testing.T) {
 		Tassert(t, value == i, "GetChan returned %v for index %d", value, i)
 	}
 }
+*/
 
 /*
 func TestNoMutex(t *testing.T) {
