@@ -62,3 +62,25 @@ func TestSafeSliceTwoThreads(t *testing.T) {
 		Tassert(t, value == i, "GetChan returned %v for index %d", value, i)
 	}
 }
+
+func TestSafeSliceAddChan(t *testing.T) {
+	ss := NewSafeSlice()
+
+	// get a channel that can be used to add elements to the safeSlice
+	addChan := ss.AddChan()
+
+	// Add elements to the safeSlice using the channel.
+	for i := 0; i < 10; i++ {
+		// delay to ensure the other goroutine is waiting
+		time.Sleep(100 * time.Millisecond)
+		element := Element{Index: i, Value: i}
+		addChan <- element
+	}
+
+	// Retrieve elements using GetChan.
+	for i := 0; i < 10; i++ {
+		c := ss.GetChan(i)
+		value := <-c
+		Tassert(t, value == Element{Index: i, Value: i}, "GetChan returned %v for index %d", value, i)
+	}
+}
