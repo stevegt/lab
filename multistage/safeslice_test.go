@@ -1,6 +1,8 @@
 package multistage
 
 import (
+	"math/rand"
+	"sync"
 	"testing"
 	"time"
 
@@ -22,9 +24,10 @@ func TestSafeSliceOneThread(t *testing.T) {
 	// testing in one thread
 	ss := NewSafeSlice()
 
-	// Append elements to the safeSlice
+	// ensure Append returns the index of the element
 	for i := 0; i < 10; i++ {
-		ss.Append(i)
+		index := ss.Append(i)
+		Tassert(t, index == i, "Append returned %d, expected %d", index, i)
 	}
 
 	// Retrieve elements.
@@ -74,93 +77,150 @@ func TestSafeSliceTwoThreads(t *testing.T) {
 	}
 }
 
-/*
-func TestDaemonThread(t *testing.T) {
-	// Test to ensure the daemon thread is running and managing the
-	// safeSlice.  The daemon thread should be responsible for all
-	// slice operations and I/O.
+func TestSafeSliceManyThreads(t *testing.T) {
+	rand.Seed(1)
 	ss := NewSafeSlice()
 
-	// get a channel that can be used to write elements to the safeSlice
-	wChan := ss.WriteChan()
-	// ensure that ss.wChan is the same channel that is returned by
-	// WriteChan()
-	Tassert(t, ss.wChan == wChan, "wChan is not the same as WriteChan()")
-
-	// add an element to the safeSlice using the channel
-	element := Element{Index: 0, Value: 0}
-	wChan <- element
-
-	// ensure the daemon thread has added the element to the slice
-	time.Sleep(100 * time.Millisecond)
-	Tassert(t, len(ss.slice) == 1, "Daemon thread did not add element to slice")
-
-	// check the value of the element in the slice
-	value, ok := ss.Get(0)
-	Tassert(t, ok, "Get returned false for index 0")
-	Tassert(t, value == 0, "Get returned %v for index 0", value)
-
-	// Add more elements to the safeSlice using the channel.
-	// (This will replace the element at index 0.)
-	for i := 0; i < 10; i++ {
-		element := Element{Index: i, Value: i}
-		wChan <- element
+	size := 100
+	expects := sync.Map{}
+	wgAdd := sync.WaitGroup{}
+	// Append elements to the safeSlice
+	for i := 0; i < size; i++ {
+		wgAdd.Add(1)
+		go func(i int) {
+			// wait a random amount of time before appending
+			time.Sleep(time.Duration(rand.Intn(100)) * time.Millisecond)
+			index := ss.Append(i)
+			Tassert(t, index >= 0, "Append returned %d, expected >= 0", index)
+			expects.Store(index, i)
+			value, ok := expects.Load(index)
+			Tassert(t, ok, "Failed to store expected value")
+			Tassert(t, value == i, "Expected value %v, got %v", i, value)
+			// Pf("Appended %v at index %v\n", i, index)
+			wgAdd.Done()
+		}(i)
 	}
-	Tassert(t, len(ss.slice) == 10, "Expected 10 elements in slice, found %d", len(ss.slice))
 
-	// Retrieve elements using GetChan.
-	for i := 0; i < 10; i++ {
-		c := ss.GetChan(i)
-		value := <-c
-		Tassert(t, value == i, "GetChan returned %v for index %d", value, i)
+	// Retrieve channels using GetChan.  GetChan returns a channel
+	// that contains the value when the value becomes available.
+	wgGet := sync.WaitGroup{}
+	values := sync.Map{}
+	for i := 0; i < size; i++ {
+		wgGet.Add(1)
+		go func(i int) {
+			// wait a random amount of time before getting the channel
+			time.Sleep(time.Duration(rand.Intn(100)) * time.Millisecond)
+			ch := ss.GetChan(i)
+			// wait a random amount of time before retrieving the value
+			time.Sleep(time.Duration(rand.Intn(100)) * time.Millisecond)
+			// get the value from the channel
+			value := <-ch
+			// Pf("Got %v from index %v\n", value, i)
+			values.Store(i, value)
+			wgGet.Done()
+		}(i)
 	}
+	// wait until all the values are available
+	wgGet.Wait()
+
+	// wait until all the expected values are available
+	wgAdd.Wait()
+
+	// ensure the values are what we expect
+	for i := 0; i < size; i++ {
+		value, ok := values.Load(i)
+		Tassert(t, ok, "Failed to get value")
+		expect, ok := expects.Load(i)
+		Tassert(t, ok, "Failed to get expected value")
+		Tassert(t, value == expect, "GetChan got %v, expected %v", value, expect)
+	}
+
 }
-*/
 
-/*
-func TestNoMutex(t *testing.T) {
-	// Test to ensure we're using a
-	// daemon thread to manage the slice.  The daemon thread will
-	// be responsible for all slice operations and I/O.
+func TestGetWaitOneThread(t *testing.T) {
 	ss := NewSafeSlice()
 
-	// NewSafeSlice should have initialized the wChan
-	// channel, the getChans slice, and started the daemon thread.
-
-	// wChan is a channel that can be used to add elements to the safeSlice:
-	//
-	// wChan chan Element
-	Tassert(t, ss.wChan != nil, "wChan is nil")
-
-	// getChans is a map of slices of channels.  Each channel in each
-	// getChans map entry is used to retrieve a single element from
-	// the safeSlice:
-	//
-	// getChans map[int][]chan any
-	Tassert(t, ss.getChans != nil, "getChan is nil")
-
-	// Add elements to the safeSlice using the wChan.  Normally,
-	// Add would do this, but we're going to test the wChan directly.
+	// Append elements to the safeSlice
 	for i := 0; i < 10; i++ {
-		element := Element{Index: i, Value: i}
-		ss.wChan <- element
+		ss.Append(i)
 	}
 
-	// Populate the getChans map entries.  Normally, GetChan would do
-	// this, but we're going to test the getChans map directly.
-	gc := make(map[int]chan any)
+	// GetWait should return the value at the index or ok == false
+	// if the value does not become available within the timeout.
+	// GetWait calls GetChan and waits for the value to be available
+	// or the timeout to expire.
 	for i := 0; i < 10; i++ {
-		_, ok := ss.getChans[i]
-		Tassert(t, !ok, "getChans[%d] is already initialized", i)
-		getChan := make(chan any)
-		ss.getChans[i] = append(ss.getChans[i], getChan)
-		gc[i] = getChan
+		value, ok := ss.GetWait(i, 200*time.Millisecond)
+		Tassert(t, ok, "GetWait returned false for index %d", i)
+		Tassert(t, value == i, "GetWait returned %v for index %d", value, i)
 	}
 
-	// Retrieve elements using the getChans map.
-	for i := 0; i < 10; i++ {
-		value := <-gc[i]
-		Tassert(t, value == i, "GetChan returned %v for index %d", value, i)
+	// GetWait should return ok == false if the value does not become
+	// available within the timeout.  In this case, the timeout is
+	// 10ms.  We expect GetWait to return false for index 99 within
+	// about 11ms.
+	start := time.Now()
+	_, ok := ss.GetWait(99, 10*time.Millisecond)
+	stop := time.Now()
+	Tassert(t, !ok, "GetWait returned true for index 99")
+	Tassert(t, stop.Sub(start) > 10*time.Millisecond, "GetWait returned too quickly")
+	Tassert(t, stop.Sub(start) < 20*time.Millisecond, "GetWait returned too slowly")
+
+}
+
+func TestGetWaitManyThreads(t *testing.T) {
+	ss := NewSafeSlice()
+
+	size := 100
+
+	expects := sync.Map{}
+	wgAdd := sync.WaitGroup{}
+	// Append elements to the safeSlice
+	for i := 0; i < size; i++ {
+		wgAdd.Add(1)
+		go func(i int) {
+			// wait a random amount of time before appending
+			time.Sleep(time.Duration(rand.Intn(100)) * time.Millisecond)
+			index := ss.Append(i)
+			Tassert(t, index >= 0, "Append returned %d, expected >= 0", index)
+			expects.Store(index, i)
+			value, ok := expects.Load(index)
+			Tassert(t, ok, "Failed to store expected value")
+			Tassert(t, value == i, "Expected value %v, got %v", i, value)
+			// Pf("Appended %v at index %v\n", i, index)
+			wgAdd.Done()
+		}(i)
+	}
+
+	// Retrieve channels using GetWait.  GetWait returns the value
+	// when the value becomes available or the timeout expires.
+	wgGet := sync.WaitGroup{}
+	values := sync.Map{}
+	for i := 0; i < size; i++ {
+		wgGet.Add(1)
+		go func(i int) {
+			// wait a random amount of time before getting the value
+			time.Sleep(time.Duration(rand.Intn(100)) * time.Millisecond)
+			value, ok := ss.GetWait(i, 200*time.Millisecond)
+			Tassert(t, ok, "GetWait returned false for index %d", i)
+			// Pf("Got %v from index %v\n", value, i)
+			values.Store(i, value)
+			wgGet.Done()
+		}(i)
+	}
+
+	// wait until all the values are available
+	wgGet.Wait()
+
+	// wait until all the expected values are available
+	wgAdd.Wait()
+
+	// ensure the values are what we expect
+	for i := 0; i < size; i++ {
+		value, ok := values.Load(i)
+		Tassert(t, ok, "Failed to get value")
+		expect, ok := expects.Load(i)
+		Tassert(t, ok, "Failed to get expected value")
+		Tassert(t, value == expect, "GetWait got %v, expected %v", value, expect)
 	}
 }
-*/

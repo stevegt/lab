@@ -2,6 +2,7 @@ package multistage
 
 import (
 	"sync"
+	"time"
 )
 
 // SafeSlice provides a concurrency-safe implementation for managing a dynamic slice.
@@ -29,12 +30,12 @@ func NewSafeSlice() *SafeSlice {
 }
 
 // Append adds a new element to the end of the SafeSlice.
-func (ss *SafeSlice) Append(value any) {
+func (ss *SafeSlice) Append(value any) (index int) {
 	ss.mu.Lock()
 	defer ss.mu.Unlock()
+	index = len(ss.slice)
 	ss.slice = append(ss.slice, value)
 	// Notify any waiting channels.
-	index := len(ss.slice) - 1
 	if chans, ok := ss.getChans[index]; ok {
 		for _, ch := range chans {
 			ch <- value
@@ -42,6 +43,7 @@ func (ss *SafeSlice) Append(value any) {
 		}
 		delete(ss.getChans, index)
 	}
+	return
 }
 
 // Get retrieves the element at the specified index from the SafeSlice.
@@ -77,4 +79,22 @@ func (ss *SafeSlice) GetChan(index int) <-chan any {
 		ss.getChans[index] = append(ss.getChans[index], ch)
 	}
 	return ch
+}
+
+// GetWait should return the value at the index or ok == false
+// if the value does not become available within the timeout.
+// GetWait calls GetChan and waits for the value to be available
+// or the timeout to expire.
+func (ss *SafeSlice) GetWait(index int, timeout time.Duration) (value any, ok bool) {
+	ch := ss.GetChan(index)
+	if ch == nil {
+		return nil, false
+	}
+	select {
+	case value = <-ch:
+		ok = true
+	case <-time.After(timeout):
+		ok = false
+	}
+	return
 }
