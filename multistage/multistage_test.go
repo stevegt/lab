@@ -70,6 +70,9 @@ func TestWords(t *testing.T) {
 }
 
 /*
+
+XXX test backtracker
+
 func TestBacktracker(t *testing.T) {
 	input := "This is a test of backtracking.  This is only a test."
 	w := words(input)
