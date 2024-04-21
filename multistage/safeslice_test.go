@@ -63,7 +63,10 @@ func TestSafeSliceTwoThreads(t *testing.T) {
 	}
 }
 
-func TestSafeSliceAddChan(t *testing.T) {
+func TestDaemonThread(t *testing.T) {
+	// Test to ensure the daemon thread is running and managing the
+	// safeSlice.  The daemon thread should be responsible for all
+	// slice operations and I/O.
 	ss := NewSafeSlice()
 
 	// get a channel that can be used to add elements to the safeSlice
@@ -72,11 +75,26 @@ func TestSafeSliceAddChan(t *testing.T) {
 	// AddChan()
 	Tassert(t, ss.addChan == addChan, "addChan is not the same as AddChan()")
 
-	// Add elements to the safeSlice using the channel.
+	// add an element to the safeSlice using the channel
+	element := Element{Index: 0, Value: 0}
+	addChan <- element
+
+	// ensure the daemon thread has added the element to the slice
+	time.Sleep(100 * time.Millisecond)
+	Tassert(t, len(ss.slice) == 1, "Daemon thread did not add element to slice")
+
+	// check the value of the element in the slice
+	value, ok := ss.Get(0)
+	Tassert(t, ok, "Get returned false for index 0")
+	Tassert(t, value == 0, "Get returned %v for index 0", value)
+
+	// Add more elements to the safeSlice using the channel.
+	// (This will replace the element at index 0.)
 	for i := 0; i < 10; i++ {
 		element := Element{Index: i, Value: i}
 		addChan <- element
 	}
+	Tassert(t, len(ss.slice) == 10, "Expected 10 elements in slice, found %d", len(ss.slice))
 
 	// Retrieve elements using GetChan.
 	for i := 0; i < 10; i++ {
