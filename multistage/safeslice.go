@@ -8,13 +8,15 @@ import (
 type SafeSlice struct {
 	slice []any
 	mu    sync.Mutex
-	cond  *sync.Cond
+	// cond  *sync.Cond
+	waitchan chan chan bool
 }
 
 // NewSafeSlice creates and initializes a new instance of a thread-safe slice.
 func NewSafeSlice() *SafeSlice {
 	ss := &SafeSlice{}
-	ss.cond = sync.NewCond(&ss.mu)
+	// ss.cond = sync.NewCond(&ss.mu)
+	ss.waitchan = make(chan chan bool)
 	return ss
 }
 
@@ -23,7 +25,9 @@ func (ss *SafeSlice) Add(value any) {
 	ss.mu.Lock()
 	ss.slice = append(ss.slice, value)
 	// After adding a new item, wake up one or all waiting goroutines.
-	ss.cond.Broadcast()
+	for c := range ss.waitchan {
+		c <- true
+	}
 	ss.mu.Unlock()
 }
 
@@ -38,16 +42,36 @@ func (ss *SafeSlice) Get(index int) (any, bool) {
 	return ss.slice[index], true
 }
 
-// GetWait retrieves a value by index from the slice, blocking until the value is available.
-func (ss *SafeSlice) GetWait(index int) any {
-	ss.mu.Lock()
-	defer ss.mu.Unlock()
+/*
+// GetWait retrieves a value by index from the slice, blocking until
+// the value is available or a timeout occurs.
+func (ss *SafeSlice) GetWait(index int, timeout time.Duration) (any, bool) {
 	// Wait until the index is within the bounds of the slice.
 	for len(ss.slice) <= index {
-		ss.cond.Wait()
+		// notify Add that we are waiting
+		c := make(chan bool)
+		ss.waitchan <- c
+		// use select with timeout
+		select {
+		case <-time.After(timeout):
+			return nil, false
+		case <-c:
+			co
+		}
+		/ get lock
+		if ss.mu.TryLock() {
+
+
+
+	// get lock
+	for len(ss.slice) <= index {
 	}
+
 	return ss.slice[index]
+		XXX ss.cond.Wait()
+	XXX TryLock or understand Cond.Wait or just use channel
 }
+*/
 
 // Flush clears the slice, resetting it to an empty state.
 func (ss *SafeSlice) Flush() {
