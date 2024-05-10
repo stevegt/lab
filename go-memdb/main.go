@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"time"
 
@@ -57,10 +58,10 @@ func main() {
 
 	// Insert some people
 	people := []*Person{
-		&Person{"joe@aol.com", "Joe", 30, 110.3},
-		&Person{"lucy@aol.com", "Lucy", 35, 120.3},
+		&Person{"joe@aol.com", "Joe", 30, 110.3 + math.Pi},
+		&Person{"lucy@aol.com", "Lucy", 35, 120 + 1.0/3},
 		&Person{"tariq@aol.com", "Tariq", 21, 80.5},
-		&Person{"dorothy@aol.com", "Dorothy", 17, 98.5},
+		&Person{"dorothy@aol.com", "Dorothy", 17, 78.5},
 	}
 	for _, p := range people {
 		if err := txn.Insert("person", p); err != nil {
