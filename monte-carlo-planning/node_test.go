@@ -33,32 +33,39 @@ focus on adding alternate paths.
 func ExampleNodeSet() {
 	// create node set
 	n1 := &Node{
+		Name:     "prereq1",
+		Desc:     "this is a prereq node",
+		Duration: 5,
+	}
+
+	n2 := &Node{
+		Name:     "prereq2",
+		Desc:     "this is a prereq node",
+		Duration: 6,
+	}
+
+	n3 := &Node{
 		Name:     "test",
 		Desc:     "this is a test node",
 		Duration: 10,
 		Preqs:    []string{"prereq1", "prereq2"},
 	}
 
-	n2 := &Node{
-		Name:     "prereq1",
-		Desc:     "this is a prereq node",
-		Duration: 5,
-	}
-
-	n3 := &Node{
-		Name:     "prereq2",
-		Desc:     "this is a prereq node",
-		Duration: 6,
-	}
-
+	// create a set with the nodes in the right order
 	set := NewNodeSet(n1, n2, n3)
-
 	// verify the prereqs
 	ok := set.Verify()
 	fmt.Println(ok)
 
+	// create a node set with the nodes in the wrong order
+	set = NewNodeSet(n3, n1, n2)
+	// verify the prereqs
+	ok = set.Verify()
+	fmt.Println(ok)
+
 	// Output:
 	// true
+	// false
 }
 
 func TestMissingAndCircularPrerequisites(t *testing.T) {
