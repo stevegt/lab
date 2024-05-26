@@ -131,9 +131,11 @@ func ExampleFitness() {
 	// create a node set with the nodes in the right order
 	set := NewNodeSet(n1, n2, n3)
 
-	// evaluate the fitness of the node set -- fitness is 1/(sum of
-	// the durations of the nodes)
-	fitness := set.Fitness()
+	// evaluate the fitness of the node set -- fitness is 1/(sum of the durations of the nodes)
+	fitness, err := set.Fitness()
+	if err != nil {
+		fmt.Println(err)
+	}
 	fmt.Printf("fitness=%.3f\n", fitness)
 
 	// Output:
