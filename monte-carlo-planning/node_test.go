@@ -55,17 +55,17 @@ func ExampleNodeSet() {
 	set := NewNodeSet(n1, n2, n3)
 	// verify the prereqs
 	ok := set.Verify()
-	fmt.Println(ok)
+	fmt.Printf("nodes in the right order: ok=%t\n", ok)
 
 	// create a node set with the nodes in the wrong order
 	set = NewNodeSet(n3, n1, n2)
 	// verify the prereqs
 	ok = set.Verify()
-	fmt.Println(ok)
+	fmt.Printf("nodes in the wrong order: ok=%t\n", ok)
 
 	// Output:
-	// true
-	// false
+	// nodes in the right order: ok=true
+	// nodes in the wrong order: ok=false
 }
 
 func TestMissingAndCircularPrerequisites(t *testing.T) {
