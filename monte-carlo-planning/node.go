@@ -1,56 +1,56 @@
 package mcats
 
-// Node represents an individual point within a Monte Carlo analysis tree.
+// Node represents a node in the monte-carlo tree search.
 type Node struct {
-	Name     string   // Unique identifier for the node
-	Desc     string   // Descriptive text about the node's purpose or function
-	Duration int      // Estimated duration that the node represents
-	Preqs    []string // A list of names of nodes that are prerequisites for this node
+	Name     string   // Unique identifier for the node.
+	Desc     string   // Description of the node.
+	Duration int      // Duration taken by the node.
+	Preqs    []string // Prerequisites of the node.
 }
 
-// NodeSet aggregates multiple Node instances, facilitating operations upon the collective group.
+// NodeSet represents a set of nodes and their order. It manages the addition and verification of nodes.
 type NodeSet struct {
-	Nodes map[string]*Node // Key-value pair matching node names to their respective Node instances
+	Nodes map[string]*Node
+	Order []string // Tracks the order of nodes to validate prerequisites accurately.
 }
 
-// NewNodeSet provides initialization logic for a NodeSet, populating it with an initial set of Node elements.
+// NewNodeSet creates and returns a new instance of NodeSet initialized with the provided nodes.
+// It also ensures that there are no duplicate nodes and maintains their order.
 func NewNodeSet(nodes ...*Node) *NodeSet {
 	ns := &NodeSet{
 		Nodes: make(map[string]*Node),
+		Order: make([]string, 0, len(nodes)),
 	}
 	for _, node := range nodes {
+		if _, exists := ns.Nodes[node.Name]; !exists {
+			ns.Order = append(ns.Order, node.Name)
+		}
 		ns.Nodes[node.Name] = node
 	}
 	return ns
 }
 
-// Verify examines the NodeSet for any logical inconsistencies such as unmet prerequisites or circular dependencies.
+// Verify checks the prerequisites of each node in the set to ensure they are met within the set in the correct order.
+// It also checks for self-referencing, circular dependencies, and missing prerequisites.
 func (ns *NodeSet) Verify() bool {
-	// Function to recursively check for existing and correctly ordered prerequisites.
-	var checkOrder func(node *Node, seen map[string]bool) bool
-	checkOrder = func(node *Node, seen map[string]bool) bool {
-		// Mark this node as seen for this path to help detect circular dependencies.
-		if seen[node.Name] {
+	seen := make(map[string]bool)
+	for _, nodeName := range ns.Order {
+		node, exists := ns.Nodes[nodeName]
+		if !exists { // This should never happen.
 			return false
 		}
-		seen[node.Name] = true
-
-		for _, pre := range node.Preqs {
-			pNode, pExists := ns.Nodes[pre]
-			if !pExists || !checkOrder(pNode, seen) {
+		for _, preq := range node.Preqs {
+			// Check for self-referential prerequisite.
+			if preq == node.Name {
+				return false
+			}
+			// Check if the prerequisite exists and it has been seen (ordered before).
+			if _, exists := ns.Nodes[preq]; !exists || !seen[preq] {
 				return false
 			}
 		}
-		// Unmark as seen to allow revisiting through different paths.
-		seen[node.Name] = false
-		return true
-	}
-
-	// Verify all nodes to ensure their prerequisites are satisfied.
-	for _, node := range ns.Nodes {
-		if !checkOrder(node, make(map[string]bool)) {
-			return false
-		}
+		seen[nodeName] = true
 	}
 	return true
 }
+
