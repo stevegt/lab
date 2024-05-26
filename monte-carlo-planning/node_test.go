@@ -2,6 +2,7 @@ package mcats
 
 import (
 	"fmt"
+	"testing"
 	// . "github.com/stevegt/goadapt"
 )
 
@@ -29,7 +30,7 @@ focus on adding alternate paths.
 */
 
 // example of a node set
-func ExampleSet() {
+func ExampleNodeSet() {
 	// create node set
 	n1 := &Node{
 		Name:     "test",
@@ -58,4 +59,41 @@ func ExampleSet() {
 
 	// Output:
 	// true
+}
+
+func TestMissingAndCircularPrerequisites(t *testing.T) {
+	n1 := &Node{Name: "circle1", Preqs: []string{"circle2"}}
+	n2 := &Node{Name: "circle2", Preqs: []string{"circle1"}}
+	n3 := &Node{Name: "missingPre", Preqs: []string{"nonexistent"}}
+	set := NewNodeSet(n1, n2, n3)
+	if set.Verify() {
+		t.Error("Verify() should fail on circular or missing prerequisites")
+	}
+}
+
+func TestEmptyNodeSet(t *testing.T) {
+	set := NewNodeSet()
+	if !set.Verify() {
+		t.Error("Verify() should pass for an empty NodeSet")
+	}
+}
+
+func TestSelfReferentialPrerequisite(t *testing.T) {
+	n1 := &Node{Name: "selfRef", Preqs: []string{"selfRef"}}
+	set := NewNodeSet(n1)
+	if set.Verify() {
+		t.Error("Verify() should fail on self-referential prerequisites")
+	}
+}
+
+func TestDuplicateNodes(t *testing.T) {
+	n1 := &Node{Name: "test", Desc: "Original", Duration: 10}
+	n2 := &Node{Name: "test", Desc: "Duplicate", Duration: 5}
+	set := NewNodeSet(n1, n2)
+	if len(set.Nodes) != 1 {
+		t.Error("Duplicate nodes should not be added or should replace the original")
+	}
+	if set.Nodes["test"].Duration != 5 {
+		t.Error("Duplicate node should update the existing node's attributes")
+	}
 }
