@@ -104,3 +104,39 @@ func TestDuplicateNodes(t *testing.T) {
 		t.Error("Duplicate node should update the existing node's attributes")
 	}
 }
+
+func ExampleDuration() {
+	// create a node set
+	n1 := &Node{Name: "prereq1", Duration: 5}
+	n2 := &Node{Name: "prereq2", Duration: 6}
+	n3 := &Node{Name: "test", Duration: 10, Preqs: []string{"prereq1", "prereq2"}}
+
+	// create a node set with the nodes in the right order
+	set := NewNodeSet(n1, n2, n3)
+
+	// calculate the duration of the node set
+	duration := set.Duration()
+	fmt.Printf("duration=%.1f\n", duration)
+
+	// Output:
+	// duration=21.0
+}
+
+func ExampleFitness() {
+	// create a node set
+	n1 := &Node{Name: "prereq1", Duration: 5}
+	n2 := &Node{Name: "prereq2", Duration: 6}
+	n3 := &Node{Name: "test", Duration: 10, Preqs: []string{"prereq1", "prereq2"}}
+
+	// create a node set with the nodes in the right order
+	set := NewNodeSet(n1, n2, n3)
+
+	// evaluate the fitness of the node set -- fitness is 1/(sum of
+	// the durations of the nodes)
+	fitness := set.Fitness()
+	fmt.Printf("fitness=%.3f\n", fitness)
+
+	// Output:
+	// fitness=0.048
+
+}

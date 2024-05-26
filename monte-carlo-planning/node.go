@@ -4,7 +4,7 @@ package mcats
 type Node struct {
 	Name     string   // Unique identifier for the node.
 	Desc     string   // Description of the node.
-	Duration int      // Duration taken by the node.
+	Duration float64  // Duration taken by the node.
 	Preqs    []string // Prerequisites of the node.
 }
 
@@ -53,4 +53,3 @@ func (ns *NodeSet) Verify() bool {
 	}
 	return true
 }
-
