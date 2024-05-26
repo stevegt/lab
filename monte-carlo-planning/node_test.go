@@ -2,8 +2,7 @@ package mcats
 
 import (
 	"fmt"
-
-	. "github.com/stevegt/goadapt"
+	// . "github.com/stevegt/goadapt"
 )
 
 /*
