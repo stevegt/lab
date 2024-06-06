@@ -4,39 +4,26 @@ import (
 	"bytes"
 	"encoding/hex"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
 
 	"github.com/multiformats/go-multihash"
+	"github.com/spf13/afero"
 	. "github.com/stevegt/goadapt"
 )
 
-func setupTestEnvironment() (cleanup func()) {
-	// Create a temporary HOME directory for testing
-	homeDir, err := ioutil.TempDir("", "grid-home")
-	if err != nil {
-		fmt.Println("Failed to create temporary HOME directory:", err)
-		os.Exit(1)
-	}
-
-	// Override HOME environment variable
-	os.Setenv("HOME", homeDir)
-
-	return func() {
-		os.RemoveAll(homeDir) // clean up
-	}
+func setupTestEnv() (sys *Sys) {
+	sys = NewSys(afero.NewMemMapFs(), "/tmp/foo")
+	return
 }
 
 func TestEnsureDirectories(t *testing.T) {
-	cleanup := setupTestEnvironment()
-	defer cleanup()
-	ensureDirectories()
+	sys := setupTestEnv()
 
 	expectedDirs := []string{gridDir, cacheDir, peersDir}
 	for _, dir := range expectedDirs {
-		_, err := os.Stat(filepath.Join(os.Getenv("HOME"), dir))
+		_, err := sys.Fs.Stat(filepath.Join(sys.BaseDir, dir))
 		if os.IsNotExist(err) {
 			t.Errorf("Directory %s was not created", dir)
 		}
@@ -44,9 +31,7 @@ func TestEnsureDirectories(t *testing.T) {
 }
 
 func TestFetchLocalData(t *testing.T) {
-	cleanup := setupTestEnvironment()
-	defer cleanup()
-	ensureDirectories()
+	sys := setupTestEnv()
 
 	expectedData := []byte("test data")
 	// generate a sha256 multihash for the test data
@@ -60,14 +45,14 @@ func TestFetchLocalData(t *testing.T) {
 	fn2 := fmt.Sprintf("%s", hex.EncodeToString(mBuf))
 	Tassert(t, fn == fn2, "Mismatched hash strings: %s != %s", fn, fn2)
 
-	cachePath := filepath.Join(os.Getenv("HOME"), cacheDir, fn)
+	cachePath := filepath.Join(sys.BaseDir, cacheDir, fn)
 
-	err = ioutil.WriteFile(cachePath, []byte(expectedData), 0644)
+	err = sys.util.WriteFile(cachePath, []byte(expectedData), 0644)
 	if err != nil {
 		t.Fatalf("Failed to write test data to %s: %v", cachePath, err)
 	}
 
-	data, err := fetchLocalData(mBuf)
+	data, err := sys.fetchLocalData(mBuf)
 	if err != nil {
 		t.Errorf("fetchLocalData returned an error: %v", err)
 	}
@@ -81,10 +66,9 @@ func TestFetchLocalData(t *testing.T) {
 
 // Test the scenario where file is not found
 func TestFetchLocalData_NotFound(t *testing.T) {
-	cleanup := setupTestEnvironment()
-	defer cleanup()
+	sys := setupTestEnv()
 
-	_, err := fetchLocalData([]byte("non-existent"))
+	_, err := sys.fetchLocalData([]byte("non-existent"))
 	if err == nil {
 		t.Error("Expected an error for non-existent data, but got nil")
 	}
@@ -92,11 +76,10 @@ func TestFetchLocalData_NotFound(t *testing.T) {
 
 // Ensure test setup includes expected environment
 func TestGetSymbolTableHash_NonExistentFile(t *testing.T) {
-	cleanup := setupTestEnvironment()
-	defer cleanup()
+	sys := setupTestEnv()
 
 	// Intentionally not creating the file to trigger the file not found path
-	_, err := getSymbolTableHash()
+	_, err := sys.getSymbolTableHash()
 	if err == nil {
 		t.Fatal("Expected error when configuration file does not exist, got nil")
 	}

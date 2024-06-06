@@ -13,6 +13,8 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/spf13/afero"
+
 	"github.com/gorilla/websocket"
 	. "github.com/stevegt/goadapt"
 )
@@ -41,8 +43,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	ensureDirectories()
-	loadPeers()
+	sys := NewSys(afero.NewOsFs(), os.Getenv("HOME"))
+
+	sys.loadPeers()
 	connectToPeers()
 
 	switch args[1] {
@@ -52,26 +55,44 @@ func main() {
 			os.Exit(1)
 		}
 		subcommand := args[2]
-		showPromise(subcommand)
+		showPromise(sys, subcommand)
 	case "start-server":
-		startWebSocketServer()
+		sys.startWebSocketServer()
 	default:
 		subcommand := args[1]
-		executeSubcommand(subcommand, args[2:])
+		executeSubcommand(sys, subcommand, args[2:])
 	}
 }
 
-func ensureDirectories() {
+// Sys represents the underlying system.
+type Sys struct {
+	Fs      afero.Fs
+	BaseDir string
+	util    *afero.Afero
+}
+
+// NewSys creates a new Sys.
+func NewSys(fs afero.Fs, baseDir string) *Sys {
+	sys := &Sys{
+		Fs:      fs,
+		BaseDir: baseDir,
+		util:    &afero.Afero{Fs: fs},
+	}
+	sys.ensureDirectories()
+	return sys
+}
+
+func (sys *Sys) ensureDirectories() {
 	directories := []string{gridDir, cacheDir, peersDir}
 	for _, dir := range directories {
-		if _, err := os.Stat(filepath.Join(os.Getenv("HOME"), dir)); os.IsNotExist(err) {
-			os.MkdirAll(filepath.Join(os.Getenv("HOME"), dir), os.ModePerm)
+		if _, err := sys.Fs.Stat(filepath.Join(sys.BaseDir, dir)); os.IsNotExist(err) {
+			sys.Fs.MkdirAll(filepath.Join(sys.BaseDir, dir), os.ModePerm)
 		}
 	}
 }
 
-func getSymbolTableHash() (hash string, err error) {
-	configPath := filepath.Join(os.Getenv("HOME"), configFile)
+func (sys *Sys) getSymbolTableHash() (hash string, err error) {
+	configPath := filepath.Join(sys.BaseDir, configFile)
 	data, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		err = fmt.Errorf("Failed to read configuration: %v", err)
@@ -87,9 +108,9 @@ func getSymbolTableHash() (hash string, err error) {
 	return "", err
 }
 
-func loadPeers() {
-	peersPath := filepath.Join(os.Getenv("HOME"), peerList)
-	file, err := os.Open(peersPath)
+func (sys *Sys) loadPeers() {
+	peersPath := filepath.Join(sys.BaseDir, peerList)
+	file, err := sys.Fs.Open(peersPath)
 	if err != nil {
 		fmt.Println("No peers available.")
 		os.Exit(1)
@@ -169,17 +190,17 @@ func getSubcommandHash(symbolTable, subcommand string) string {
 	return ""
 }
 
-func fetchModule(hash string) string {
-	cachePath := filepath.Join(os.Getenv("HOME"), cacheDir, hash)
-	if _, err := os.Stat(cachePath); os.IsNotExist(err) {
+func (sys *Sys) fetchModule(hash string) string {
+	cachePath := filepath.Join(sys.BaseDir, cacheDir, hash)
+	if _, err := sys.Fs.Stat(cachePath); os.IsNotExist(err) {
 		data := queryPeers(hash, "I promise to use this module responsibly.")
 		ioutil.WriteFile(cachePath, []byte(data), 0755)
 	}
 	return cachePath
 }
 
-func showPromise(subcommand string) {
-	symbolTableHash, err := getSymbolTableHash()
+func showPromise(sys *Sys, subcommand string) {
+	symbolTableHash, err := sys.getSymbolTableHash()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -187,7 +208,7 @@ func showPromise(subcommand string) {
 
 	symbolTable := fetchSymbolTable(symbolTableHash)
 	subcommandHash := getSubcommandHash(symbolTable, subcommand)
-	module := fetchModule(subcommandHash)
+	module := sys.fetchModule(subcommandHash)
 	cmd := exec.Command(module, "--show-promise")
 	output, err := cmd.Output()
 	if err != nil {
@@ -197,12 +218,12 @@ func showPromise(subcommand string) {
 	fmt.Println(string(output))
 }
 
-func executeSubcommand(subcommand string, args []string) {
-	symbolTableHash, err := getSymbolTableHash()
+func executeSubcommand(sys *Sys, subcommand string, args []string) {
+	symbolTableHash, err := sys.getSymbolTableHash()
 	Ck(err)
 	symbolTable := fetchSymbolTable(symbolTableHash)
 	subcommandHash := getSubcommandHash(symbolTable, subcommand)
-	module := fetchModule(subcommandHash)
+	module := sys.fetchModule(subcommandHash)
 	cmd := exec.Command(module, args...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -213,13 +234,13 @@ func executeSubcommand(subcommand string, args []string) {
 	}
 }
 
-func startWebSocketServer() {
-	http.HandleFunc("/ws", handleWebSocket)
+func (sys *Sys) startWebSocketServer() {
+	http.HandleFunc("/ws", sys.handleWebSocket)
 	fmt.Println("Starting WebSocket server on :8080")
 	http.ListenAndServe(":8080", nil)
 }
 
-func handleWebSocket(w http.ResponseWriter, r *http.Request) {
+func (sys *Sys) handleWebSocket(w http.ResponseWriter, r *http.Request) {
 	upgrader := websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
 			return true
@@ -253,7 +274,7 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 		// promise := query["promise"]
 
 		// Check if the requested hash is for a module or handler
-		data, err := fetchLocalData(mBuf)
+		data, err := sys.fetchLocalData(mBuf)
 		if err != nil {
 			fmt.Println("Failed to read data:", err)
 			continue
@@ -266,10 +287,10 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func fetchLocalData(mBuf []byte) ([]byte, error) {
+func (sys *Sys) fetchLocalData(mBuf []byte) ([]byte, error) {
 	fn := fmt.Sprintf("%x", mBuf)
-	cachePath := filepath.Join(os.Getenv("HOME"), cacheDir, fn)
-	data, err := ioutil.ReadFile(cachePath)
+	cachePath := filepath.Join(sys.BaseDir, cacheDir, fn)
+	data, err := sys.util.ReadFile(cachePath)
 	if err == nil {
 		return data, nil
 	}
