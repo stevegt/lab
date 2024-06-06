@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -13,6 +14,7 @@ import (
 	"sync"
 
 	"github.com/gorilla/websocket"
+	. "github.com/stevegt/goadapt"
 )
 
 const (
@@ -68,22 +70,21 @@ func ensureDirectories() {
 	}
 }
 
-func getSymbolTableHash() string {
+func getSymbolTableHash() (hash string, err error) {
 	configPath := filepath.Join(os.Getenv("HOME"), configFile)
 	data, err := ioutil.ReadFile(configPath)
 	if err != nil {
-		fmt.Println("Configuration file not found.")
-		os.Exit(1)
+		err = fmt.Errorf("Failed to read configuration: %v", err)
+		return "", err
 	}
 	lines := strings.Split(string(data), "\n")
 	for _, line := range lines {
 		if strings.HasPrefix(line, "symbol_table_hash=") {
-			return strings.TrimPrefix(line, "symbol_table_hash=")
+			return strings.TrimPrefix(line, "symbol_table_hash="), nil
 		}
 	}
-	fmt.Println("Symbol table hash not found in configuration.")
-	os.Exit(1)
-	return ""
+	err = fmt.Errorf("Symbol table hash not found in configuration.")
+	return "", err
 }
 
 func loadPeers() {
@@ -178,7 +179,12 @@ func fetchModule(hash string) string {
 }
 
 func showPromise(subcommand string) {
-	symbolTableHash := getSymbolTableHash()
+	symbolTableHash, err := getSymbolTableHash()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
 	symbolTable := fetchSymbolTable(symbolTableHash)
 	subcommandHash := getSubcommandHash(symbolTable, subcommand)
 	module := fetchModule(subcommandHash)
@@ -192,7 +198,8 @@ func showPromise(subcommand string) {
 }
 
 func executeSubcommand(subcommand string, args []string) {
-	symbolTableHash := getSymbolTableHash()
+	symbolTableHash, err := getSymbolTableHash()
+	Ck(err)
 	symbolTable := fetchSymbolTable(symbolTableHash)
 	subcommandHash := getSubcommandHash(symbolTable, subcommand)
 	module := fetchModule(subcommandHash)
@@ -238,11 +245,15 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		hash := query["hash"]
+		mStr := query["hash"]
+		// convert multihash hex string to byte slice
+		mBuf, err := hex.DecodeString(mStr)
+		Ck(err)
+
 		// promise := query["promise"]
 
 		// Check if the requested hash is for a module or handler
-		data, err := fetchLocalData(hash)
+		data, err := fetchLocalData(mBuf)
 		if err != nil {
 			fmt.Println("Failed to read data:", err)
 			continue
@@ -255,14 +266,17 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func fetchLocalData(hash string) ([]byte, error) {
-	cachePath := filepath.Join(os.Getenv("HOME"), cacheDir, hash)
+func fetchLocalData(mBuf []byte) ([]byte, error) {
+	fn := fmt.Sprintf("%x", mBuf)
+	cachePath := filepath.Join(os.Getenv("HOME"), cacheDir, fn)
 	data, err := ioutil.ReadFile(cachePath)
 	if err == nil {
 		return data, nil
 	}
 
-	// If data not found in cache, check if it's a known handler
-	handlerPath := filepath.Join(os.Getenv("HOME"), gridDir, "handlers", hash)
-	return ioutil.ReadFile(handlerPath)
+	// XXX If data not found in cache, check if it's a known handler
+	// handlerPath := filepath.Join(os.Getenv("HOME"), gridDir, "handlers", hash)
+	// return ioutil.ReadFile(handlerPath)
+
+	return nil, fmt.Errorf("Data not found.")
 }
