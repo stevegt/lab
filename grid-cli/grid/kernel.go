@@ -12,10 +12,10 @@ import (
 
 // XXX Consider always compiling to WASM.  Move to promisegrid/x.
 
-// System represents the underlying system, presenting a syscall-like
-// interface to callers.  All operations go through this interface,
-// including access to data storage, network and execution of subcommands.
-type System interface {
+// Kernel represents the underlying system, presenting a syscall-like
+// interface to callers.  Operations that go through this interface
+// include access to data storage, network, and execution of subcommands.
+type Kernel interface {
 	Stat(path string) (os.FileInfo, error)
 	Open(path string) (os.File, error)
 	Close() error
