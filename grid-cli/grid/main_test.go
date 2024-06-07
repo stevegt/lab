@@ -125,3 +125,16 @@ func TestGetSymbolTableHash(t *testing.T) {
 		t.Errorf("getSymbolTableHash returned unexpected hash: got %v want %v", hash, expectedHash)
 	}
 }
+
+// test getSubcommandHash
+func TestGetSubcommandHash(t *testing.T) {
+
+	// create a symbol table with several entries
+	// each entry is a line with the format: <subcommand> <hash>
+	symbolTable := "subcommand1 testhash1\nsubcommand2 testhash2\nsubcommand3 testhash3"
+
+	hash := getSubcommandHash(symbolTable, "subcommand2")
+	if hash != "testhash2" {
+		t.Errorf("getSubcommandHash returned unexpected hash: got %v want testhash1", hash)
+	}
+}
