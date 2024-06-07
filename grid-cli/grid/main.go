@@ -23,8 +23,7 @@ const (
 	gridDir    = ".grid"
 	configFile = ".grid/config"
 	cacheDir   = ".grid/cache"
-	peersDir   = ".grid/peers"
-	peerList   = ".grid/peers/peers.list"
+	peerList   = ".grid/peers"
 )
 
 type Peer struct {
@@ -32,7 +31,7 @@ type Peer struct {
 	Conn    *websocket.Conn
 }
 
-var peers = make(map[string]*Peer)
+var Peers = make(map[string]*Peer)
 var mu sync.Mutex
 
 func main() {
@@ -83,7 +82,7 @@ func NewSys(fs afero.Fs, baseDir string) *Sys {
 }
 
 func (sys *Sys) ensureDirectories() {
-	directories := []string{gridDir, cacheDir, peersDir}
+	directories := []string{gridDir, cacheDir}
 	for _, dir := range directories {
 		if _, err := sys.Fs.Stat(filepath.Join(sys.BaseDir, dir)); os.IsNotExist(err) {
 			sys.Fs.MkdirAll(filepath.Join(sys.BaseDir, dir), os.ModePerm)
@@ -120,13 +119,13 @@ func (sys *Sys) loadPeers() {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		peerAddress := scanner.Text()
-		peers[peerAddress] = &Peer{Address: peerAddress}
+		Peers[peerAddress] = &Peer{Address: peerAddress}
 	}
 }
 
 func connectToPeers() {
 	var wg sync.WaitGroup
-	for _, peer := range peers {
+	for _, peer := range Peers {
 		wg.Add(1)
 		go func(peer *Peer) {
 			defer wg.Done()
@@ -151,7 +150,7 @@ func queryPeers(hash, promise string) string {
 	query := map[string]string{"hash": hash, "promise": promise}
 	queryJSON, _ := json.Marshal(query)
 
-	for _, peer := range peers {
+	for _, peer := range Peers {
 		if peer.Conn == nil {
 			continue
 		}

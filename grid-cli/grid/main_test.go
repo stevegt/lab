@@ -21,7 +21,7 @@ func setupTestEnv() (sys *Sys) {
 func TestEnsureDirectories(t *testing.T) {
 	sys := setupTestEnv()
 
-	expectedDirs := []string{gridDir, cacheDir, peersDir}
+	expectedDirs := []string{gridDir, cacheDir}
 	for _, dir := range expectedDirs {
 		_, err := sys.Fs.Stat(filepath.Join(sys.BaseDir, dir))
 		if os.IsNotExist(err) {
@@ -82,5 +82,25 @@ func TestGetSymbolTableHash_NonExistentFile(t *testing.T) {
 	_, err := sys.getSymbolTableHash()
 	if err == nil {
 		t.Fatal("Expected error when configuration file does not exist, got nil")
+	}
+}
+
+// test loadPeers
+func TestLoadPeers(t *testing.T) {
+	sys := setupTestEnv()
+
+	// create a test file with some peers
+	peerData := []byte("peer1\npeer2\npeer3")
+	err := sys.util.WriteFile(filepath.Join(sys.BaseDir, peerList), peerData, 0644)
+	if err != nil {
+		t.Fatalf("Failed to write test data to peers.txt: %v", err)
+	}
+
+	sys.loadPeers()
+	if err != nil {
+		t.Fatalf("loadPeers returned an error: %v", err)
+	}
+	if len(Peers) != 3 {
+		t.Errorf("loadPeers returned unexpected number of peers: got %d want 3", len(Peers))
 	}
 }
