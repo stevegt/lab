@@ -23,7 +23,7 @@ func TestEnsureDirectories(t *testing.T) {
 
 	expectedDirs := []string{gridDir, cacheDir}
 	for _, dir := range expectedDirs {
-		_, err := sys.Fs.Stat(filepath.Join(sys.BaseDir, dir))
+		_, err := sys.fs.Stat(filepath.Join(sys.baseDir, dir))
 		if os.IsNotExist(err) {
 			t.Errorf("Directory %s was not created", dir)
 		}
@@ -45,7 +45,7 @@ func TestFetchLocalData(t *testing.T) {
 	fn2 := fmt.Sprintf("%s", hex.EncodeToString(mBuf))
 	Tassert(t, fn == fn2, "Mismatched hash strings: %s != %s", fn, fn2)
 
-	cachePath := filepath.Join(sys.BaseDir, cacheDir, fn)
+	cachePath := filepath.Join(sys.baseDir, cacheDir, fn)
 
 	err = sys.util.WriteFile(cachePath, []byte(expectedData), 0644)
 	if err != nil {
@@ -91,7 +91,7 @@ func TestLoadPeers(t *testing.T) {
 
 	// create a test file with some peers
 	peerData := []byte("peer1\npeer2\npeer3")
-	err := sys.util.WriteFile(filepath.Join(sys.BaseDir, peerList), peerData, 0644)
+	err := sys.util.WriteFile(filepath.Join(sys.baseDir, peerList), peerData, 0644)
 	if err != nil {
 		t.Fatalf("Failed to write test data to peers.txt: %v", err)
 	}
@@ -112,7 +112,7 @@ func TestGetSymbolTableHash(t *testing.T) {
 	// create a test configuration file with symbol_table_hash set
 	expectedHash := "testhash"
 	line := []byte(fmt.Sprintf("symbol_table_hash=%s", expectedHash))
-	err := sys.util.WriteFile(filepath.Join(sys.BaseDir, configFile), line, 0644)
+	err := sys.util.WriteFile(filepath.Join(sys.baseDir, configFile), line, 0644)
 	if err != nil {
 		t.Fatalf("Failed to write test data to symbol_table_hash: %v", err)
 	}

@@ -107,7 +107,7 @@ func executeSubcommand(sys *System, subcommand string, args []string) {
 
 func (sys *System) fetchLocalData(mBuf []byte) ([]byte, error) {
 	fn := fmt.Sprintf("%x", mBuf)
-	cachePath := filepath.Join(sys.BaseDir, cacheDir, fn)
+	cachePath := filepath.Join(sys.baseDir, cacheDir, fn)
 	data, err := sys.util.ReadFile(cachePath)
 	if err == nil {
 		return data, nil

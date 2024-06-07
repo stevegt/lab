@@ -66,8 +66,8 @@ func fetchSymbolTable(hash string) string {
 }
 
 func (sys *System) fetchModule(hash string) string {
-	cachePath := filepath.Join(sys.BaseDir, cacheDir, hash)
-	if _, err := sys.Fs.Stat(cachePath); os.IsNotExist(err) {
+	cachePath := filepath.Join(sys.baseDir, cacheDir, hash)
+	if _, err := sys.fs.Stat(cachePath); os.IsNotExist(err) {
 		data := queryPeers(hash, "I promise to use this module responsibly.")
 		ioutil.WriteFile(cachePath, []byte(data), 0755)
 	}

@@ -16,16 +16,16 @@ import (
 // interface to callers.  All operations go through this interface,
 // including access to data storage, network and execution of subcommands.
 type System struct {
-	Fs      afero.Fs
-	BaseDir string
+	fs      afero.Fs
+	baseDir string
 	util    *afero.Afero
 }
 
 // NewSys creates a new Sys.
 func NewSys(fs afero.Fs, baseDir string) *System {
 	sys := &System{
-		Fs:      fs,
-		BaseDir: baseDir,
+		fs:      fs,
+		baseDir: baseDir,
 		util:    &afero.Afero{Fs: fs},
 	}
 	sys.ensureDirectories()
@@ -35,14 +35,14 @@ func NewSys(fs afero.Fs, baseDir string) *System {
 func (sys *System) ensureDirectories() {
 	directories := []string{gridDir, cacheDir}
 	for _, dir := range directories {
-		if _, err := sys.Fs.Stat(filepath.Join(sys.BaseDir, dir)); os.IsNotExist(err) {
-			sys.Fs.MkdirAll(filepath.Join(sys.BaseDir, dir), os.ModePerm)
+		if _, err := sys.fs.Stat(filepath.Join(sys.baseDir, dir)); os.IsNotExist(err) {
+			sys.fs.MkdirAll(filepath.Join(sys.baseDir, dir), os.ModePerm)
 		}
 	}
 }
 
 func (sys *System) getSymbolTableHash() (hash string, err error) {
-	configPath := filepath.Join(sys.BaseDir, configFile)
+	configPath := filepath.Join(sys.baseDir, configFile)
 	data, err := sys.util.ReadFile(configPath)
 	if err != nil {
 		err = fmt.Errorf("Failed to read configuration: %v", err)
@@ -59,8 +59,8 @@ func (sys *System) getSymbolTableHash() (hash string, err error) {
 }
 
 func (sys *System) loadPeers() {
-	peersPath := filepath.Join(sys.BaseDir, peerList)
-	file, err := sys.Fs.Open(peersPath)
+	peersPath := filepath.Join(sys.baseDir, peerList)
+	file, err := sys.fs.Open(peersPath)
 	if err != nil {
 		fmt.Println("No peers available.")
 		os.Exit(1)
