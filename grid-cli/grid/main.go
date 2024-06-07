@@ -92,7 +92,7 @@ func (sys *Sys) ensureDirectories() {
 
 func (sys *Sys) getSymbolTableHash() (hash string, err error) {
 	configPath := filepath.Join(sys.BaseDir, configFile)
-	data, err := ioutil.ReadFile(configPath)
+	data, err := sys.util.ReadFile(configPath)
 	if err != nil {
 		err = fmt.Errorf("Failed to read configuration: %v", err)
 		return "", err

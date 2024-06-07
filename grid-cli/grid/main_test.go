@@ -104,3 +104,24 @@ func TestLoadPeers(t *testing.T) {
 		t.Errorf("loadPeers returned unexpected number of peers: got %d want 3", len(Peers))
 	}
 }
+
+// test getSymbolTableHash
+func TestGetSymbolTableHash(t *testing.T) {
+	sys := setupTestEnv()
+
+	// create a test configuration file with symbol_table_hash set
+	expectedHash := "testhash"
+	line := []byte(fmt.Sprintf("symbol_table_hash=%s", expectedHash))
+	err := sys.util.WriteFile(filepath.Join(sys.BaseDir, configFile), line, 0644)
+	if err != nil {
+		t.Fatalf("Failed to write test data to symbol_table_hash: %v", err)
+	}
+
+	hash, err := sys.getSymbolTableHash()
+	if err != nil {
+		t.Fatalf("getSymbolTableHash returned an error: %v", err)
+	}
+	if hash != expectedHash {
+		t.Errorf("getSymbolTableHash returned unexpected hash: got %v want %v", hash, expectedHash)
+	}
+}
