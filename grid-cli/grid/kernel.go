@@ -17,12 +17,13 @@ import (
 // including access to data storage, network and execution of subcommands.
 type SystemI interface {
 	Stat(path string) (os.FileInfo, error)
-	// Open(path string) (FileI, error)
+	Open(path string) (os.File, error)
 	Close() error
 	Read(p []byte) (n int, err error)
 	Write(p []byte) (n int, err error)
 	Remove(path string) error
 	RemoveAll(path string) error
+	MkdirAll(path string, perm os.FileMode) error
 }
 
 type System struct {
