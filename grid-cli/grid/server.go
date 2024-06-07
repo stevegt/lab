@@ -10,13 +10,13 @@ import (
 	. "github.com/stevegt/goadapt"
 )
 
-func (sys *Sys) startWebSocketServer() {
+func (sys *System) startWebSocketServer() {
 	http.HandleFunc("/ws", sys.handleWebSocket)
 	fmt.Println("Starting WebSocket server on :8080")
 	http.ListenAndServe(":8080", nil)
 }
 
-func (sys *Sys) handleWebSocket(w http.ResponseWriter, r *http.Request) {
+func (sys *System) handleWebSocket(w http.ResponseWriter, r *http.Request) {
 	upgrader := websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
 			return true

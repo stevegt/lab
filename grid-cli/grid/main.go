@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
@@ -59,66 +58,6 @@ func main() {
 	}
 }
 
-// Sys represents the underlying system.
-type Sys struct {
-	Fs      afero.Fs
-	BaseDir string
-	util    *afero.Afero
-}
-
-// NewSys creates a new Sys.
-func NewSys(fs afero.Fs, baseDir string) *Sys {
-	sys := &Sys{
-		Fs:      fs,
-		BaseDir: baseDir,
-		util:    &afero.Afero{Fs: fs},
-	}
-	sys.ensureDirectories()
-	return sys
-}
-
-func (sys *Sys) ensureDirectories() {
-	directories := []string{gridDir, cacheDir}
-	for _, dir := range directories {
-		if _, err := sys.Fs.Stat(filepath.Join(sys.BaseDir, dir)); os.IsNotExist(err) {
-			sys.Fs.MkdirAll(filepath.Join(sys.BaseDir, dir), os.ModePerm)
-		}
-	}
-}
-
-func (sys *Sys) getSymbolTableHash() (hash string, err error) {
-	configPath := filepath.Join(sys.BaseDir, configFile)
-	data, err := sys.util.ReadFile(configPath)
-	if err != nil {
-		err = fmt.Errorf("Failed to read configuration: %v", err)
-		return "", err
-	}
-	lines := strings.Split(string(data), "\n")
-	for _, line := range lines {
-		if strings.HasPrefix(line, "symbol_table_hash=") {
-			return strings.TrimPrefix(line, "symbol_table_hash="), nil
-		}
-	}
-	err = fmt.Errorf("Symbol table hash not found in configuration.")
-	return "", err
-}
-
-func (sys *Sys) loadPeers() {
-	peersPath := filepath.Join(sys.BaseDir, peerList)
-	file, err := sys.Fs.Open(peersPath)
-	if err != nil {
-		fmt.Println("No peers available.")
-		os.Exit(1)
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		peerAddress := scanner.Text()
-		Peers[peerAddress] = &Peer{Address: peerAddress}
-	}
-}
-
 func getSubcommandHash(symbolTable, subcommand string) string {
 	lines := strings.Split(symbolTable, "\n")
 	for _, line := range lines {
@@ -131,7 +70,7 @@ func getSubcommandHash(symbolTable, subcommand string) string {
 	return ""
 }
 
-func showPromise(sys *Sys, subcommand string) {
+func showPromise(sys *System, subcommand string) {
 	symbolTableHash, err := sys.getSymbolTableHash()
 	if err != nil {
 		fmt.Println(err)
@@ -150,7 +89,7 @@ func showPromise(sys *Sys, subcommand string) {
 	fmt.Println(string(output))
 }
 
-func executeSubcommand(sys *Sys, subcommand string, args []string) {
+func executeSubcommand(sys *System, subcommand string, args []string) {
 	symbolTableHash, err := sys.getSymbolTableHash()
 	Ck(err)
 	symbolTable := fetchSymbolTable(symbolTableHash)
@@ -166,7 +105,7 @@ func executeSubcommand(sys *Sys, subcommand string, args []string) {
 	}
 }
 
-func (sys *Sys) fetchLocalData(mBuf []byte) ([]byte, error) {
+func (sys *System) fetchLocalData(mBuf []byte) ([]byte, error) {
 	fn := fmt.Sprintf("%x", mBuf)
 	cachePath := filepath.Join(sys.BaseDir, cacheDir, fn)
 	data, err := sys.util.ReadFile(cachePath)

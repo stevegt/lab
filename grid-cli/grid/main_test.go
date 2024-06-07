@@ -13,7 +13,7 @@ import (
 	. "github.com/stevegt/goadapt"
 )
 
-func setupTestEnv() (sys *Sys) {
+func setupTestEnv() (sys *System) {
 	sys = NewSys(afero.NewMemMapFs(), "/tmp/foo")
 	return
 }
