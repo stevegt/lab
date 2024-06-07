@@ -15,13 +15,23 @@ import (
 // System represents the underlying system, presenting a syscall-like
 // interface to callers.  All operations go through this interface,
 // including access to data storage, network and execution of subcommands.
+type SystemI interface {
+	Stat(path string) (os.FileInfo, error)
+	// Open(path string) (FileI, error)
+	Close() error
+	Read(p []byte) (n int, err error)
+	Write(p []byte) (n int, err error)
+	Remove(path string) error
+	RemoveAll(path string) error
+}
+
 type System struct {
 	fs      afero.Fs
 	baseDir string
 	util    *afero.Afero
 }
 
-// NewSys creates a new Sys.
+// NewSys creates a new System
 func NewSys(fs afero.Fs, baseDir string) *System {
 	sys := &System{
 		fs:      fs,
