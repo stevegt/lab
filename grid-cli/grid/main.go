@@ -70,7 +70,7 @@ func getSubcommandHash(symbolTable, subcommand string) string {
 	return ""
 }
 
-func showPromise(sys *System, subcommand string) {
+func showPromise(sys *NativeSystem, subcommand string) {
 	symbolTableHash, err := sys.getSymbolTableHash()
 	if err != nil {
 		fmt.Println(err)
@@ -89,7 +89,7 @@ func showPromise(sys *System, subcommand string) {
 	fmt.Println(string(output))
 }
 
-func executeSubcommand(sys *System, subcommand string, args []string) {
+func executeSubcommand(sys *NativeSystem, subcommand string, args []string) {
 	symbolTableHash, err := sys.getSymbolTableHash()
 	Ck(err)
 	symbolTable := fetchSymbolTable(symbolTableHash)
@@ -105,7 +105,7 @@ func executeSubcommand(sys *System, subcommand string, args []string) {
 	}
 }
 
-func (sys *System) fetchLocalData(mBuf []byte) ([]byte, error) {
+func (sys *NativeSystem) fetchLocalData(mBuf []byte) ([]byte, error) {
 	fn := fmt.Sprintf("%x", mBuf)
 	cachePath := filepath.Join(sys.baseDir, cacheDir, fn)
 	data, err := sys.util.ReadFile(cachePath)

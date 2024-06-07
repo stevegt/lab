@@ -15,7 +15,7 @@ import (
 // System represents the underlying system, presenting a syscall-like
 // interface to callers.  All operations go through this interface,
 // including access to data storage, network and execution of subcommands.
-type SystemI interface {
+type System interface {
 	Stat(path string) (os.FileInfo, error)
 	Open(path string) (os.File, error)
 	Close() error
@@ -26,15 +26,15 @@ type SystemI interface {
 	MkdirAll(path string, perm os.FileMode) error
 }
 
-type System struct {
+type NativeSystem struct {
 	fs      afero.Fs
 	baseDir string
 	util    *afero.Afero
 }
 
 // NewSys creates a new System
-func NewSys(fs afero.Fs, baseDir string) *System {
-	sys := &System{
+func NewSys(fs afero.Fs, baseDir string) *NativeSystem {
+	sys := &NativeSystem{
 		fs:      fs,
 		baseDir: baseDir,
 		util:    &afero.Afero{Fs: fs},
@@ -43,7 +43,7 @@ func NewSys(fs afero.Fs, baseDir string) *System {
 	return sys
 }
 
-func (sys *System) ensureDirectories() {
+func (sys *NativeSystem) ensureDirectories() {
 	directories := []string{gridDir, cacheDir}
 	for _, dir := range directories {
 		if _, err := sys.fs.Stat(filepath.Join(sys.baseDir, dir)); os.IsNotExist(err) {
@@ -52,7 +52,7 @@ func (sys *System) ensureDirectories() {
 	}
 }
 
-func (sys *System) getSymbolTableHash() (hash string, err error) {
+func (sys *NativeSystem) getSymbolTableHash() (hash string, err error) {
 	configPath := filepath.Join(sys.baseDir, configFile)
 	data, err := sys.util.ReadFile(configPath)
 	if err != nil {
@@ -69,7 +69,7 @@ func (sys *System) getSymbolTableHash() (hash string, err error) {
 	return "", err
 }
 
-func (sys *System) loadPeers() {
+func (sys *NativeSystem) loadPeers() {
 	peersPath := filepath.Join(sys.baseDir, peerList)
 	file, err := sys.fs.Open(peersPath)
 	if err != nil {
