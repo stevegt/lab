@@ -16,6 +16,7 @@ import (
 // interface to callers.  Operations that go through this interface
 // include access to data storage, network, and execution of subcommands.
 type Kernel interface {
+	// XXX sync with WASI
 	Stat(path string) (os.FileInfo, error)
 	Open(path string) (os.File, error)
 	Close() error
