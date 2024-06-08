@@ -13,8 +13,8 @@ import (
 	. "github.com/stevegt/goadapt"
 )
 
-func setupTestEnv() (sys *NativeSystem) {
-	sys = NewSys(afero.NewMemMapFs(), "/tmp/foo")
+func setupTestEnv() (sys *NativeKernel) {
+	sys = NewNativeKernel(afero.NewMemMapFs(), "/tmp/foo")
 	return
 }
 

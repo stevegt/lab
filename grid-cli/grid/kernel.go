@@ -27,15 +27,16 @@ type Kernel interface {
 	MkdirAll(path string, perm os.FileMode) error
 }
 
-type NativeSystem struct {
+type NativeKernel struct {
 	fs      afero.Fs
 	baseDir string
 	util    *afero.Afero
 }
 
-// NewSys creates a new System
-func NewSys(fs afero.Fs, baseDir string) *NativeSystem {
-	sys := &NativeSystem{
+// NewNativeKernel creates a new Kernel instance that uses the native
+// filesystem, CPU, and network stack.
+func NewNativeKernel(fs afero.Fs, baseDir string) *NativeKernel {
+	sys := &NativeKernel{
 		fs:      fs,
 		baseDir: baseDir,
 		util:    &afero.Afero{Fs: fs},
@@ -44,7 +45,7 @@ func NewSys(fs afero.Fs, baseDir string) *NativeSystem {
 	return sys
 }
 
-func (sys *NativeSystem) ensureDirectories() {
+func (sys *NativeKernel) ensureDirectories() {
 	directories := []string{gridDir, cacheDir}
 	for _, dir := range directories {
 		if _, err := sys.fs.Stat(filepath.Join(sys.baseDir, dir)); os.IsNotExist(err) {
@@ -53,7 +54,7 @@ func (sys *NativeSystem) ensureDirectories() {
 	}
 }
 
-func (sys *NativeSystem) getSymbolTableHash() (hash string, err error) {
+func (sys *NativeKernel) getSymbolTableHash() (hash string, err error) {
 	configPath := filepath.Join(sys.baseDir, configFile)
 	data, err := sys.util.ReadFile(configPath)
 	if err != nil {
@@ -70,7 +71,7 @@ func (sys *NativeSystem) getSymbolTableHash() (hash string, err error) {
 	return "", err
 }
 
-func (sys *NativeSystem) loadPeers() {
+func (sys *NativeKernel) loadPeers() {
 	peersPath := filepath.Join(sys.baseDir, peerList)
 	file, err := sys.fs.Open(peersPath)
 	if err != nil {

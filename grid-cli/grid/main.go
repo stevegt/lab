@@ -37,7 +37,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	sys := NewSys(afero.NewOsFs(), os.Getenv("HOME"))
+	sys := NewNativeKernel(afero.NewOsFs(), os.Getenv("HOME"))
 
 	sys.loadPeers()
 	connectToPeers()
@@ -70,7 +70,7 @@ func getSubcommandHash(symbolTable, subcommand string) string {
 	return ""
 }
 
-func showPromise(sys *NativeSystem, subcommand string) {
+func showPromise(sys *NativeKernel, subcommand string) {
 	symbolTableHash, err := sys.getSymbolTableHash()
 	if err != nil {
 		fmt.Println(err)
@@ -89,7 +89,7 @@ func showPromise(sys *NativeSystem, subcommand string) {
 	fmt.Println(string(output))
 }
 
-func executeSubcommand(sys *NativeSystem, subcommand string, args []string) {
+func executeSubcommand(sys *NativeKernel, subcommand string, args []string) {
 	symbolTableHash, err := sys.getSymbolTableHash()
 	Ck(err)
 	symbolTable := fetchSymbolTable(symbolTableHash)
@@ -105,7 +105,7 @@ func executeSubcommand(sys *NativeSystem, subcommand string, args []string) {
 	}
 }
 
-func (sys *NativeSystem) fetchLocalData(mBuf []byte) ([]byte, error) {
+func (sys *NativeKernel) fetchLocalData(mBuf []byte) ([]byte, error) {
 	fn := fmt.Sprintf("%x", mBuf)
 	cachePath := filepath.Join(sys.baseDir, cacheDir, fn)
 	data, err := sys.util.ReadFile(cachePath)
