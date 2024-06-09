@@ -102,3 +102,22 @@ func (sys *KernelNative) fetchLocalData(mBuf []byte) ([]byte, error) {
 
 	return nil, fmt.Errorf("Data not found.")
 }
+
+func (sys *KernelNative) showPromise(subcommand string) {
+	symbolTableHash, err := sys.getSymbolTableHash()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	symbolTable := fetchSymbolTable(symbolTableHash)
+	subcommandHash := getSubcommandHash(symbolTable, subcommand)
+	module := sys.fetchModule(subcommandHash)
+	cmd := exec.Command(module, "--show-promise")
+	output, err := cmd.Output()
+	if err != nil {
+		fmt.Println("Error executing subcommand:", err)
+		os.Exit(1)
+	}
+	fmt.Println(string(output))
+}
