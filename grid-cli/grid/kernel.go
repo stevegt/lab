@@ -11,6 +11,9 @@ import (
 // interface to callers.  Operations that go through this interface
 // include anything that can have external side effects, including
 // access to data storage, network, and execution of subcommands.
+// This interface is intended to be implemented by a variety of
+// backends, including a native backend that uses the host OS, and a
+// WASM backend that runs in a sandboxed environment.
 type Kernel interface {
 	Stat(path string) (os.FileInfo, error)
 	Open(path string) (os.File, error)
