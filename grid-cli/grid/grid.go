@@ -58,7 +58,7 @@ func showPromise(sys *KernelNative, subcommand string) {
 	fmt.Println(string(output))
 }
 
-func executeSubcommand(sys *KernelNative, subcommand string, args []string) {
+func (sys *KernelNative) executeSubcommand(subcommand string, args []string) {
 	symbolTableHash, err := sys.getSymbolTableHash()
 	Ck(err)
 	symbolTable := fetchSymbolTable(symbolTableHash)
