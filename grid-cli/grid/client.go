@@ -65,7 +65,7 @@ func fetchSymbolTable(hash string) string {
 	return queryPeers(hash, "I promise to use the symbol table responsibly.")
 }
 
-func (sys *NativeKernel) fetchModule(hash string) string {
+func (sys *KernelNative) fetchModule(hash string) string {
 	cachePath := filepath.Join(sys.baseDir, cacheDir, hash)
 	if _, err := sys.fs.Stat(cachePath); os.IsNotExist(err) {
 		data := queryPeers(hash, "I promise to use this module responsibly.")

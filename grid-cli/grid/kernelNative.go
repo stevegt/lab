@@ -10,16 +10,16 @@ import (
 	"github.com/spf13/afero"
 )
 
-type NativeKernel struct {
+type KernelNative struct {
 	fs      afero.Fs
 	baseDir string
 	util    *afero.Afero
 }
 
-// NewNativeKernel creates a new Kernel instance that uses the native
+// NewKernelNative creates a new Kernel instance that uses the native
 // filesystem, CPU, and network stack.
-func NewNativeKernel(fs afero.Fs, baseDir string) *NativeKernel {
-	sys := &NativeKernel{
+func NewKernelNative(fs afero.Fs, baseDir string) *KernelNative {
+	sys := &KernelNative{
 		fs:      fs,
 		baseDir: baseDir,
 		util:    &afero.Afero{Fs: fs},
@@ -28,7 +28,7 @@ func NewNativeKernel(fs afero.Fs, baseDir string) *NativeKernel {
 	return sys
 }
 
-func (sys *NativeKernel) ensureDirectories() {
+func (sys *KernelNative) ensureDirectories() {
 	directories := []string{gridDir, cacheDir}
 	for _, dir := range directories {
 		if _, err := sys.fs.Stat(filepath.Join(sys.baseDir, dir)); os.IsNotExist(err) {
@@ -37,7 +37,7 @@ func (sys *NativeKernel) ensureDirectories() {
 	}
 }
 
-func (sys *NativeKernel) getSymbolTableHash() (hash string, err error) {
+func (sys *KernelNative) getSymbolTableHash() (hash string, err error) {
 	configPath := filepath.Join(sys.baseDir, configFile)
 	data, err := sys.util.ReadFile(configPath)
 	if err != nil {
@@ -54,7 +54,7 @@ func (sys *NativeKernel) getSymbolTableHash() (hash string, err error) {
 	return "", err
 }
 
-func (sys *NativeKernel) loadPeers() {
+func (sys *KernelNative) loadPeers() {
 	peersPath := filepath.Join(sys.baseDir, peerList)
 	file, err := sys.fs.Open(peersPath)
 	if err != nil {
