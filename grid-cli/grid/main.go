@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/spf13/afero"
-	// . "github.com/stevegt/goadapt"
+	. "github.com/stevegt/goadapt"
 )
 
 func main() {
@@ -28,11 +28,12 @@ func main() {
 			os.Exit(1)
 		}
 		subcommand := args[2]
-		showPromise(sys, subcommand)
+		sys.showPromise(subcommand)
 	case "start-server":
 		sys.startWebSocketServer()
 	default:
 		subcommand := args[1]
-		sys.Exec(subcommand, args[2:])
+		err := sys.Exec(subcommand, args[2:])
+		Ck(err)
 	}
 }

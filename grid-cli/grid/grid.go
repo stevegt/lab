@@ -38,7 +38,7 @@ func getSubcommandHash(symbolTable, subcommand string) string {
 	return ""
 }
 
-func showPromise(sys *KernelNative, subcommand string) {
+func (sys *KernelNative) showPromise(subcommand string) {
 	symbolTableHash, err := sys.getSymbolTableHash()
 	if err != nil {
 		fmt.Println(err)
