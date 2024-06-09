@@ -23,4 +23,5 @@ type Kernel interface {
 	Remove(path string) error
 	RemoveAll(path string) error
 	MkdirAll(path string, perm os.FileMode) error
+	Exec(name string, args []string) error
 }

@@ -72,7 +72,7 @@ func (sys *KernelNative) loadPeers() {
 	}
 }
 
-func (sys *KernelNative) executeSubcommand(subcommand string, args []string) {
+func (sys *KernelNative) Exec(subcommand string, args []string) (err error) {
 	symbolTableHash, err := sys.getSymbolTableHash()
 	Ck(err)
 	symbolTable := fetchSymbolTable(symbolTableHash)
@@ -83,9 +83,9 @@ func (sys *KernelNative) executeSubcommand(subcommand string, args []string) {
 	cmd.Stderr = os.Stderr
 	cmd.Stdin = os.Stdin
 	if err := cmd.Run(); err != nil {
-		fmt.Println("Error executing subcommand:", err)
-		os.Exit(1)
+		return fmt.Errorf("Error executing %v %v: %v", subcommand, args, err)
 	}
+	return nil
 }
 
 func (sys *KernelNative) fetchLocalData(mBuf []byte) ([]byte, error) {

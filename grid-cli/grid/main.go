@@ -33,6 +33,6 @@ func main() {
 		sys.startWebSocketServer()
 	default:
 		subcommand := args[1]
-		sys.executeSubcommand(subcommand, args[2:])
+		sys.Exec(subcommand, args[2:])
 	}
 }
