@@ -27,6 +27,11 @@ example_config='
 # (use no spaces around the arrow)
 # literal:baz/==>
 
+# Move base directory contents to the bar/ directory
+# equivalent to --path-rename :bar/
+# (use no spaces around the arrow)
+# literal:==>bar/
+
 # git filter-repo --analyze found the following renames:
 '
 

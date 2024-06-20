@@ -27,3 +27,13 @@ Error: Assets != Liabilities + Equity
 
 
 
+
+
+stdout:
+
+
+stderr:go: cannot find main module, but found .git/config in /home/stevegt/lab/x
+	to create a module there, run:
+	cd .. && go mod init
+
+
