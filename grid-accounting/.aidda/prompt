@@ -1,6 +1,6 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In: example.md, ledger-ebnf.plantuml
+In: example.md, ledger-ebnf.plantuml, example.ledger
 Out: example.ledger
 
 in example.ledger, generate the ledger entries that would create the
@@ -9,7 +9,8 @@ parse example.md.  For account names, put the party's name first,
 followed by account type, then the account name.  For example, 
 "Alice:Asset:Cash" is the cash account for Alice.  
 
-
+there can be no spaces in commodity names.  for example, "Promise X"
+must be "PromiseX".  
 
 
 
