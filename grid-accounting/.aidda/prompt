@@ -1,0 +1,10 @@
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In: example.md, ledger-ebnf.plantuml
+Out: example.ledger
+
+in example.ledger, generate the ledger entries that would create the
+balance sheets in example.md.
+
+
+
