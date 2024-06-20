@@ -95,11 +95,11 @@ func parseLedger(file string) (map[string]*BalanceSheet, error) {
 		}
 		updateBalanceSheet(entries[party], entry)
 	}
-	
+
 	if err := scanner.Err(); err != nil {
 		return nil, fmt.Errorf("error reading file: %v", err)
 	}
-	
+
 	return entries, nil
 }
 
