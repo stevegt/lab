@@ -1,20 +1,27 @@
 2023/01/01 * Initial Balances
     Alice:Asset:Alice-coins            D 1000 Alice-coins
-    Alice:Equity:Alice-coins          C 1000 Alice-coins
+    Alice:Equity:Alice-coins           C 1000 Alice-coins
     
     Bob:Asset:Bob-coins                D 500 Bob-coins
-    Bob:Equity:Bob-coins              C 500 Bob-coins
+    Bob:Equity:Bob-coins               C 500 Bob-coins
 
 2023/01/02 * After Match (Promise Accepted)
-    Alice:Liability:Promise X         C 1 Promise X
-    Alice:Equity:Promise X            C 1 Promise X
-
-    Bob:Asset:Promise X               D 1 Promise X
-    Bob:Liability:Bob-coins           C 100 Bob-coins
-    Bob:Equity:Bob-coins              C 400 Bob-coins
+    Alice:Asset:Alice-coins            D 1000 Alice-coins
+    Alice:Liability:PromiseX           C 1 PromiseX
+    Alice:Equity:Alice-coins           C 1000 Alice-coins
+    Alice:Equity:PromiseX              C 1 PromiseX
+    
+    Bob:Asset:Bob-coins                D 500 Bob-coins
+    Bob:Asset:PromiseX                 D 1 PromiseX
+    Bob:Liability:Bob-coins            C 100 Bob-coins
+    Bob:Equity:Bob-coins               C 400 Bob-coins
 
 2023/01/03 * After Fulfillment Declaration (Promise Fulfilled)
-    Alice:Asset:Bob-coins             D 100 Bob-coins
+    Alice:Asset:Bob-coins              D 100 Bob-coins
+    Alice:Asset:Alice-coins            D 1000 Alice-coins
+    Alice:Equity:Alice-coins           C 1000 Alice-coins
 
-    Bob:Liability:Bob-coins           D 100 Bob-coins
-    Bob:Asset:Promise X               C 1 Promise X
+    Bob:Asset:Bob-coins                D 500 Bob-coins
+    Bob:Asset:PromiseX                 D 1 PromiseX
+    Bob:Liability:Bob-coins            D 100 Bob-coins
+    Bob:Equity:Bob-coins               C 400 Bob-coins
