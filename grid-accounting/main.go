@@ -4,39 +4,41 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
 type Entry struct {
-	Date     string
-	Account  string
-	DC       string
-	Amount   string
+	Date      string
+	Account   string
+	DC        string
+	Amount    float64
 	Commodity string
 }
 
 type BalanceSheet struct {
-	Assets       map[string]string
-	Liabilities  map[string]string
-	Equity       map[string]string
+	Assets      map[string]float64
+	Liabilities map[string]float64
+	Equity      map[string]float64
 }
 
 func NewBalanceSheet() *BalanceSheet {
 	return &BalanceSheet{
-		Assets:       make(map[string]string),
-		Liabilities:  make(map[string]string),
-		Equity:       make(map[string]string),
+		Assets:      make(map[string]float64),
+		Liabilities: make(map[string]float64),
+		Equity:      make(map[string]float64),
 	}
 }
 
 func updateBalanceSheet(bs *BalanceSheet, entry Entry) {
 	switch entry.DC {
 	case "D":
-		bs.Assets[entry.Commodity] = entry.Amount
+		bs.Assets[entry.Commodity] += entry.Amount
 	case "C":
-		bs.Liabilities[entry.Commodity] = entry.Amount
-		if entry.Commodity == strings.Split(entry.Account, ":")[2] {
-			bs.Equity[entry.Commodity] = entry.Amount
+		if strings.HasPrefix(entry.Account, "Equity") {
+			bs.Equity[entry.Commodity] += entry.Amount
+		} else {
+			bs.Liabilities[entry.Commodity] += entry.Amount
 		}
 	}
 }
@@ -52,6 +54,7 @@ func parseLedger(file string) map[string]*BalanceSheet {
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
+	var currentDate string
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -59,24 +62,31 @@ func parseLedger(file string) map[string]*BalanceSheet {
 			continue
 		}
 		parts := strings.Fields(line)
-		if len(parts) < 5 {
+		if len(parts) < 6 {
+			if len(parts) > 0 {
+				currentDate = parts[0]
+			}
 			continue
 		}
-		date := parts[0]
-		account := parts[1]
-		dc := parts[2]
-		amount := parts[3]
-		commodity := parts[4]
+
+		account := parts[0]
+		dc := parts[1]
+		amount, err := strconv.ParseFloat(parts[2], 64)
+		if err != nil {
+			fmt.Println("Error parsing amount:", err)
+			continue
+		}
+		commodity := parts[3]
+		party := strings.Split(account, ":")[0]
 
 		entry := Entry{
-			Date:     date,
-			Account:  account,
-			DC:       dc,
-			Amount:   amount,
+			Date:      currentDate,
+			Account:   account,
+			DC:        dc,
+			Amount:    amount,
 			Commodity: commodity,
 		}
 
-		party := strings.Split(account, ":")[0]
 		if _, ok := entries[party]; !ok {
 			entries[party] = NewBalanceSheet()
 		}
@@ -90,17 +100,36 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 		fmt.Printf("**%s's Balance Sheet**\n", party)
 		fmt.Println("| **Assets (Debits)** | **Liabilities (Credits)** | **Equity** |")
 		fmt.Println("| --- | --- | --- |")
+
 		for asset, amount := range sheet.Assets {
-			fmt.Printf("| %s | | |\n", amount)
+			fmt.Printf("| %s %.2f | | |\n", asset, amount)
 		}
 		for liability, amount := range sheet.Liabilities {
-			fmt.Printf("| | %s | |\n", amount)
+			fmt.Printf("| | %s %.2f | |\n", liability, amount)
 		}
 		for equity, amount := range sheet.Equity {
-			fmt.Printf("| | | %s |\n", amount)
+			fmt.Printf("| | | %s %.2f |\n", equity, amount)
+		}
+
+		totalAssets := sumMapValues(sheet.Assets)
+		totalLiabilities := sumMapValues(sheet.Liabilities)
+		totalEquity := sumMapValues(sheet.Equity)
+
+		fmt.Printf("| **Total**: %.2f | **Total**: %.2f | **Total**: %.2f |\n", totalAssets, totalLiabilities, totalEquity)
+		// ensure the basic accounting equation holds
+		if totalAssets != totalLiabilities+totalEquity {
+			fmt.Println("Error: Assets != Liabilities + Equity")
 		}
 		fmt.Println()
 	}
+}
+
+func sumMapValues(m map[string]float64) float64 {
+	total := 0.0
+	for _, v := range m {
+		total += v
+	}
+	return total
 }
 
 func main() {
