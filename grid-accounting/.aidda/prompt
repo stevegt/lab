@@ -3,6 +3,7 @@ Content-Transfer-Encoding: quoted-printable
 In: example.ledger
 Out: example.ledger
 
-fix the column alignment of the example.ledger file
+ensure there are at least 4 spaces between account name and the C or D
+column
 
 
