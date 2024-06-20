@@ -5,7 +5,11 @@ Out: example.ledger
 
 in example.ledger, generate the ledger entries that would create the
 balance sheets in example.md.  use the ebnf in ledger-ebnf.plantuml to
-parse example.md.
+parse example.md.  For account names, put the party's name first,
+followed by account type, then the account name.  For example, 
+"Alice:Asset:Cash" is the cash account for Alice.  
+
+
 
 
 

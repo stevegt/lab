@@ -1,19 +1,24 @@
-2023-01-01 Initial Balances
-    Assets:Alice-coins        1000 D
-    Equity:Alice              -1000 C
+2023/01/01 Initial Balances
+    Assets:Alice D 1000 Alice-coins
+    Equity:Alice C 1000 Alice-coins
+    Assets:Bob D 500 Bob-coins
+    Equity:Bob C 500 Bob-coins
 
-    Assets:Bob-coins          500 D
-    Equity:Bob                -500 C
+2023/01/02 Match Promise Accepted
+    Assets:Alice D 1000 Alice-coins
+    Liabilities:Alice C 1 Promise X
+    Equity:Alice C 1000 Alice-coins
+    Equity:Alice C 1 Promise X
+    Assets:Bob D 500 Bob-coins
+    Assets:Bob D 1 Promise X
+    Liabilities:Bob C 100 Bob-coins
+    Equity:Bob C 400 Bob-coins
 
-2023-01-02 After Match (Promise Accepted)
-    Liabilities:Alice-Promise  1 
-    Equity:Alice-X            -1 
-    
-    Assets:Bob:Promise        1 
-    Liabilities:Bob-coins     -100 
-    Equity:Bob                -100
-
-2023-01-03 After Fulfillment Declaration (Promise Fulfilled)
-    Assets:Alice-coins        100 
-    Assets:Bob-coins          100 
-    Equity:Bob                100
+2023/01/03 Fulfillment Declaration
+    Assets:Alice D 1000 Alice-coins
+    Assets:Alice D 100 Bob-coins
+    Equity:Alice C 1000 Alice-coins
+    Assets:Bob D 500 Bob-coins
+    Assets:Bob D 1 Promise X
+    Equity:Bob C 400 Bob-coins
+    Credits:Bob C 100 Bob-coins
