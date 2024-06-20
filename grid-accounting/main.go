@@ -43,12 +43,18 @@ func updateBalanceSheet(bs *BalanceSheet, entry Entry) {
 	}
 }
 
+func Debug(args ...interface{}) {
+	if os.Getenv("DEBUG") == "1" {
+		fmt.Println(args...)
+	}
+}
+
 func parseLedger(file string) map[string]*BalanceSheet {
 	entries := make(map[string]*BalanceSheet)
 
 	f, err := os.Open(file)
 	if err != nil {
-		fmt.Println("Error opening file:", err)
+		Debug("Error opening file:", err)
 		return nil
 	}
 	defer f.Close()
@@ -61,18 +67,18 @@ func parseLedger(file string) map[string]*BalanceSheet {
 		if strings.TrimSpace(line) == "" || strings.HasPrefix(line, ";") || strings.HasPrefix(line, "#") {
 			continue
 		}
-		fmt.Println("Processing line:", line)
+		Debug("Processing line:", line)
 		if strings.Contains(line, "*") {
 			parts := strings.SplitN(strings.TrimSpace(line), " ", 2)
 			if len(parts) >= 1 {
 				currentDate = parts[0]
-				fmt.Println("Current date set to:", currentDate)
+				Debug("Current date set to:", currentDate)
 			}
 			continue
 		}
 		parts := strings.Fields(line)
 		if len(parts) < 4 {
-			fmt.Println("Skipping incomplete line:", line)
+			Debug("Skipping incomplete line:", line)
 			continue
 		}
 		account := parts[0]
@@ -82,7 +88,7 @@ func parseLedger(file string) map[string]*BalanceSheet {
 
 		amount, err := strconv.ParseFloat(amountStr, 64)
 		if err != nil {
-			fmt.Println("Error parsing amount:", err)
+			Debug("Error parsing amount:", err)
 			continue
 		}
 		party := strings.Split(account, ":")[0]
@@ -95,13 +101,13 @@ func parseLedger(file string) map[string]*BalanceSheet {
 			Commodity: commodity,
 		}
 
-		fmt.Println("Parsed entry:", entry)
+		Debug("Parsed entry:", entry)
 
 		if _, ok := entries[party]; !ok {
 			entries[party] = NewBalanceSheet()
 		}
 		updateBalanceSheet(entries[party], entry)
-		fmt.Println("Updated balance sheet for party:", party)
+		Debug("Updated balance sheet for party:", party)
 	}
 	return entries
 }
@@ -145,12 +151,12 @@ func sumMapValues(m map[string]float64) float64 {
 
 func main() {
 	ledgerFile := "example.ledger"
-	fmt.Println("Parsing ledger file:", ledgerFile)
+	Debug("Parsing ledger file:", ledgerFile)
 	balances := parseLedger(ledgerFile)
 	if balances == nil {
-		fmt.Println("Failed to parse ledger file.")
+		Debug("Failed to parse ledger file.")
 		return
 	}
-	fmt.Println("Printing balance sheet...")
+	Debug("Printing balance sheet...")
 	printBalanceSheet(balances)
 }
