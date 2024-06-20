@@ -4,7 +4,10 @@ In: example.md, ledger-ebnf.plantuml
 Out: example.ledger
 
 in example.ledger, generate the ledger entries that would create the
-balance sheets in example.md.
+balance sheets in example.md.  use the ebnf in ledger-ebnf.plantuml to
+parse example.md.
+
+
 
 
 

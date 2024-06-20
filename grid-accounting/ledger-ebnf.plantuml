@@ -12,11 +12,17 @@ Post = Account, [Amount], [Annotation], [Cost], [Comment];
 
 (* Posting *)
 Account = Account, {(":", Account)};
-Amount = Quantity, [Commodity];
+Amount = DC, Quantity, Commodity;
 Annotation = [("{", PerUnitPrice, "}") | ("{{", TotalPrice, "}}")], [("[", Date, "]")];
 Cost = Price | Sum;
 Price = ("@", Amount);
 Sum = ("@@", Amount);
+
+(* DC is Debit or Credit *)
+DC = ("D" | "C");
+
+(* There are no negative signs *)
+Quantity = {Digits}, [".", {Digits}];
 
 Comment = (";" | "#" | "!" | "@"), text ;
 
