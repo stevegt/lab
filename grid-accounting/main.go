@@ -62,12 +62,15 @@ func parseLedger(file string) map[string]*BalanceSheet {
 			continue
 		}
 		fmt.Println("Processing line:", line)
-		parts := strings.SplitN(strings.TrimSpace(line), " ", 4)
-		if len(parts) == 2 {
-			currentDate = parts[0]
-			fmt.Println("Current date set to:", currentDate)
+		if strings.Contains(line, "*") {
+			parts := strings.SplitN(strings.TrimSpace(line), " ", 2)
+			if len(parts) >= 1 {
+				currentDate = parts[0]
+				fmt.Println("Current date set to:", currentDate)
+			}
 			continue
 		}
+		parts := strings.Fields(line)
 		if len(parts) < 4 {
 			fmt.Println("Skipping incomplete line:", line)
 			continue
