@@ -1,9 +1,14 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In: example.md, ledger-ebnf.plantuml, example.ledger
+In: example.md, ledger-ebnf.plantuml, example.ledger, main.go
 Out: main.go
 
 write Go code to parse the ledger file and generate a balance sheet
-for each party after each transaction
+for each party after each transaction.  when printing each balance
+sheet, include the transaction that caused the change in balance.
+include the bottom line debit and credit balances for each column in
+the balance sheet and ensure the basic accounting equation holds.
+
+
 
 
