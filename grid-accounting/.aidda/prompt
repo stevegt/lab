@@ -3,7 +3,6 @@ Content-Transfer-Encoding: quoted-printable
 In: example.ledger
 Out: example.ledger
 
-ensure there are at least 4 spaces between account name and the C or D
-column
+add 4 spaces between account name and the C or D column on each line.
 
 
