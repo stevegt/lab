@@ -3,11 +3,6 @@ Content-Transfer-Encoding: quoted-printable
 In: example.md, ledger-ebnf.plantuml, example.ledger, main.go
 Out: main.go
 
-go run main.go                                                                                                                                                      
-Error parsing amount: strconv.ParseFloat: parsing "After": invalid syntax
-Error parsing amount: strconv.ParseFloat: parsing "After": invalid syntax
-
-
-
-
+'go run main.go' produces no output.  add debug print statements to main.go to
+see what is going wrong.
 

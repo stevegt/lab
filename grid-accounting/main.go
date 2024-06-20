@@ -62,21 +62,28 @@ func parseLedger(file string) map[string]*BalanceSheet {
 			continue
 		}
 		parts := strings.Fields(line)
-		if len(parts) < 6 {
-			if len(parts) > 0 {
-				currentDate = parts[0]
-			}
+		if len(parts) == 2 {
+			currentDate = parts[0]
+			continue
+		}
+		if len(parts) < 4 {
+			continue
+		}
+		commodityAmount := strings.FieldsFunc(parts[3], func(r rune) bool {
+			return r == ' ' || r == '.'
+		})
+		if len(commodityAmount) < 2 {
 			continue
 		}
 
-		account := parts[0]
-		dc := parts[1]
-		amount, err := strconv.ParseFloat(parts[2], 64)
+		account := strings.Join(parts[0:len(parts)-3], ":")
+		dc := parts[len(parts)-3]
+		amount, err := strconv.ParseFloat(commodityAmount[0], 64)
 		if err != nil {
 			fmt.Println("Error parsing amount:", err)
 			continue
 		}
-		commodity := parts[3]
+		commodity := commodityAmount[1]
 		party := strings.Split(account, ":")[0]
 
 		entry := Entry{
