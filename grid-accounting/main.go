@@ -48,7 +48,7 @@ func parseLedger(file string) map[string]*BalanceSheet {
 
 	f, err := os.Open(file)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Error opening file:", err)
 		return nil
 	}
 	defer f.Close()
@@ -61,18 +61,22 @@ func parseLedger(file string) map[string]*BalanceSheet {
 		if strings.TrimSpace(line) == "" || strings.HasPrefix(line, ";") || strings.HasPrefix(line, "#") {
 			continue
 		}
+		fmt.Println("Processing line:", line)
 		parts := strings.Fields(line)
 		if len(parts) == 2 {
 			currentDate = parts[0]
+			fmt.Println("Current date set to:", currentDate)
 			continue
 		}
 		if len(parts) < 4 {
+			fmt.Println("Skipping incomplete line:", line)
 			continue
 		}
 		commodityAmount := strings.FieldsFunc(parts[3], func(r rune) bool {
 			return r == ' ' || r == '.'
 		})
 		if len(commodityAmount) < 2 {
+			fmt.Println("Skipping line with incorrect commodity/amount format:", line)
 			continue
 		}
 
@@ -94,10 +98,13 @@ func parseLedger(file string) map[string]*BalanceSheet {
 			Commodity: commodity,
 		}
 
+		fmt.Println("Parsed entry:", entry)
+
 		if _, ok := entries[party]; !ok {
 			entries[party] = NewBalanceSheet()
 		}
 		updateBalanceSheet(entries[party], entry)
+		fmt.Println("Updated balance sheet for party:", party)
 	}
 	return entries
 }
@@ -141,6 +148,12 @@ func sumMapValues(m map[string]float64) float64 {
 
 func main() {
 	ledgerFile := "example.ledger"
+	fmt.Println("Parsing ledger file:", ledgerFile)
 	balances := parseLedger(ledgerFile)
+	if balances == nil {
+		fmt.Println("Failed to parse ledger file.")
+		return
+	}
+	fmt.Println("Printing balance sheet...")
 	printBalanceSheet(balances)
 }

@@ -3,6 +3,51 @@ Content-Transfer-Encoding: quoted-printable
 In: example.md, ledger-ebnf.plantuml, example.ledger, main.go
 Out: main.go
 
-'go run main.go' produces no output.  add debug print statements to main.go to
-see what is going wrong.
+'go run main.go' produces the following output:
 
+Parsing ledger file: example.ledger
+Processing line: 2023/01/01 * Initial Balances
+Skipping line with incorrect commodity/amount format: 2023/01/01 * Initial Balances
+Processing line:     Alice:Asset:Alice-coins            D 1000 Alice-coins
+Skipping line with incorrect commodity/amount format:     Alice:Asset:Alice-coins            D 1000 Alice-coins
+Processing line:     Alice:Equity:Alice-coins           C 1000 Alice-coins
+Skipping line with incorrect commodity/amount format:     Alice:Equity:Alice-coins           C 1000 Alice-coins
+Processing line:     Bob:Asset:Bob-coins                D 500 Bob-coins
+Skipping line with incorrect commodity/amount format:     Bob:Asset:Bob-coins                D 500 Bob-coins
+Processing line:     Bob:Equity:Bob-coins               C 500 Bob-coins
+Skipping line with incorrect commodity/amount format:     Bob:Equity:Bob-coins               C 500 Bob-coins
+Processing line: 2023/01/02 * After Match (Promise Accepted)
+Skipping line with incorrect commodity/amount format: 2023/01/02 * After Match (Promise Accepted)
+Processing line:     Alice:Asset:Alice-coins            D 1000 Alice-coins
+Skipping line with incorrect commodity/amount format:     Alice:Asset:Alice-coins            D 1000 Alice-coins
+Processing line:     Alice:Liability:PromiseX           C 1 PromiseX
+Skipping line with incorrect commodity/amount format:     Alice:Liability:PromiseX           C 1 PromiseX
+Processing line:     Alice:Equity:Alice-coins           C 1000 Alice-coins
+Skipping line with incorrect commodity/amount format:     Alice:Equity:Alice-coins           C 1000 Alice-coins
+Processing line:     Alice:Equity:PromiseX              C 1 PromiseX
+Skipping line with incorrect commodity/amount format:     Alice:Equity:PromiseX              C 1 PromiseX
+Processing line:     Bob:Asset:Bob-coins                D 500 Bob-coins
+Skipping line with incorrect commodity/amount format:     Bob:Asset:Bob-coins                D 500 Bob-coins
+Processing line:     Bob:Asset:PromiseX                 D 1 PromiseX
+Skipping line with incorrect commodity/amount format:     Bob:Asset:PromiseX                 D 1 PromiseX
+Processing line:     Bob:Liability:Bob-coins            C 100 Bob-coins
+Skipping line with incorrect commodity/amount format:     Bob:Liability:Bob-coins            C 100 Bob-coins
+Processing line:     Bob:Equity:Bob-coins               C 400 Bob-coins
+Skipping line with incorrect commodity/amount format:     Bob:Equity:Bob-coins               C 400 Bob-coins
+Processing line: 2023/01/03 * After Fulfillment Declaration (Promise Fulfilled)
+Skipping line with incorrect commodity/amount format: 2023/01/03 * After Fulfillment Declaration (Promise Fulfilled)
+Processing line:     Alice:Asset:Bob-coins              D 100 Bob-coins
+Skipping line with incorrect commodity/amount format:     Alice:Asset:Bob-coins              D 100 Bob-coins
+Processing line:     Alice:Asset:Alice-coins            D 1000 Alice-coins
+Skipping line with incorrect commodity/amount format:     Alice:Asset:Alice-coins            D 1000 Alice-coins
+Processing line:     Alice:Equity:Alice-coins           C 1000 Alice-coins
+Skipping line with incorrect commodity/amount format:     Alice:Equity:Alice-coins           C 1000 Alice-coins
+Processing line:     Bob:Asset:Bob-coins                D 500 Bob-coins
+Skipping line with incorrect commodity/amount format:     Bob:Asset:Bob-coins                D 500 Bob-coins
+Processing line:     Bob:Asset:PromiseX                 D 1 PromiseX
+Skipping line with incorrect commodity/amount format:     Bob:Asset:PromiseX                 D 1 PromiseX
+Processing line:     Bob:Liability:Bob-coins            D 100 Bob-coins
+Skipping line with incorrect commodity/amount format:     Bob:Liability:Bob-coins            D 100 Bob-coins
+Processing line:     Bob:Equity:Bob-coins               C 400 Bob-coins
+Skipping line with incorrect commodity/amount format:     Bob:Equity:Bob-coins               C 400 Bob-coins
+Printing balance sheet...
