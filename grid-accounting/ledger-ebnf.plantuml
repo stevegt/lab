@@ -1,0 +1,32 @@
+@startebnf
+title Ledger's Journal Format
+header Alen Šiljak, Ledger-rs project
+
+Journal = {Comment}, {Xact};
+
+(* Xact Directive *)
+Xact = XHeader, {Comment}, Post, {Post};
+
+XHeader = Date, [Aux_Date], ["*" | "!"], [("(", Code, ")")], [Payee], [Comment];
+Post = Account, [Amount], [Annotation], [Cost], [Comment];
+
+(* Posting *)
+Account = Account, {(":", Account)};
+Amount = DC, Quantity, Commodity;
+Annotation = [("{", PerUnitPrice, "}") | ("{{", TotalPrice, "}}")], [("[", Date, "]")];
+Cost = Price | Sum;
+Price = ("@", Amount);
+Sum = ("@@", Amount);
+
+(* DC is Debit or Credit *)
+DC = ("D" | "C");
+
+(* There are no negative signs *)
+Quantity = {Digits}, [".", {Digits}];
+
+Comment = (";" | "#" | "!" | "@"), text ;
+
+(* Price Directive *)
+Price-Directive = "P", Date, [Time], Quantity, Commodity;
+
+@endebnf

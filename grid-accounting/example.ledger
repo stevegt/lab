@@ -1,0 +1,30 @@
+2023/01/01 * Initial Balances
+    Alice:Asset            D 1000 Alice-coins
+    Alice:Equity           C 1000 Alice-coins
+    
+    Bob:Asset              D 500 Bob-coins
+    Bob:Equity             C 500 Bob-coins
+
+2023/01/02 * After Match (Promise Accepted)
+    Alice:Asset            D 1000 Alice-coins
+    Alice:Liability        C 1 PromiseX
+    Alice:Equity           C 1000 Alice-coins
+    Alice:Equity           D 1 PromiseX
+    
+    Bob:Asset              D 500 Bob-coins
+    Bob:Asset              D 1 PromiseX
+    Bob:Liability          C 100 Bob-coins
+    Bob:Equity             C 400 Bob-coins
+    Bob:Equity             C 1 PromiseX
+
+2023/01/03 * After Fulfillment Declaration (Promise Fulfilled)
+    Alice:Asset            D 100 Bob-coins
+    Alice:Asset            D 1000 Alice-coins
+    Alice:Equity           C 1000 Alice-coins
+    Alice:Equity           C 100 Bob-coins
+
+    Bob:Asset              D 500 Bob-coins
+    Bob:Asset              D 1 PromiseX
+    Bob:Liability          C 100 Bob-coins
+    Bob:Equity             C 400 Bob-coins
+    Bob:Equity             C 1 PromiseX
