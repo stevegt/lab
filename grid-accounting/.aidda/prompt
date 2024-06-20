@@ -7,47 +7,47 @@ Out: main.go
 
 Parsing ledger file: example.ledger
 Processing line: 2023/01/01 * Initial Balances
-Skipping line with incorrect commodity/amount format: 2023/01/01 * Initial Balances
+Error parsing amount: strconv.ParseFloat: parsing "Initial": invalid syntax
 Processing line:     Alice:Asset:Alice-coins            D 1000 Alice-coins
-Skipping line with incorrect commodity/amount format:     Alice:Asset:Alice-coins            D 1000 Alice-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Alice:Equity:Alice-coins           C 1000 Alice-coins
-Skipping line with incorrect commodity/amount format:     Alice:Equity:Alice-coins           C 1000 Alice-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Bob:Asset:Bob-coins                D 500 Bob-coins
-Skipping line with incorrect commodity/amount format:     Bob:Asset:Bob-coins                D 500 Bob-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Bob:Equity:Bob-coins               C 500 Bob-coins
-Skipping line with incorrect commodity/amount format:     Bob:Equity:Bob-coins               C 500 Bob-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line: 2023/01/02 * After Match (Promise Accepted)
-Skipping line with incorrect commodity/amount format: 2023/01/02 * After Match (Promise Accepted)
+Error parsing amount: strconv.ParseFloat: parsing "After": invalid syntax
 Processing line:     Alice:Asset:Alice-coins            D 1000 Alice-coins
-Skipping line with incorrect commodity/amount format:     Alice:Asset:Alice-coins            D 1000 Alice-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Alice:Liability:PromiseX           C 1 PromiseX
-Skipping line with incorrect commodity/amount format:     Alice:Liability:PromiseX           C 1 PromiseX
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Alice:Equity:Alice-coins           C 1000 Alice-coins
-Skipping line with incorrect commodity/amount format:     Alice:Equity:Alice-coins           C 1000 Alice-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Alice:Equity:PromiseX              C 1 PromiseX
-Skipping line with incorrect commodity/amount format:     Alice:Equity:PromiseX              C 1 PromiseX
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Bob:Asset:Bob-coins                D 500 Bob-coins
-Skipping line with incorrect commodity/amount format:     Bob:Asset:Bob-coins                D 500 Bob-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Bob:Asset:PromiseX                 D 1 PromiseX
-Skipping line with incorrect commodity/amount format:     Bob:Asset:PromiseX                 D 1 PromiseX
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Bob:Liability:Bob-coins            C 100 Bob-coins
-Skipping line with incorrect commodity/amount format:     Bob:Liability:Bob-coins            C 100 Bob-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Bob:Equity:Bob-coins               C 400 Bob-coins
-Skipping line with incorrect commodity/amount format:     Bob:Equity:Bob-coins               C 400 Bob-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line: 2023/01/03 * After Fulfillment Declaration (Promise Fulfilled)
-Skipping line with incorrect commodity/amount format: 2023/01/03 * After Fulfillment Declaration (Promise Fulfilled)
+Error parsing amount: strconv.ParseFloat: parsing "After": invalid syntax
 Processing line:     Alice:Asset:Bob-coins              D 100 Bob-coins
-Skipping line with incorrect commodity/amount format:     Alice:Asset:Bob-coins              D 100 Bob-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Alice:Asset:Alice-coins            D 1000 Alice-coins
-Skipping line with incorrect commodity/amount format:     Alice:Asset:Alice-coins            D 1000 Alice-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Alice:Equity:Alice-coins           C 1000 Alice-coins
-Skipping line with incorrect commodity/amount format:     Alice:Equity:Alice-coins           C 1000 Alice-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Bob:Asset:Bob-coins                D 500 Bob-coins
-Skipping line with incorrect commodity/amount format:     Bob:Asset:Bob-coins                D 500 Bob-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Bob:Asset:PromiseX                 D 1 PromiseX
-Skipping line with incorrect commodity/amount format:     Bob:Asset:PromiseX                 D 1 PromiseX
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Bob:Liability:Bob-coins            D 100 Bob-coins
-Skipping line with incorrect commodity/amount format:     Bob:Liability:Bob-coins            D 100 Bob-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Processing line:     Bob:Equity:Bob-coins               C 400 Bob-coins
-Skipping line with incorrect commodity/amount format:     Bob:Equity:Bob-coins               C 400 Bob-coins
+Error parsing amount: strconv.ParseFloat: parsing "": invalid syntax
 Printing balance sheet...

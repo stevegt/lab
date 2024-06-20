@@ -62,7 +62,7 @@ func parseLedger(file string) map[string]*BalanceSheet {
 			continue
 		}
 		fmt.Println("Processing line:", line)
-		parts := strings.Fields(line)
+		parts := strings.SplitN(strings.TrimSpace(line), " ", 4)
 		if len(parts) == 2 {
 			currentDate = parts[0]
 			fmt.Println("Current date set to:", currentDate)
@@ -72,22 +72,16 @@ func parseLedger(file string) map[string]*BalanceSheet {
 			fmt.Println("Skipping incomplete line:", line)
 			continue
 		}
-		commodityAmount := strings.FieldsFunc(parts[3], func(r rune) bool {
-			return r == ' ' || r == '.'
-		})
-		if len(commodityAmount) < 2 {
-			fmt.Println("Skipping line with incorrect commodity/amount format:", line)
-			continue
-		}
+		account := parts[0]
+		dc := parts[1]
+		amountStr := parts[2]
+		commodity := parts[3]
 
-		account := strings.Join(parts[0:len(parts)-3], ":")
-		dc := parts[len(parts)-3]
-		amount, err := strconv.ParseFloat(commodityAmount[0], 64)
+		amount, err := strconv.ParseFloat(amountStr, 64)
 		if err != nil {
 			fmt.Println("Error parsing amount:", err)
 			continue
 		}
-		commodity := commodityAmount[1]
 		party := strings.Split(account, ":")[0]
 
 		entry := Entry{
