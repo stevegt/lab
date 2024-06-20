@@ -1,6 +1,26 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 In: example.md, ledger-ebnf.plantuml, example.ledger, main.go
-Out: main.go
+Out: main.go, example.ledger
 
-replace the error-related Debug calls with error returns.
+'go run main.go' produces the following output:
+
+**Alice's Balance Sheet**
+| **Assets (Debits)** | **Liabilities (Credits)** | **Equity** |
+| --- | --- | --- |
+| Bob-coins 100.00 | | |
+| Alice-coins 3000.00 | | |
+| | Alice-coins 3000.00 | |
+| | PromiseX 2.00 | |
+| **Total**: 3100.00 | **Total**: 3002.00 | **Total**: 0.00 |
+Error: Assets != Liabilities + Equity
+
+**Bob's Balance Sheet**
+| **Assets (Debits)** | **Liabilities (Credits)** | **Equity** |
+| --- | --- | --- |
+| Bob-coins 1600.00 | | |
+| PromiseX 2.00 | | |
+| | Bob-coins 1400.00 | |
+| **Total**: 1602.00 | **Total**: 1400.00 | **Total**: 0.00 |
+Error: Assets != Liabilities + Equity
+
