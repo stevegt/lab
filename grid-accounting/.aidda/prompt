@@ -3,5 +3,6 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-let formatEntries take a columnwidth argument so it can left-justify
+make formatEntries take m, commodity, and columnwidth arguments.  use 
+columnWidth to left-justify
 the account label and right-justify the amount and commodity.  
