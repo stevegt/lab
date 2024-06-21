@@ -3,13 +3,5 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-parseLedger must obtain the transaction description from first line
-of each transaction and the legs from the remaining lines.  It must
-accumulate the legs in a transaction and then call
-ledger.AddTransaction to add the transaction to the ledger.  Transaction
-must include the transaction number, description, and the legs.
-
-The Ledger object must have methods to iterate over transactions and
-to return a set of balance sheets (one for each party) as of a
-transaction number.  Each balance sheet must include the
-party name and the transaction number and description.
+BalanceSheetsAt() must take a transaction number and return a map of
+party names to balance sheets.  

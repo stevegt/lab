@@ -17,14 +17,18 @@ type Entry struct {
 }
 
 type Transaction struct {
-	Date   string
-	Entries []Entry
+	Number      int
+	Date        string
+	Description string
+	Entries     []Entry
 }
 
 type BalanceSheet struct {
-	Asset     map[string]float64
-	Liability map[string]float64
-	Equity    map[string]float64
+	Party       string
+	Transaction Transaction
+	Asset       map[string]float64
+	Liability   map[string]float64
+	Equity      map[string]float64
 }
 
 func NewBalanceSheet() *BalanceSheet {
@@ -105,6 +109,8 @@ func (l *Ledger) BalanceSheetsAt(iterNum int) map[string]*BalanceSheet {
 			bs, exists := balanceSheets[party]
 			if !exists {
 				bs = NewBalanceSheet()
+				bs.Party = party
+				bs.Transaction = l.Transactions[i]
 				balanceSheets[party] = bs
 			}
 			updateBalanceSheet(bs, entry)
@@ -126,6 +132,7 @@ func parseLedger(file string) (*Ledger, error) {
 
 	scanner := bufio.NewScanner(f)
 	var currentDate string
+	var transactionNumber int
 	var currentTransaction Transaction
 
 	for scanner.Scan() {
@@ -133,17 +140,20 @@ func parseLedger(file string) (*Ledger, error) {
 		if strings.TrimSpace(line) == "" || strings.HasPrefix(line, ";") || strings.HasPrefix(line, "#") {
 			continue
 		}
-		if strings.Contains(line, "*") {
+		// transaction header starts at column 0
+		if len(line) > 0 && line[0] != ' ' {
 			if len(currentTransaction.Entries) > 0 {
 				ledger.AddTransaction(currentTransaction)
 				currentTransaction = Transaction{}
 			}
+			transactionNumber++
+			currentTransaction.Number = transactionNumber
 			parts := strings.SplitN(strings.TrimSpace(line), " ", 2)
-			if len(parts) >= 1 {
-				currentDate = parts[0]
-			}
+			currentDate = parts[0]
+			currentTransaction.Description = parts[1]
 			continue
 		}
+
 		parts := strings.Fields(line)
 		if len(parts) < 4 {
 			continue
@@ -171,7 +181,6 @@ func parseLedger(file string) (*Ledger, error) {
 			Commodity: commodity,
 		}
 
-		currentTransaction.Date = currentDate
 		currentTransaction.Entries = append(currentTransaction.Entries, entry)
 	}
 
@@ -206,6 +215,7 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 	columnWidth := 21
 	for party, sheet := range balances {
 		fmt.Printf("**%s's Balance Sheet**\n", party)
+		fmt.Printf("Transaction #%d: %s\n", sheet.Transaction.Number, sheet.Transaction.Description)
 
 		// print the headings
 		head := &Row{Cells: []string{"Asset (Debits)", "Liability (Credits)", "Equity"}}
