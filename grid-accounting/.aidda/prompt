@@ -3,21 +3,21 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-in printBalanceSheet, make each column 20 characters wide
+in printBalanceSheet, make each column 20 characters wide in both the header and the data rows.  This will make the output more readable.
 
 $ go run main.go 
 **Alice's Balance Sheet**
-| **Assets (Debits)**               | **Liabilities (Credits)**          | **Equity**                        |
-| --------------------------------- | ---------------------------------- | --------------------------------- |
-| Alice-coins 1000.00   | Alice-coins 1000.00   |                       |
-| PromiseX    3.00      | PromiseX    3.00      |                       |
-| Bob-coins   50.00     | Bob-coins   50.00     |                       |
-| **Total**: 1053.00      | **Total**: 1053.00      | **Total**: 0.00        |
+| **Assets (Debits)**     | **Liabilities (Credits)** | **Equity**              |
+| ----------------------- | ------------------------ | ----------------------- |
+| PromiseX   3.00      | Alice-coins 1000.00  |                      |
+| Bob-coins  50.00     | PromiseX   3.00      |                      |
+| Alice-coins 1000.00  | Bob-coins  50.00     |                      |
+| **Total**: 1053.00    | **Total**: 1053.00    | **Total**: 0.00       |
 
 **Bob's Balance Sheet**
-| **Assets (Debits)**               | **Liabilities (Credits)**          | **Equity**                        |
-| --------------------------------- | ---------------------------------- | --------------------------------- |
-| Bob-coins 650.00    | Bob-coins 650.00    |                     |
-| PromiseX  1.00      | PromiseX  1.00      |                     |
-| **Total**: 651.00      | **Total**: 651.00      | **Total**: 0.00      |
+| **Assets (Debits)**     | **Liabilities (Credits)** | **Equity**              |
+| ----------------------- | ------------------------ | ----------------------- |
+| Bob-coins  650.00    | Bob-coins  650.00    |                      |
+| PromiseX   1.00      | PromiseX   1.00      |                      |
+| **Total**: 651.00     | **Total**: 651.00     | **Total**: 0.00       |
 
