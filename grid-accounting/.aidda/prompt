@@ -3,7 +3,7 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-in printBalanceSheet, calculate and print spaces to make the columns line up 
+in printBalanceSheet, make each column 20 characters wide
 
 $ go run main.go 
 **Alice's Balance Sheet**
