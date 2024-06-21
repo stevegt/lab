@@ -3,6 +3,9 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-parseLedger must return a pointer to a Ledger.  The Ledger object must
-have methods to iterate over transactions, to add a transaction, and
-to return a balance sheet as of a transaction iteration number.
+parseLedger must accumulate the legs in a transaction and then call
+ledger.AddTransaction to add the transaction to the ledger. 
+
+The Ledger object must have methods to iterate over transactions and
+to return a set of balance sheets (one for each party) as of a
+transaction iteration number.

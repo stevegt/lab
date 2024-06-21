@@ -80,8 +80,30 @@ func parseAccount(accountStr string) (Account, error) {
 	return Account{Party: party, Category: category, Label: label}, nil
 }
 
-func parseLedger(file string) (map[string]*BalanceSheet, error) {
-	entries := make(map[string]*BalanceSheet)
+type Ledger struct {
+	Entries []Entry
+}
+
+func (l *Ledger) AddEntry(entry Entry) {
+	l.Entries = append(l.Entries, entry)
+}
+
+func (l *Ledger) IterEntries() []Entry {
+	return l.Entries
+}
+
+func (l *Ledger) BalanceSheetAt(iterNum int) *BalanceSheet {
+	bs := NewBalanceSheet()
+	for i := 0; i < iterNum && i < len(l.Entries); i++ {
+		updateBalanceSheet(bs, l.Entries[i])
+	}
+	return bs
+}
+
+func parseLedger(file string) (*Ledger, error) {
+	ledger := &Ledger{
+		Entries: []Entry{},
+	}
 
 	f, err := os.Open(file)
 	if err != nil {
@@ -131,17 +153,14 @@ func parseLedger(file string) (map[string]*BalanceSheet, error) {
 			Commodity: commodity,
 		}
 
-		if _, ok := entries[account.Party]; !ok {
-			entries[account.Party] = NewBalanceSheet()
-		}
-		updateBalanceSheet(entries[account.Party], entry)
+		ledger.AddEntry(entry)
 	}
 
 	if err := scanner.Err(); err != nil {
 		return nil, fmt.Errorf("error reading file: %v", err)
 	}
 
-	return entries, nil
+	return ledger, nil
 }
 
 // Row is a row in the balance sheet
@@ -245,10 +264,14 @@ func sumMapValues(m map[string]float64) float64 {
 
 func main() {
 	ledgerFile := "example.ledger"
-	balances, err := parseLedger(ledgerFile)
+	ledger, err := parseLedger(ledgerFile)
 	if err != nil {
 		fmt.Println("Failed to parse ledger file:", err)
 		return
 	}
-	printBalanceSheet(balances)
+
+	for i, _ := range ledger.IterEntries() {
+		bs := ledger.BalanceSheetAt(i)
+		printBalanceSheet(bs)
+	}
 }
