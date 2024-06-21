@@ -1,8 +1,8 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In: example.ledger
-Out: example.ledger
+In: main.go
+Out: main.go
 
-add 4 spaces between account name and the C or D column on each line.
+in printBalanceSheet, calculate and print spaces to make the columns line up 
 
 
