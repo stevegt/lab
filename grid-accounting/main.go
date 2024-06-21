@@ -103,47 +103,68 @@ func parseLedger(file string) (map[string]*BalanceSheet, error) {
 	return entries, nil
 }
 
+// Row is a row in the balance sheet
+type Row struct {
+	Cells []string
+}
+
+// Render renders the row as a markdown table row
+func (r *Row) Render(columnWidth int) string {
+	var cells []string
+	for _, cell := range r.Cells {
+		spaces := columnWidth - len(cell)
+		spaces = max(0, spaces)
+		cells = append(cells, fmt.Sprintf("%s%s", cell, strings.Repeat(" ", spaces)))
+	}
+	return fmt.Sprintf("| %s |", strings.Join(cells, " | "))
+}
+
 func printBalanceSheet(balances map[string]*BalanceSheet) {
+	columnWidth := 21
 	for party, sheet := range balances {
 		fmt.Printf("**%s's Balance Sheet**\n", party)
-		fmt.Println("| **Assets (Debits)**     | **Liabilities (Credits)** | **Equity**              |")
-		fmt.Println("| ----------------------- | ------------------------ | ----------------------- |")
+
+		// print the headings
+		head := &Row{Cells: []string{"Assets (Debits)", "Liabilities (Credits)", "Equity"}}
+		fmt.Println(head.Render(columnWidth))
+		dashes := strings.Repeat("-", columnWidth)
+		div := &Row{Cells: []string{dashes, dashes, dashes}}
+		fmt.Println(div.Render(columnWidth))
 
 		assetItems := formatEntries(sheet.Assets)
 		liabilityItems := formatEntries(sheet.Liabilities)
 		equityItems := formatEntries(sheet.Equity)
 
-		maxRows := max(len(assetItems), len(liabilityItems), len(equityItems))
+		maxRows := maxItems(len(assetItems), len(liabilityItems), len(equityItems))
 
 		for i := 0; i < maxRows; i++ {
 			var assetStr, liabilityStr, equityStr string
 
 			if i < len(assetItems) {
 				assetStr = assetItems[i]
-			} else {
-				assetStr = fmt.Sprintf("%-20s", "")
 			}
 
 			if i < len(liabilityItems) {
 				liabilityStr = liabilityItems[i]
-			} else {
-				liabilityStr = fmt.Sprintf("%-20s", "")
 			}
 
 			if i < len(equityItems) {
 				equityStr = equityItems[i]
-			} else {
-				equityStr = fmt.Sprintf("%-20s", "")
 			}
-
-			fmt.Printf("| %-20s | %-20s | %-20s |\n", assetStr, liabilityStr, equityStr)
+			row := &Row{Cells: []string{assetStr, liabilityStr, equityStr}}
+			fmt.Println(row.Render(columnWidth))
 		}
 
 		totalAssets := sumMapValues(sheet.Assets)
 		totalLiabilities := sumMapValues(sheet.Liabilities)
 		totalEquity := sumMapValues(sheet.Equity)
 
-		fmt.Printf("| **Total**: %-10.2f | **Total**: %-10.2f | **Total**: %-10.2f |\n", totalAssets, totalLiabilities, totalEquity)
+		totalAssetsStr := fmt.Sprintf("Total: %.2f", totalAssets)
+		totalLiabilitiesStr := fmt.Sprintf("Total: %.2f", totalLiabilities)
+		totalEquityStr := fmt.Sprintf("Total: %.2f", totalEquity)
+		totalRow := &Row{Cells: []string{totalAssetsStr, totalLiabilitiesStr, totalEquityStr}}
+		fmt.Println(totalRow.Render(columnWidth))
+
 		// ensure the basic accounting equation holds
 		if totalAssets != totalLiabilities+totalEquity {
 			fmt.Println("Error: Assets != Liabilities + Equity")
@@ -160,7 +181,7 @@ func formatEntries(m map[string]float64) []string {
 	return items
 }
 
-func max(a, b, c int) int {
+func maxItems(a, b, c int) int {
 	if a > b {
 		if a > c {
 			return a

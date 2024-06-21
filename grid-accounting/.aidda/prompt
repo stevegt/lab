@@ -3,6 +3,8 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-in printBalanceSheet, make each column 20 characters wide in both the
-header and the data rows.  This will make the output more readable.
+updateBalanceSheet isn't correct.  A Debit (D) increases the value of
+an asset account or decreases the value of a liability or equity
+account.  A Credit (C) decreases the value of an asset account or
+increases the value of a liability or equity account.  
 
