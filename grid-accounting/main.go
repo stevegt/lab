@@ -109,21 +109,26 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 		fmt.Println("| **Assets (Debits)** | **Liabilities (Credits)** | **Equity** |")
 		fmt.Println("| --- | --- | --- |")
 
-		for asset, amount := range sheet.Assets {
-			fmt.Printf("| %s %.2f | | |\n", asset, amount)
+		maxLenAsset := getMaxLen(sheet.Assets)
+		maxLenLiability := getMaxLen(sheet.Liabilities)
+		maxLenEquity := getMaxLen(sheet.Equity)
+		maxLen := max(maxLenAsset, maxLenLiability, maxLenEquity)
+
+		for commodity, amount := range sheet.Assets {
+			fmt.Printf("| %-*s %.2f | %-*s | %-*s |\n", maxLen, commodity, amount, maxLen, "", maxLen, "")
 		}
-		for liability, amount := range sheet.Liabilities {
-			fmt.Printf("| | %s %.2f | |\n", liability, amount)
+		for commodity, amount := range sheet.Liabilities {
+			fmt.Printf("| %-*s | %-*s %.2f | %-*s |\n", maxLen, "", maxLen, commodity, amount, maxLen, "")
 		}
-		for equity, amount := range sheet.Equity {
-			fmt.Printf("| | | %s %.2f |\n", equity, amount)
+		for commodity, amount := range sheet.Equity {
+			fmt.Printf("| %-*s | %-*s | %-*s %.2f |\n", maxLen, "", maxLen, "", maxLen, commodity, amount)
 		}
 
 		totalAssets := sumMapValues(sheet.Assets)
 		totalLiabilities := sumMapValues(sheet.Liabilities)
 		totalEquity := sumMapValues(sheet.Equity)
 
-		fmt.Printf("| **Total**: %.2f | **Total**: %.2f | **Total**: %.2f |\n", totalAssets, totalLiabilities, totalEquity)
+		fmt.Printf("| **Total**: %-*.2f | **Total**: %-*.2f | **Total**: %-*.2f |\n", maxLen, totalAssets, maxLen, totalLiabilities, maxLen, totalEquity)
 		// ensure the basic accounting equation holds
 		if totalAssets != totalLiabilities+totalEquity {
 			fmt.Println("Error: Assets != Liabilities + Equity")
@@ -131,6 +136,31 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 		fmt.Println()
 	}
 }
+
+func getMaxLen(m map[string]float64) int {
+	maxLen := 0
+	for k := range m {
+		if len(k) > maxLen {
+			maxLen = len(k)
+		}
+	}
+	return maxLen
+}
+
+/*
+func max(a, b, c int) int {
+	if a > b {
+		if a > c {
+			return a
+		}
+		return c
+	}
+	if b > c {
+		return b
+	}
+	return c
+}
+*/
 
 func sumMapValues(m map[string]float64) float64 {
 	total := 0.0
