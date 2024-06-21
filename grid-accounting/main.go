@@ -106,8 +106,8 @@ func parseLedger(file string) (map[string]*BalanceSheet, error) {
 func printBalanceSheet(balances map[string]*BalanceSheet) {
 	for party, sheet := range balances {
 		fmt.Printf("**%s's Balance Sheet**\n", party)
-		fmt.Println("| **Assets (Debits)** | **Liabilities (Credits)** | **Equity** |")
-		fmt.Println("| --- | --- | --- |")
+		fmt.Println("| **Assets (Debits)**   | **Liabilities (Credits)** | **Equity**            |")
+		fmt.Println("| --------------------- | ------------------------ | --------------------- |")
 
 		maxLenAsset := getMaxLen(sheet.Assets) + 10 // additional space for amount
 		maxLenLiability := getMaxLen(sheet.Liabilities) + 10 // additional space for amount
@@ -141,7 +141,7 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 				equityStr = fmt.Sprintf("%-*s", maxLen, "")
 			}
 
-			fmt.Printf("| %s | %s | %s |\n", assetStr, liabilityStr, equityStr)
+			fmt.Printf("| %-*s | %-*s | %-*s |\n", maxLen, assetStr, maxLen, liabilityStr, maxLen, equityStr)
 		}
 
 		totalAssets := sumMapValues(sheet.Assets)
