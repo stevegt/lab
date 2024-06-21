@@ -101,9 +101,9 @@ func (l *Ledger) IterateTransactions() []Transaction {
 	return l.Transactions
 }
 
-func (l *Ledger) BalanceSheetsAt(iterNum int) map[string]*BalanceSheet {
+func (l *Ledger) BalanceSheetsAt(txnNum int) map[string]*BalanceSheet {
 	balanceSheets := make(map[string]*BalanceSheet)
-	for i := 0; i < iterNum && i < len(l.Transactions); i++ {
+	for i := 0; i < txnNum && i < len(l.Transactions); i++ {
 		for _, entry := range l.Transactions[i].Entries {
 			party := entry.Account.Party
 			bs, exists := balanceSheets[party]

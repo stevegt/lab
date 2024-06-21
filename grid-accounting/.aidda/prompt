@@ -3,5 +3,9 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-BalanceSheetsAt() must take a transaction number and return a map of
-party names to balance sheets.  
+ledger.AddTransaction() must not take a transaction number.
+generating the transaction number is the responsibility of the ledger.
+Ledger must store transactions in a slice; the slice index is the transaction number.
+
+BalanceSheetsAt() must take a transaction number, look up the
+transaction by slice index, and return a map of party names to balance sheets.
