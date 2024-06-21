@@ -6,8 +6,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 type Entry struct {
@@ -33,23 +31,29 @@ func NewBalanceSheet() *BalanceSheet {
 }
 
 func updateBalanceSheet(bs *BalanceSheet, entry Entry) {
-	spew.Dump(entry)
+	fmt.Println("Debug: Updating Balance Sheet with entry: ", entry)
 	switch entry.DC {
 	case "D":
 		if strings.HasPrefix(entry.Account, "Assets") {
 			bs.Assets[entry.Commodity] += entry.Amount
+			fmt.Printf("Debug: Added %.2f to Assets (%s)\n", entry.Amount, entry.Commodity)
 		} else if strings.HasPrefix(entry.Account, "Liabilities") {
 			bs.Liabilities[entry.Commodity] -= entry.Amount // Decrease for liabilities
+			fmt.Printf("Debug: Subtracted %.2f from Liabilities (%s)\n", entry.Amount, entry.Commodity)
 		} else if strings.HasPrefix(entry.Account, "Equity") {
 			bs.Equity[entry.Commodity] -= entry.Amount // Decrease for equity
+			fmt.Printf("Debug: Subtracted %.2f from Equity (%s)\n", entry.Amount, entry.Commodity)
 		}
 	case "C":
 		if strings.HasPrefix(entry.Account, "Assets") {
 			bs.Assets[entry.Commodity] -= entry.Amount
+			fmt.Printf("Debug: Subtracted %.2f from Assets (%s)\n", entry.Amount, entry.Commodity)
 		} else if strings.HasPrefix(entry.Account, "Liabilities") {
 			bs.Liabilities[entry.Commodity] += entry.Amount
+			fmt.Printf("Debug: Added %.2f to Liabilities (%s)\n", entry.Amount, entry.Commodity)
 		} else if strings.HasPrefix(entry.Account, "Equity") {
 			bs.Equity[entry.Commodity] += entry.Amount
+			fmt.Printf("Debug: Added %.2f to Equity (%s)\n", entry.Amount, entry.Commodity)
 		}
 	}
 }

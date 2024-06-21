@@ -3,18 +3,8 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-something's wrong -- all of the balances are zero.  add debug
-statements in updateBalanceSheet to see what's going on.
-
-
-$ go run main.go 
-**Alice's Balance Sheet**
-| Assets (Debits)       | Liabilities (Credits) | Equity                |
-| --------------------- | --------------------- | --------------------- |
-| Total: 0.00           | Total: 0.00           | Total: 0.00           |
-
-**Bob's Balance Sheet**
-| Assets (Debits)       | Liabilities (Credits) | Equity                |
-| --------------------- | --------------------- | --------------------- |
-| Total: 0.00           | Total: 0.00           | Total: 0.00           |
-
+Create an Account type with Party, Category, and Label fields.  Party
+should be e.g. "Alice", "Bob", "Charlie", etc.  Category should be the
+second part of a two or three-part name e.g. "Asset", "Liability", "Equity".
+Label should be the second two parts e.g. "Asset", "Liability",
+"Liability:Promised", etc.
