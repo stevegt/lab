@@ -106,8 +106,8 @@ func parseLedger(file string) (map[string]*BalanceSheet, error) {
 func printBalanceSheet(balances map[string]*BalanceSheet) {
 	for party, sheet := range balances {
 		fmt.Printf("**%s's Balance Sheet**\n", party)
-		fmt.Println("| **Assets (Debits)**   | **Liabilities (Credits)** | **Equity**            |")
-		fmt.Println("| --------------------- | ------------------------ | --------------------- |")
+		fmt.Println("| **Assets (Debits)**               | **Liabilities (Credits)**          | **Equity**                        |")
+		fmt.Println("| --------------------------------- | ---------------------------------- | --------------------------------- |")
 
 		maxLenAsset := getMaxLen(sheet.Assets) + 10 // additional space for amount
 		maxLenLiability := getMaxLen(sheet.Liabilities) + 10 // additional space for amount
@@ -148,7 +148,7 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 		totalLiabilities := sumMapValues(sheet.Liabilities)
 		totalEquity := sumMapValues(sheet.Equity)
 
-		fmt.Printf("| **Total**: %-*.2f | **Total**: %-*.2f | **Total**: %-*.2f |\n", maxLen-10, totalAssets, maxLen-10, totalLiabilities, maxLen-10, totalEquity)
+		fmt.Printf("| **Total**: %-*.2f      | **Total**: %-*.2f      | **Total**: %-*.2f      |\n", maxLen-15, totalAssets, maxLen-15, totalLiabilities, maxLen-15, totalEquity)
 		// ensure the basic accounting equation holds
 		if totalAssets != totalLiabilities+totalEquity {
 			fmt.Println("Error: Assets != Liabilities + Equity")
