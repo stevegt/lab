@@ -1,16 +1,9 @@
-2023/01/01 * Initial Balances
-    Alice:Asset                  D 1000 Alice-coins
-    Alice:Equity                 C 1000 Alice-coins
-    
-    Bob:Asset                    D 500 Bob-coins
-    Bob:Equity                   C 500 Bob-coins
-
 2023/01/01 * Before Match (Alice asks N, Bob bids 50)
     Alice:Asset                  D 1 PromiseX
     Alice:Liability:Pending      C 1 PromiseX
     
     Bob:Liability:Pending        C 50 Bob-coins
-    Bob:Equity                   D 50 Bob-coins
+    Bob:Asset                    D 50 Bob-coins
 
 2023/01/02 * After Match (Alice lowers ask to 50)
     Alice:Liability:Pending      D 1 PromiseX
@@ -23,10 +16,10 @@
     Alice:Asset                  D 50 Bob-coins
     Alice:Equity                 C 50 Bob-coins
     Alice:Liability:Promised     D 1 PromiseX
-    Alice:Equity                 C 1 PromiseX
+    Alice:Liability:Issued       C 1 PromiseX
 
     Bob:Liability:Promised       D 50 Bob-coins
-    Bob:Equity                   C 50 Bob-coins
+    Bob:Liability:Issued         C 50 Bob-coins
 
     Bob:Asset                    D 1 PromiseX
     Bob:Equity                   C 1 PromiseX

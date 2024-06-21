@@ -25,16 +25,16 @@ type Transaction struct {
 
 type BalanceSheet struct {
 	Party     string
-	Asset     map[string]float64
-	Liability map[string]float64
-	Equity    map[string]float64
+	Asset     map[string]map[string]float64
+	Liability map[string]map[string]float64
+	Equity    map[string]map[string]float64
 }
 
 func NewBalanceSheet() *BalanceSheet {
 	return &BalanceSheet{
-		Asset:     make(map[string]float64),
-		Liability: make(map[string]float64),
-		Equity:    make(map[string]float64),
+		Asset:     make(map[string]map[string]float64),
+		Liability: make(map[string]map[string]float64),
+		Equity:    make(map[string]map[string]float64),
 	}
 }
 
@@ -47,25 +47,34 @@ type Account struct {
 func updateBalanceSheet(bs *BalanceSheet, entry Entry) {
 	switch entry.Account.Category {
 	case "Asset":
+		if bs.Asset[entry.Commodity] == nil {
+			bs.Asset[entry.Commodity] = make(map[string]float64)
+		}
 		switch entry.DC {
 		case "D":
-			bs.Asset[entry.Commodity] += entry.Amount
+			bs.Asset[entry.Commodity][entry.Account.Label] += entry.Amount
 		case "C":
-			bs.Asset[entry.Commodity] -= entry.Amount
+			bs.Asset[entry.Commodity][entry.Account.Label] -= entry.Amount
 		}
 	case "Liability":
+		if bs.Liability[entry.Commodity] == nil {
+			bs.Liability[entry.Commodity] = make(map[string]float64)
+		}
 		switch entry.DC {
 		case "D":
-			bs.Liability[entry.Commodity] -= entry.Amount
+			bs.Liability[entry.Commodity][entry.Account.Label] -= entry.Amount
 		case "C":
-			bs.Liability[entry.Commodity] += entry.Amount
+			bs.Liability[entry.Commodity][entry.Account.Label] += entry.Amount
 		}
 	case "Equity":
+		if bs.Equity[entry.Commodity] == nil {
+			bs.Equity[entry.Commodity] = make(map[string]float64)
+		}
 		switch entry.DC {
 		case "D":
-			bs.Equity[entry.Commodity] -= entry.Amount
+			bs.Equity[entry.Commodity][entry.Account.Label] -= entry.Amount
 		case "C":
-			bs.Equity[entry.Commodity] += entry.Amount
+			bs.Equity[entry.Commodity][entry.Account.Label] += entry.Amount
 		}
 	}
 }
@@ -77,7 +86,7 @@ func parseAccount(accountStr string) (Account, error) {
 	}
 	party := parts[0]
 	category := parts[1]
-	label := strings.Join(parts[1:], ":")
+	label := strings.Join(parts[2:], ":")
 	return Account{Party: party, Category: category, Label: label}, nil
 }
 
@@ -130,11 +139,20 @@ func parseLedger(file string) (*Ledger, error) {
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		if strings.TrimSpace(line) == "" || strings.HasPrefix(line, ";") || strings.HasPrefix(line, "#") {
+		lineTrimmed := strings.TrimSpace(line)
+
+		// skip comments
+		if strings.HasPrefix(lineTrimmed, "#") {
 			continue
 		}
+
+		// skip empty lines
+		if len(lineTrimmed) == 0 {
+			continue
+		}
+
 		// transaction header starts at column 0
-		if len(line) > 0 && line[0] != ' ' {
+		if line[0] != ' ' {
 			if len(currentTransaction.Entries) > 0 {
 				ledger.AddTransaction(currentTransaction)
 				currentTransaction = Transaction{}
@@ -148,7 +166,7 @@ func parseLedger(file string) (*Ledger, error) {
 
 		parts := strings.Fields(line)
 		if len(parts) < 4 {
-			continue
+			return nil, fmt.Errorf("invalid entry format: %s", line)
 		}
 		accountStr := parts[0]
 		dc := parts[1]
@@ -215,43 +233,79 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 		div := &Row{Cells: []string{dashes, dashes, dashes}}
 		fmt.Println(div.Render(columnWidth))
 
-		assetItems := formatEntries(sheet.Asset)
-		liabilityItems := formatEntries(sheet.Liability)
-		equityItems := formatEntries(sheet.Equity)
-
-		maxRows := maxItems(len(assetItems), len(liabilityItems), len(equityItems))
-
-		for i := 0; i < maxRows; i++ {
-			var assetStr, liabilityStr, equityStr string
-
-			if i < len(assetItems) {
-				assetStr = assetItems[i]
-			}
-
-			if i < len(liabilityItems) {
-				liabilityStr = liabilityItems[i]
-			}
-
-			if i < len(equityItems) {
-				equityStr = equityItems[i]
-			}
-			row := &Row{Cells: []string{assetStr, liabilityStr, equityStr}}
-			fmt.Println(row.Render(columnWidth))
+		// collect all the commodities from each category
+		commodities := make(map[string]bool)
+		for commodity := range sheet.Asset {
+			commodities[commodity] = true
+		}
+		for commodity := range sheet.Liability {
+			commodities[commodity] = true
+		}
+		for commodity := range sheet.Equity {
+			commodities[commodity] = true
 		}
 
-		totalAsset := sumMapValues(sheet.Asset)
-		totalLiability := sumMapValues(sheet.Liability)
-		totalEquity := sumMapValues(sheet.Equity)
+		// create a totals map to hold the total for each commodity and category
+		// map[commodity]map[category]total
+		totals := make(map[string]map[string]float64)
+		for commodity := range commodities {
+			totals[commodity] = make(map[string]float64)
+			totals[commodity]["Asset"] = 0
+			totals[commodity]["Liability"] = 0
+			totals[commodity]["Equity"] = 0
+		}
 
-		totalAssetStr := fmt.Sprintf("Total: %.2f", totalAsset)
-		totalLiabilityStr := fmt.Sprintf("Total: %.2f", totalLiability)
-		totalEquityStr := fmt.Sprintf("Total: %.2f", totalEquity)
-		totalRow := &Row{Cells: []string{totalAssetStr, totalLiabilityStr, totalEquityStr}}
-		fmt.Println(totalRow.Render(columnWidth))
+		// print the entries for each commodity
+		for commodity := range commodities {
+			subhead := &Row{Cells: []string{fmt.Sprintf("%s:", commodity), "", ""}}
+			fmt.Println(subhead.Render(columnWidth))
 
-		// ensure the basic accounting equation holds
-		if totalAsset != totalLiability+totalEquity {
-			fmt.Println("Error: Asset != Liability + Equity")
+			assetEntries := sheet.Asset[commodity]
+			liabilityEntries := sheet.Liability[commodity]
+			equityEntries := sheet.Equity[commodity]
+
+			assetItems := formatEntries(assetEntries)
+			liabilityItems := formatEntries(liabilityEntries)
+			equityItems := formatEntries(equityEntries)
+
+			maxRows := maxItems(len(assetItems), len(liabilityItems), len(equityItems))
+
+			for i := 0; i < maxRows; i++ {
+				var assetStr, liabilityStr, equityStr string
+
+				if i < len(assetItems) {
+					assetStr = assetItems[i]
+				}
+
+				if i < len(liabilityItems) {
+					liabilityStr = liabilityItems[i]
+				}
+
+				if i < len(equityItems) {
+					equityStr = equityItems[i]
+				}
+				row := &Row{Cells: []string{assetStr, liabilityStr, equityStr}}
+				fmt.Println(row.Render(columnWidth))
+			}
+
+			totalAsset := sumMapValues(assetEntries)
+			totalLiability := sumMapValues(sheet.Liability[commodity])
+			totalEquity := sumMapValues(sheet.Equity[commodity])
+
+			totalAssetStr := fmt.Sprintf("Total: %.2f", totalAsset)
+			totalLiabilityStr := fmt.Sprintf("Total: %.2f", totalLiability)
+			totalEquityStr := fmt.Sprintf("Total: %.2f", totalEquity)
+			totalRow := &Row{Cells: []string{totalAssetStr, totalLiabilityStr, totalEquityStr}}
+			fmt.Println(totalRow.Render(columnWidth))
+
+			// ensure the basic accounting equation holds
+			if totalAsset != totalLiability+totalEquity {
+				fmt.Println("Error: Asset != Liability + Equity")
+			}
+
+			// add a blank row
+			blanks := &Row{Cells: []string{"", "", ""}}
+			fmt.Println(blanks.Render(columnWidth))
 		}
 		fmt.Println()
 	}
@@ -259,8 +313,8 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 
 func formatEntries(m map[string]float64) []string {
 	items := []string{}
-	for commodity, amount := range m {
-		items = append(items, fmt.Sprintf("%-10s %.2f", commodity, amount))
+	for accountLabel, amount := range m {
+		items = append(items, fmt.Sprintf("%-10s %.2f", accountLabel, amount))
 	}
 	return items
 }
