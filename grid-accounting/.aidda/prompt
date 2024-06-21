@@ -3,5 +3,4 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-Totals must be by commodity.  Commodities are the things that are being
-traded.  Commodities cannot be mixed.
+When printing an amount, always show the commodity symbol.
