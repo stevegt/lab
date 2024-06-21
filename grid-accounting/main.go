@@ -10,7 +10,7 @@ import (
 
 type Entry struct {
 	Date      string
-	Account   string
+	Account   Account
 	DC        string
 	Amount    float64
 	Commodity string
@@ -28,6 +28,12 @@ func NewBalanceSheet() *BalanceSheet {
 		Liabilities: make(map[string]float64),
 		Equity:      make(map[string]float64),
 	}
+}
+
+type Account struct {
+	Party    string
+	Category string
+	Label    string
 }
 
 func updateBalanceSheet(bs *BalanceSheet, entry Entry) {
@@ -58,6 +64,17 @@ func updateBalanceSheet(bs *BalanceSheet, entry Entry) {
 	}
 }
 
+func parseAccount(accountStr string) (Account, error) {
+	parts := strings.Split(accountStr, ":")
+	if len(parts) < 2 || len(parts) > 3 {
+		return Account{}, fmt.Errorf("invalid account format: %s", accountStr)
+	}
+	party := parts[0]
+	category := parts[1]
+	label := strings.Join(parts[1:], ":")
+	return Account{Party: party, Category: category, Label: label}, nil
+}
+
 func parseLedger(file string) (map[string]*BalanceSheet, error) {
 	entries := make(map[string]*BalanceSheet)
 
@@ -86,7 +103,7 @@ func parseLedger(file string) (map[string]*BalanceSheet, error) {
 		if len(parts) < 4 {
 			continue
 		}
-		account := parts[0]
+		accountStr := parts[0]
 		dc := parts[1]
 		amountStr := parts[2]
 		commodity := parts[3]
@@ -95,7 +112,11 @@ func parseLedger(file string) (map[string]*BalanceSheet, error) {
 		if err != nil {
 			return nil, fmt.Errorf("error parsing amount: %v", err)
 		}
-		party := strings.Split(account, ":")[0]
+
+		account, err := parseAccount(accountStr)
+		if err != nil {
+			return nil, fmt.Errorf("error parsing account: %v", err)
+		}
 
 		entry := Entry{
 			Date:      currentDate,
@@ -105,10 +126,10 @@ func parseLedger(file string) (map[string]*BalanceSheet, error) {
 			Commodity: commodity,
 		}
 
-		if _, ok := entries[party]; !ok {
-			entries[party] = NewBalanceSheet()
+		if _, ok := entries[account.Party]; !ok {
+			entries[account.Party] = NewBalanceSheet()
 		}
-		updateBalanceSheet(entries[party], entry)
+		updateBalanceSheet(entries[account.Party], entry)
 	}
 
 	if err := scanner.Err(); err != nil {
