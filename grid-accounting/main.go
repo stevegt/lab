@@ -16,6 +16,11 @@ type Entry struct {
 	Commodity string
 }
 
+type Transaction struct {
+	Date   string
+	Entries []Entry
+}
+
 type BalanceSheet struct {
 	Asset     map[string]float64
 	Liability map[string]float64
@@ -81,28 +86,36 @@ func parseAccount(accountStr string) (Account, error) {
 }
 
 type Ledger struct {
-	Entries []Entry
+	Transactions []Transaction
 }
 
-func (l *Ledger) AddEntry(entry Entry) {
-	l.Entries = append(l.Entries, entry)
+func (l *Ledger) AddTransaction(txn Transaction) {
+	l.Transactions = append(l.Transactions, txn)
 }
 
-func (l *Ledger) IterEntries() []Entry {
-	return l.Entries
+func (l *Ledger) IterateTransactions() []Transaction {
+	return l.Transactions
 }
 
-func (l *Ledger) BalanceSheetAt(iterNum int) *BalanceSheet {
-	bs := NewBalanceSheet()
-	for i := 0; i < iterNum && i < len(l.Entries); i++ {
-		updateBalanceSheet(bs, l.Entries[i])
+func (l *Ledger) BalanceSheetsAt(iterNum int) map[string]*BalanceSheet {
+	balanceSheets := make(map[string]*BalanceSheet)
+	for i := 0; i < iterNum && i < len(l.Transactions); i++ {
+		for _, entry := range l.Transactions[i].Entries {
+			party := entry.Account.Party
+			bs, exists := balanceSheets[party]
+			if !exists {
+				bs = NewBalanceSheet()
+				balanceSheets[party] = bs
+			}
+			updateBalanceSheet(bs, entry)
+		}
 	}
-	return bs
+	return balanceSheets
 }
 
 func parseLedger(file string) (*Ledger, error) {
 	ledger := &Ledger{
-		Entries: []Entry{},
+		Transactions: []Transaction{},
 	}
 
 	f, err := os.Open(file)
@@ -113,6 +126,7 @@ func parseLedger(file string) (*Ledger, error) {
 
 	scanner := bufio.NewScanner(f)
 	var currentDate string
+	var currentTransaction Transaction
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -120,6 +134,10 @@ func parseLedger(file string) (*Ledger, error) {
 			continue
 		}
 		if strings.Contains(line, "*") {
+			if len(currentTransaction.Entries) > 0 {
+				ledger.AddTransaction(currentTransaction)
+				currentTransaction = Transaction{}
+			}
 			parts := strings.SplitN(strings.TrimSpace(line), " ", 2)
 			if len(parts) >= 1 {
 				currentDate = parts[0]
@@ -153,7 +171,12 @@ func parseLedger(file string) (*Ledger, error) {
 			Commodity: commodity,
 		}
 
-		ledger.AddEntry(entry)
+		currentTransaction.Date = currentDate
+		currentTransaction.Entries = append(currentTransaction.Entries, entry)
+	}
+
+	if len(currentTransaction.Entries) > 0 {
+		ledger.AddTransaction(currentTransaction)
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -270,8 +293,8 @@ func main() {
 		return
 	}
 
-	for i, _ := range ledger.IterEntries() {
-		bs := ledger.BalanceSheetAt(i)
+	for i := range ledger.IterateTransactions() {
+		bs := ledger.BalanceSheetsAt(i + 1)
 		printBalanceSheet(bs)
 	}
 }
