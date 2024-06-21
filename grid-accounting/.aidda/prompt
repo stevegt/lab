@@ -3,8 +3,16 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-updateBalanceSheet isn't correct.  A Debit (D) increases the value of
-an asset account or decreases the value of a liability or equity
-account.  A Credit (C) decreases the value of an asset account or
-increases the value of a liability or equity account.  
+something's wrong -- all of the balances are zero:
+
+$ go run main.go 
+**Alice's Balance Sheet**
+| Assets (Debits)       | Liabilities (Credits) | Equity                |
+| --------------------- | --------------------- | --------------------- |
+| Total: 0.00           | Total: 0.00           | Total: 0.00           |
+
+**Bob's Balance Sheet**
+| Assets (Debits)       | Liabilities (Credits) | Equity                |
+| --------------------- | --------------------- | --------------------- |
+| Total: 0.00           | Total: 0.00           | Total: 0.00           |
 

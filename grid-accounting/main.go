@@ -33,12 +33,18 @@ func NewBalanceSheet() *BalanceSheet {
 func updateBalanceSheet(bs *BalanceSheet, entry Entry) {
 	switch entry.DC {
 	case "D":
-		bs.Assets[entry.Commodity] += entry.Amount
+		if strings.HasPrefix(entry.Account, "Assets") {
+			bs.Assets[entry.Commodity] += entry.Amount
+		} else if strings.HasPrefix(entry.Account, "Liabilities") || strings.HasPrefix(entry.Account, "Equity") {
+			bs.Liabilities[entry.Commodity] -= entry.Amount // Decrease for liabilities or equity
+		}
 	case "C":
-		if strings.HasPrefix(entry.Account, "Equity") {
-			bs.Equity[entry.Commodity] += entry.Amount
-		} else {
+		if strings.HasPrefix(entry.Account, "Assets") {
+			bs.Assets[entry.Commodity] -= entry.Amount
+		} else if strings.HasPrefix(entry.Account, "Liabilities") {
 			bs.Liabilities[entry.Commodity] += entry.Amount
+		} else if strings.HasPrefix(entry.Account, "Equity") {
+			bs.Equity[entry.Commodity] += entry.Amount
 		}
 	}
 }
