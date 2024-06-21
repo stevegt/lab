@@ -17,18 +17,17 @@ type Entry struct {
 }
 
 type Transaction struct {
-	Number      int
+	// Removed Number from Transaction struct as the slice index will be used.
 	Date        string
 	Description string
 	Entries     []Entry
 }
 
 type BalanceSheet struct {
-	Party       string
-	Transaction Transaction
-	Asset       map[string]float64
-	Liability   map[string]float64
-	Equity      map[string]float64
+	Party     string
+	Asset     map[string]float64
+	Liability map[string]float64
+	Equity    map[string]float64
 }
 
 func NewBalanceSheet() *BalanceSheet {
@@ -46,34 +45,27 @@ type Account struct {
 }
 
 func updateBalanceSheet(bs *BalanceSheet, entry Entry) {
-	fmt.Println("Debug: Updating Balance Sheet with entry: ", entry)
 	switch entry.Account.Category {
 	case "Asset":
 		switch entry.DC {
 		case "D":
 			bs.Asset[entry.Commodity] += entry.Amount
-			fmt.Printf("Debug: Added %.2f to Asset (%s)\n", entry.Amount, entry.Commodity)
 		case "C":
 			bs.Asset[entry.Commodity] -= entry.Amount
-			fmt.Printf("Debug: Subtracted %.2f from Asset (%s)\n", entry.Amount, entry.Commodity)
 		}
 	case "Liability":
 		switch entry.DC {
 		case "D":
 			bs.Liability[entry.Commodity] -= entry.Amount
-			fmt.Printf("Debug: Subtracted %.2f from Liability (%s)\n", entry.Amount, entry.Commodity)
 		case "C":
 			bs.Liability[entry.Commodity] += entry.Amount
-			fmt.Printf("Debug: Added %.2f to Liability (%s)\n", entry.Amount, entry.Commodity)
 		}
 	case "Equity":
 		switch entry.DC {
 		case "D":
 			bs.Equity[entry.Commodity] -= entry.Amount
-			fmt.Printf("Debug: Subtracted %.2f from Equity (%s)\n", entry.Amount, entry.Commodity)
 		case "C":
 			bs.Equity[entry.Commodity] += entry.Amount
-			fmt.Printf("Debug: Added %.2f to Equity (%s)\n", entry.Amount, entry.Commodity)
 		}
 	}
 }
@@ -103,14 +95,16 @@ func (l *Ledger) IterateTransactions() []Transaction {
 
 func (l *Ledger) BalanceSheetsAt(txnNum int) map[string]*BalanceSheet {
 	balanceSheets := make(map[string]*BalanceSheet)
-	for i := 0; i < txnNum && i < len(l.Transactions); i++ {
+	if txnNum > len(l.Transactions) {
+		txnNum = len(l.Transactions) - 1
+	}
+	for i := 0; i <= txnNum; i++ {
 		for _, entry := range l.Transactions[i].Entries {
 			party := entry.Account.Party
 			bs, exists := balanceSheets[party]
 			if !exists {
 				bs = NewBalanceSheet()
 				bs.Party = party
-				bs.Transaction = l.Transactions[i]
 				balanceSheets[party] = bs
 			}
 			updateBalanceSheet(bs, entry)
@@ -132,7 +126,6 @@ func parseLedger(file string) (*Ledger, error) {
 
 	scanner := bufio.NewScanner(f)
 	var currentDate string
-	var transactionNumber int
 	var currentTransaction Transaction
 
 	for scanner.Scan() {
@@ -146,10 +139,9 @@ func parseLedger(file string) (*Ledger, error) {
 				ledger.AddTransaction(currentTransaction)
 				currentTransaction = Transaction{}
 			}
-			transactionNumber++
-			currentTransaction.Number = transactionNumber
 			parts := strings.SplitN(strings.TrimSpace(line), " ", 2)
 			currentDate = parts[0]
+			currentTransaction.Date = currentDate
 			currentTransaction.Description = parts[1]
 			continue
 		}
@@ -214,8 +206,7 @@ func (r *Row) Render(columnWidth int) string {
 func printBalanceSheet(balances map[string]*BalanceSheet) {
 	columnWidth := 21
 	for party, sheet := range balances {
-		fmt.Printf("**%s's Balance Sheet**\n", party)
-		fmt.Printf("Transaction #%d: %s\n", sheet.Transaction.Number, sheet.Transaction.Description)
+		fmt.Printf("#### %s's Balance Sheet\n", party)
 
 		// print the headings
 		head := &Row{Cells: []string{"Asset (Debits)", "Liability (Credits)", "Equity"}}
@@ -304,7 +295,9 @@ func main() {
 	}
 
 	for i := range ledger.IterateTransactions() {
-		bs := ledger.BalanceSheetsAt(i + 1)
+		txn := ledger.Transactions[i]
+		fmt.Printf("### Transaction %d: %s %s\n\n", i, txn.Date, txn.Description)
+		bs := ledger.BalanceSheetsAt(i)
 		printBalanceSheet(bs)
 	}
 }
