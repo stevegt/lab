@@ -3,4 +3,5 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-When printing an amount, always show the commodity symbol.
+let formatEntries take a columnwidth argument so it can left-justify
+the account label and right-justify the amount and commodity.  

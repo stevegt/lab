@@ -222,7 +222,7 @@ func (r *Row) Render(columnWidth int) string {
 }
 
 func printBalanceSheet(balances map[string]*BalanceSheet) {
-	columnWidth := 21
+	columnWidth := 30
 	for party, sheet := range balances {
 		fmt.Printf("#### %s's Balance Sheet\n", party)
 
@@ -264,9 +264,9 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 			liabilityEntries := sheet.Liability[commodity]
 			equityEntries := sheet.Equity[commodity]
 
-			assetItems := formatEntries(assetEntries)
-			liabilityItems := formatEntries(liabilityEntries)
-			equityItems := formatEntries(equityEntries)
+			assetItems := formatEntries(assetEntries, commodity)
+			liabilityItems := formatEntries(liabilityEntries, commodity)
+			equityItems := formatEntries(equityEntries, commodity)
 
 			maxRows := maxItems(len(assetItems), len(liabilityItems), len(equityItems))
 
@@ -292,9 +292,9 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 			totalLiability := sumMapValues(sheet.Liability[commodity])
 			totalEquity := sumMapValues(sheet.Equity[commodity])
 
-			totalAssetStr := fmt.Sprintf("Total: %.2f", totalAsset)
-			totalLiabilityStr := fmt.Sprintf("Total: %.2f", totalLiability)
-			totalEquityStr := fmt.Sprintf("Total: %.2f", totalEquity)
+			totalAssetStr := fmt.Sprintf("Total: %.2f %s", totalAsset, commodity)
+			totalLiabilityStr := fmt.Sprintf("Total: %.2f %s", totalLiability, commodity)
+			totalEquityStr := fmt.Sprintf("Total: %.2f %s", totalEquity, commodity)
 			totalRow := &Row{Cells: []string{totalAssetStr, totalLiabilityStr, totalEquityStr}}
 			fmt.Println(totalRow.Render(columnWidth))
 
@@ -311,10 +311,10 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 	}
 }
 
-func formatEntries(m map[string]float64) []string {
+func formatEntries(m map[string]float64, commodity string) []string {
 	items := []string{}
 	for accountLabel, amount := range m {
-		items = append(items, fmt.Sprintf("%-10s %.2f", accountLabel, amount))
+		items = append(items, fmt.Sprintf("%-10s %.2f %s", accountLabel, amount, commodity))
 	}
 	return items
 }
