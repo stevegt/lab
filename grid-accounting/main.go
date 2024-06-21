@@ -109,26 +109,46 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 		fmt.Println("| **Assets (Debits)** | **Liabilities (Credits)** | **Equity** |")
 		fmt.Println("| --- | --- | --- |")
 
-		maxLenAsset := getMaxLen(sheet.Assets)
-		maxLenLiability := getMaxLen(sheet.Liabilities)
-		maxLenEquity := getMaxLen(sheet.Equity)
+		maxLenAsset := getMaxLen(sheet.Assets) + 10 // additional space for amount
+		maxLenLiability := getMaxLen(sheet.Liabilities) + 10 // additional space for amount
+		maxLenEquity := getMaxLen(sheet.Equity) + 10 // additional space for amount
 		maxLen := max(maxLenAsset, maxLenLiability, maxLenEquity)
 
-		for commodity, amount := range sheet.Assets {
-			fmt.Printf("| %-*s %.2f | %-*s | %-*s |\n", maxLen, commodity, amount, maxLen, "", maxLen, "")
-		}
-		for commodity, amount := range sheet.Liabilities {
-			fmt.Printf("| %-*s | %-*s %.2f | %-*s |\n", maxLen, "", maxLen, commodity, amount, maxLen, "")
-		}
-		for commodity, amount := range sheet.Equity {
-			fmt.Printf("| %-*s | %-*s | %-*s %.2f |\n", maxLen, "", maxLen, "", maxLen, commodity, amount)
+		assetItems := formatEntries(sheet.Assets, maxLen)
+		liabilityItems := formatEntries(sheet.Liabilities, maxLen)
+		equityItems := formatEntries(sheet.Equity, maxLen)
+
+		maxRows := max(len(assetItems), len(liabilityItems), len(equityItems))
+
+		for i := 0; i < maxRows; i++ {
+			var assetStr, liabilityStr, equityStr string
+
+			if i < len(assetItems) {
+				assetStr = assetItems[i]
+			} else {
+				assetStr = fmt.Sprintf("%-*s", maxLen, "")
+			}
+
+			if i < len(liabilityItems) {
+				liabilityStr = liabilityItems[i]
+			} else {
+				liabilityStr = fmt.Sprintf("%-*s", maxLen, "")
+			}
+
+			if i < len(equityItems) {
+				equityStr = equityItems[i]
+			} else {
+				equityStr = fmt.Sprintf("%-*s", maxLen, "")
+			}
+
+			fmt.Printf("| %s | %s | %s |\n", assetStr, liabilityStr, equityStr)
 		}
 
 		totalAssets := sumMapValues(sheet.Assets)
 		totalLiabilities := sumMapValues(sheet.Liabilities)
 		totalEquity := sumMapValues(sheet.Equity)
 
-		fmt.Printf("| **Total**: %-*.2f | **Total**: %-*.2f | **Total**: %-*.2f |\n", maxLen, totalAssets, maxLen, totalLiabilities, maxLen, totalEquity)
+		fmt.Printf("| **Total**: %-*.2f | **Total**: %-*.2f | **Total**: %-*.2f |\n", maxLen-10, totalAssets, maxLen-10, totalLiabilities, maxLen-10, totalEquity)
 		// ensure the basic accounting equation holds
 		if totalAssets != totalLiabilities+totalEquity {
 			fmt.Println("Error: Assets != Liabilities + Equity")
@@ -147,7 +167,14 @@ func getMaxLen(m map[string]float64) int {
 	return maxLen
 }
 
-/*
+func formatEntries(m map[string]float64, maxLen int) []string {
+	items := []string{}
+	for commodity, amount := range m {
+		items = append(items, fmt.Sprintf("%-*s %.2f", maxLen-10, commodity, amount))
+	}
+	return items
+}
+
 func max(a, b, c int) int {
 	if a > b {
 		if a > c {
@@ -160,7 +187,6 @@ func max(a, b, c int) int {
 	}
 	return c
 }
-*/
 
 func sumMapValues(m map[string]float64) float64 {
 	total := 0.0
