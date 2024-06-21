@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -223,7 +224,17 @@ func (r *Row) Render(columnWidth int) string {
 
 func printBalanceSheet(balances map[string]*BalanceSheet) {
 	columnWidth := 30
-	for party, sheet := range balances {
+	// get parties in alphabetical order
+	parties := make([]string, 0, len(balances))
+	for party := range balances {
+		parties = append(parties, party)
+	}
+	// sort parties
+	sort.Slice(parties, func(i, j int) bool {
+		return parties[i] < parties[j]
+	})
+	for _, party := range parties {
+		sheet := balances[party]
 		fmt.Printf("#### %s's Balance Sheet\n", party)
 
 		// print the headings
@@ -257,16 +268,13 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 
 		// print the entries for each commodity
 		for commodity := range commodities {
-			subhead := &Row{Cells: []string{fmt.Sprintf("%s:", commodity), "", ""}}
-			fmt.Println(subhead.Render(columnWidth))
-
 			assetEntries := sheet.Asset[commodity]
 			liabilityEntries := sheet.Liability[commodity]
 			equityEntries := sheet.Equity[commodity]
 
-			assetItems := formatEntries(assetEntries, commodity)
-			liabilityItems := formatEntries(liabilityEntries, commodity)
-			equityItems := formatEntries(equityEntries, commodity)
+			assetItems := formatCells(assetEntries, commodity, columnWidth)
+			liabilityItems := formatCells(liabilityEntries, commodity, columnWidth)
+			equityItems := formatCells(equityEntries, commodity, columnWidth)
 
 			maxRows := maxItems(len(assetItems), len(liabilityItems), len(equityItems))
 
@@ -292,9 +300,9 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 			totalLiability := sumMapValues(sheet.Liability[commodity])
 			totalEquity := sumMapValues(sheet.Equity[commodity])
 
-			totalAssetStr := fmt.Sprintf("Total: %.2f %s", totalAsset, commodity)
-			totalLiabilityStr := fmt.Sprintf("Total: %.2f %s", totalLiability, commodity)
-			totalEquityStr := fmt.Sprintf("Total: %.2f %s", totalEquity, commodity)
+			totalAssetStr := formatCell("Total", totalAsset, commodity, columnWidth)
+			totalLiabilityStr := formatCell("Total", totalLiability, commodity, columnWidth)
+			totalEquityStr := formatCell("Total", totalEquity, commodity, columnWidth)
 			totalRow := &Row{Cells: []string{totalAssetStr, totalLiabilityStr, totalEquityStr}}
 			fmt.Println(totalRow.Render(columnWidth))
 
@@ -311,12 +319,22 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 	}
 }
 
-func formatEntries(m map[string]float64, commodity string) []string {
+func formatCells(m map[string]float64, commodity string, columnWidth int) []string {
 	items := []string{}
 	for accountLabel, amount := range m {
-		items = append(items, fmt.Sprintf("%-10s %.2f %s", accountLabel, amount, commodity))
+		item := formatCell(accountLabel, amount, commodity, columnWidth)
+		items = append(items, item)
 	}
 	return items
+}
+
+func formatCell(accountLabel string, amount float64, commodity string, columnWidth int) string {
+	amtComStr := fmt.Sprintf("%.2f %s", amount, commodity)
+	labelPadding := columnWidth - (len(accountLabel) + len(amtComStr)) - 2
+	if labelPadding < 0 {
+		labelPadding = 0
+	}
+	return fmt.Sprintf("%s %s %s", accountLabel, strings.Repeat(" ", labelPadding), amtComStr)
 }
 
 func maxItems(a, b, c int) int {

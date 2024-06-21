@@ -1,9 +1,9 @@
 2023/01/01 * Before Match (Alice asks N, Bob bids 50)
-    Alice:Asset                  D 1 PromiseX
+    Alice:Asset:Issued           D 1 PromiseX
     Alice:Liability:Pending      C 1 PromiseX
     
     Bob:Liability:Pending        C 50 Bob-coins
-    Bob:Asset                    D 50 Bob-coins
+    Bob:Asset:Issued             D 50 Bob-coins
 
 2023/01/02 * After Match (Alice lowers ask to 50)
     Alice:Liability:Pending      D 1 PromiseX
@@ -13,13 +13,13 @@
     Bob:Liability:Promised       C 50 Bob-coins
 
 2023/01/03 * After Fill (Promise Fulfilled)
-    Alice:Asset                  D 50 Bob-coins
-    Alice:Equity                 C 50 Bob-coins
+    Alice:Asset:Accepted         D 50 Bob-coins
+    Alice:Equity:Accepted        C 50 Bob-coins
     Alice:Liability:Promised     D 1 PromiseX
-    Alice:Liability:Issued       C 1 PromiseX
+    Alice:Equity:Issued          C 1 PromiseX
 
     Bob:Liability:Promised       D 50 Bob-coins
     Bob:Liability:Issued         C 50 Bob-coins
 
-    Bob:Asset                    D 1 PromiseX
-    Bob:Equity                   C 1 PromiseX
+    Bob:Asset:Accepted           D 1 PromiseX
+    Bob:Equity:Accepted          C 1 PromiseX
