@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 type Entry struct {
@@ -31,12 +33,15 @@ func NewBalanceSheet() *BalanceSheet {
 }
 
 func updateBalanceSheet(bs *BalanceSheet, entry Entry) {
+	spew.Dump(entry)
 	switch entry.DC {
 	case "D":
 		if strings.HasPrefix(entry.Account, "Assets") {
 			bs.Assets[entry.Commodity] += entry.Amount
-		} else if strings.HasPrefix(entry.Account, "Liabilities") || strings.HasPrefix(entry.Account, "Equity") {
-			bs.Liabilities[entry.Commodity] -= entry.Amount // Decrease for liabilities or equity
+		} else if strings.HasPrefix(entry.Account, "Liabilities") {
+			bs.Liabilities[entry.Commodity] -= entry.Amount // Decrease for liabilities
+		} else if strings.HasPrefix(entry.Account, "Equity") {
+			bs.Equity[entry.Commodity] -= entry.Amount // Decrease for equity
 		}
 	case "C":
 		if strings.HasPrefix(entry.Account, "Assets") {

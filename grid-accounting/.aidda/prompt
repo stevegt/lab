@@ -3,7 +3,9 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-something's wrong -- all of the balances are zero:
+something's wrong -- all of the balances are zero.  add debug
+statements in updateBalanceSheet to see what's going on.
+
 
 $ go run main.go 
 **Alice's Balance Sheet**
