@@ -17,16 +17,16 @@ type Entry struct {
 }
 
 type BalanceSheet struct {
-	Assets      map[string]float64
-	Liabilities map[string]float64
-	Equity      map[string]float64
+	Asset     map[string]float64
+	Liability map[string]float64
+	Equity    map[string]float64
 }
 
 func NewBalanceSheet() *BalanceSheet {
 	return &BalanceSheet{
-		Assets:      make(map[string]float64),
-		Liabilities: make(map[string]float64),
-		Equity:      make(map[string]float64),
+		Asset:     make(map[string]float64),
+		Liability: make(map[string]float64),
+		Equity:    make(map[string]float64),
 	}
 }
 
@@ -38,26 +38,31 @@ type Account struct {
 
 func updateBalanceSheet(bs *BalanceSheet, entry Entry) {
 	fmt.Println("Debug: Updating Balance Sheet with entry: ", entry)
-	switch entry.DC {
-	case "D":
-		if strings.HasPrefix(entry.Account, "Assets") {
-			bs.Assets[entry.Commodity] += entry.Amount
-			fmt.Printf("Debug: Added %.2f to Assets (%s)\n", entry.Amount, entry.Commodity)
-		} else if strings.HasPrefix(entry.Account, "Liabilities") {
-			bs.Liabilities[entry.Commodity] -= entry.Amount // Decrease for liabilities
-			fmt.Printf("Debug: Subtracted %.2f from Liabilities (%s)\n", entry.Amount, entry.Commodity)
-		} else if strings.HasPrefix(entry.Account, "Equity") {
-			bs.Equity[entry.Commodity] -= entry.Amount // Decrease for equity
-			fmt.Printf("Debug: Subtracted %.2f from Equity (%s)\n", entry.Amount, entry.Commodity)
+	switch entry.Account.Category {
+	case "Asset":
+		switch entry.DC {
+		case "D":
+			bs.Asset[entry.Commodity] += entry.Amount
+			fmt.Printf("Debug: Added %.2f to Asset (%s)\n", entry.Amount, entry.Commodity)
+		case "C":
+			bs.Asset[entry.Commodity] -= entry.Amount
+			fmt.Printf("Debug: Subtracted %.2f from Asset (%s)\n", entry.Amount, entry.Commodity)
 		}
-	case "C":
-		if strings.HasPrefix(entry.Account, "Assets") {
-			bs.Assets[entry.Commodity] -= entry.Amount
-			fmt.Printf("Debug: Subtracted %.2f from Assets (%s)\n", entry.Amount, entry.Commodity)
-		} else if strings.HasPrefix(entry.Account, "Liabilities") {
-			bs.Liabilities[entry.Commodity] += entry.Amount
-			fmt.Printf("Debug: Added %.2f to Liabilities (%s)\n", entry.Amount, entry.Commodity)
-		} else if strings.HasPrefix(entry.Account, "Equity") {
+	case "Liability":
+		switch entry.DC {
+		case "D":
+			bs.Liability[entry.Commodity] -= entry.Amount
+			fmt.Printf("Debug: Subtracted %.2f from Liability (%s)\n", entry.Amount, entry.Commodity)
+		case "C":
+			bs.Liability[entry.Commodity] += entry.Amount
+			fmt.Printf("Debug: Added %.2f to Liability (%s)\n", entry.Amount, entry.Commodity)
+		}
+	case "Equity":
+		switch entry.DC {
+		case "D":
+			bs.Equity[entry.Commodity] -= entry.Amount
+			fmt.Printf("Debug: Subtracted %.2f from Equity (%s)\n", entry.Amount, entry.Commodity)
+		case "C":
 			bs.Equity[entry.Commodity] += entry.Amount
 			fmt.Printf("Debug: Added %.2f to Equity (%s)\n", entry.Amount, entry.Commodity)
 		}
@@ -161,14 +166,14 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 		fmt.Printf("**%s's Balance Sheet**\n", party)
 
 		// print the headings
-		head := &Row{Cells: []string{"Assets (Debits)", "Liabilities (Credits)", "Equity"}}
+		head := &Row{Cells: []string{"Asset (Debits)", "Liability (Credits)", "Equity"}}
 		fmt.Println(head.Render(columnWidth))
 		dashes := strings.Repeat("-", columnWidth)
 		div := &Row{Cells: []string{dashes, dashes, dashes}}
 		fmt.Println(div.Render(columnWidth))
 
-		assetItems := formatEntries(sheet.Assets)
-		liabilityItems := formatEntries(sheet.Liabilities)
+		assetItems := formatEntries(sheet.Asset)
+		liabilityItems := formatEntries(sheet.Liability)
 		equityItems := formatEntries(sheet.Equity)
 
 		maxRows := maxItems(len(assetItems), len(liabilityItems), len(equityItems))
@@ -191,19 +196,19 @@ func printBalanceSheet(balances map[string]*BalanceSheet) {
 			fmt.Println(row.Render(columnWidth))
 		}
 
-		totalAssets := sumMapValues(sheet.Assets)
-		totalLiabilities := sumMapValues(sheet.Liabilities)
+		totalAsset := sumMapValues(sheet.Asset)
+		totalLiability := sumMapValues(sheet.Liability)
 		totalEquity := sumMapValues(sheet.Equity)
 
-		totalAssetsStr := fmt.Sprintf("Total: %.2f", totalAssets)
-		totalLiabilitiesStr := fmt.Sprintf("Total: %.2f", totalLiabilities)
+		totalAssetStr := fmt.Sprintf("Total: %.2f", totalAsset)
+		totalLiabilityStr := fmt.Sprintf("Total: %.2f", totalLiability)
 		totalEquityStr := fmt.Sprintf("Total: %.2f", totalEquity)
-		totalRow := &Row{Cells: []string{totalAssetsStr, totalLiabilitiesStr, totalEquityStr}}
+		totalRow := &Row{Cells: []string{totalAssetStr, totalLiabilityStr, totalEquityStr}}
 		fmt.Println(totalRow.Render(columnWidth))
 
 		// ensure the basic accounting equation holds
-		if totalAssets != totalLiabilities+totalEquity {
-			fmt.Println("Error: Assets != Liabilities + Equity")
+		if totalAsset != totalLiability+totalEquity {
+			fmt.Println("Error: Asset != Liability + Equity")
 		}
 		fmt.Println()
 	}

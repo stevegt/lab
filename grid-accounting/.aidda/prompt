@@ -3,5 +3,6 @@ Content-Transfer-Encoding: quoted-printable
 In: main.go
 Out: main.go
 
-refactor updateBalanceSheet() to switch based on account
-category and label.
+parseLedger must return a pointer to a Ledger.  The Ledger object must
+have methods to iterate over transactions, to add a transaction, and
+to return a balance sheet as of a transaction iteration number.
