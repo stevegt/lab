@@ -1,10 +1,9 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In: context.md, TODO.md
-Out: DESIGN.md
+In: context.md
+Out: PSUEDOCODE.md
 
-read context.md and write DESIGN.md detailing the components of the
-system and how they interact.  This will be a high-level overview of
-the system, and will be used to guide the implementation.
+read context.md and write PSEUDOCODE.md describing the structs,
+interfaces, and methods that will be needed to implement the system.
 
 
