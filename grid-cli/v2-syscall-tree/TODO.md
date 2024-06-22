@@ -1,18 +1,8 @@
 # TODO List for Implementing PromiseGrid Kernel 
 
-## Simplify Message Structure
-- Implement a unified `Message` structure where the promise might be the first element in the `Parms` field.
-
-## Module Interface
-- Simplify the Module interface to include a single `Accept()` function that handles all acceptance criteria based on the parameters (`parms...`).
-
 ## Hierarchical Syscall Tree
 - Implement a hierarchical syscall tree as an "ant routing" mechanism to cache successful paths and optimize future routing.
 - Incorporate promise-based acceptance in the syscall tree to enhance dynamic routing and module selection.
-
-## Unified PromiseMessage
-- Treat `PromiseMessage` as a simple `Message` where the first element of `Parms` can be the promise.
-- Implement logic to handle `PromiseMessage` as part of the acceptance and handling process.
 
 ## Implement Ant Routing Mechanism
 - Incorporate ant routing mechanisms to cache the path to modules that have successfully handled previous calls.
