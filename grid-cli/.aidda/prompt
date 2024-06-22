@@ -1,7 +1,8 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In: context.md
+In: context.md, TODO.md
 Out: TODO.md
 
-read context.md and generate a TODO.md file for writing the code
+read context.md and add more details to the TODO.md file
+
 
