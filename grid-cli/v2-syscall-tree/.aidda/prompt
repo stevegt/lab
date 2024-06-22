@@ -1,0 +1,7 @@
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In: pseudocode.go
+Out: pseudocode.go, message.go
+
+move the Message struct to message.go
+

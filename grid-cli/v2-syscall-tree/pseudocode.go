@@ -1,4 +1,4 @@
-package main
+package v2
 
 // Simplified overview of the system design based on the discussions
 
@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/gorilla/websocket"
 	"github.com/spf13/afero"
@@ -33,9 +32,9 @@ type SyscallNode struct {
 
 // Kernel struct with the syscall tree root and file system abstraction
 type Kernel struct {
-	root     *SyscallNode
-	fs       afero.Fs
-	modules  map[string]Module // Known modules
+	root    *SyscallNode
+	fs      afero.Fs
+	modules map[string]Module // Known modules
 }
 
 // NewKernel initializes a new Kernel instance with embedded modules
@@ -44,7 +43,7 @@ func NewKernel() *Kernel {
 		root: &SyscallNode{
 			children: make(map[string]*SyscallNode),
 		},
-		fs: afero.NewOsFs(),
+		fs:      afero.NewOsFs(),
 		modules: make(map[string]Module), // Initialize with known modules
 	}
 }
@@ -97,7 +96,7 @@ func (k *Kernel) consultModules(ctx context.Context, parms ...interface{}) ([]by
 	return nil, nil
 }
 
-func main() {
+func server() {
 	kernel := NewKernel()
 	// Start the WebSocket server (implementation simplified)
 	http.HandleFunc("/ws", kernel.HandleWebSocket)
