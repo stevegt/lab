@@ -12,12 +12,6 @@ import (
 	"github.com/spf13/afero"
 )
 
-// Message structure with promise as the first element of Parms
-type Message struct {
-	Parms   []interface{}          `json:"parms"` // First element is the promise
-	Payload map[string]interface{} `json:"payload"`
-}
-
 // Module interface with unified Accept and HandleMessage
 type Module interface {
 	Accept(ctx context.Context, parms ...interface{}) (Message, error)
