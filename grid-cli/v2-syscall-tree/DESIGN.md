@@ -3,9 +3,7 @@
 ## Overview
 
 This document outlines the design considerations for implementing the
-PromiseGrid kernel and modules, focusing on simplifying message
-structures, hierarchical syscall trees, and integrating promises
-deeply into the design.
+PromiseGrid kernel.  
 
 ## Simplified Message Structure
 
