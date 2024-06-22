@@ -1,9 +1,10 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In: context.md
-Out: PSUEDOCODE.md
+In: PSEUDOCODE.md
+Out: pseudocode.go
 
-read context.md and write PSEUDOCODE.md describing the structs,
-interfaces, and methods that will be needed to implement the system.
+read PSEUDOCODE.md and write a Go program containing stub code and
+detailed comments for the classes, interfaces, and methods that will
+be needed to implement the system.
 
 
