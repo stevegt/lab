@@ -1,8 +1,10 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 In: context.md, TODO.md
-Out: TODO.md
+Out: DESIGN.md
 
-read context.md and add more details to the TODO.md file
+read context.md and write DESIGN.md detailing the components of the
+system and how they interact.  This will be a high-level overview of
+the system, and will be used to guide the implementation.
 
 
