@@ -1,7 +1,8 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 In: DESIGN.md, kernel.go, message.go, module.go, server.go, TODO.md, context.md
-Out: TODO.md
+Out: message.go
 
-update TODO.md, adding more details 
+add detailed comments to the code describing the purpose of each
+struct, interface, and function.
 
