@@ -3,8 +3,9 @@ Content-Transfer-Encoding: quoted-printable
 In: PSEUDOCODE.md
 Out: pseudocode.go
 
-read PSEUDOCODE.md and write a Go program containing stub code and
-detailed comments for the classes, interfaces, and methods that will
-be needed to implement the system.
+read context.md and PSEUDOCODE.md and write pseudocode.go containing
+stub code.   In pseudocode.go, include extremely detailed comments for
+the classes, interfaces, and methods that will be needed to implement
+the system.
 
 
