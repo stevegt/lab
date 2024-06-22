@@ -1,6 +1,6 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In: PSEUDOCODE.md
+In: context.md, PSEUDOCODE.md
 Out: pseudocode.go
 
 read context.md and PSEUDOCODE.md and write pseudocode.go containing
