@@ -1,7 +1,7 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In: pseudocode.go
-Out: pseudocode.go, kernel.go
+In: DESIGN.md, kernel.go, message.go, module.go, server.go, TODO.md
+Out: TODO.md
 
-move Kernel to kernel.go
+in TODO.md, mark completed items as DONE
 

@@ -1,7 +1,5 @@
 package v2
 
-// Simplified overview of the system design based on the discussions
-
 import (
 	"context"
 	"encoding/json"
@@ -11,12 +9,6 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/spf13/afero"
 )
-
-// Module interface with unified Accept and HandleMessage
-type Module interface {
-	Accept(ctx context.Context, parms ...interface{}) (Message, error)
-	HandleMessage(ctx context.Context, parms ...interface{}) ([]byte, error)
-}
 
 // SyscallNode represents a node in the hierarchical syscall tree
 type SyscallNode struct {
@@ -80,7 +72,7 @@ func (k *Kernel) processMessage(ctx context.Context, message []byte) {
 	}
 
 	// Response handling (omitted for brevity)
-	fmt.Println("Message processed, response generated.")
+	fmt.Println("Message processed, response generated.", response)
 }
 
 // consultModules consults modules for handling the message, utilizing the syscall tree for routing
@@ -88,12 +80,4 @@ func (k *Kernel) consultModules(ctx context.Context, parms ...interface{}) ([]by
 	// Implementation involves traversing the syscall tree to find best match and consulting modules
 	// Omitted for brevity
 	return nil, nil
-}
-
-func server() {
-	kernel := NewKernel()
-	// Start the WebSocket server (implementation simplified)
-	http.HandleFunc("/ws", kernel.HandleWebSocket)
-	fmt.Println("WebSocket server started on :8080")
-	http.ListenAndServe(":8080", nil)
 }

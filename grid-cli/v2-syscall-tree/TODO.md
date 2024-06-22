@@ -1,4 +1,4 @@
-# TODO List for Implementing PromiseGrid Kernel and Modules
+# TODO List for Implementing PromiseGrid Kernel 
 
 ## Simplify Message Structure
 - Implement a unified `Message` structure where the promise might be the first element in the `Parms` field.
