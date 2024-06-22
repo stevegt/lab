@@ -1,8 +1,6 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 In: DESIGN.md, kernel.go, message.go, module.go, server.go, TODO.md, context.md, /home/stevegt/lab/promisegrid/promisegrid/README.md
-Out: message.go
+Out: DESIGN.md
 
-add detailed comments to the code describing the purpose of each
-struct, interface, and function.
-
+update DESIGN.md
