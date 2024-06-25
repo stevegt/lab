@@ -5,8 +5,7 @@ Out: DESIGN.md
 
 update DESIGN.md: 
 
-- Follow instructions in XXX marks.
-- Reason about design choices.  Seek improvements.  Address
-  unknowns in an "Open Questions" section.
+- Follow instructions in XXX marks.  Do not remove them.
+- Address unknowns in an "Open Questions" section.
 - Wrap text lines at 70 characters
 
