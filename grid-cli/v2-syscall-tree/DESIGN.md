@@ -158,10 +158,14 @@ func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *h
 - How can we dynamically adjust the acceptance criteria of modules to adapt to changing workloads and conditions without manual intervention?
 - What mechanisms can be implemented to handle broken promises more effectively, ensuring minimal disruption to the system?
 - Regarding the design choice of using a separate `Accept()` and `HandleMessage()` method -- does this not break promise theory's principle of not making promises on behalf of others? If there is a separate `Accept()` and `HandleMessage()` method, this means that the `Accept()` code path is making a promise on behalf of the `HandleMessage()` code path. What are the implications of this? Should this design be changed?
+- How does the kernel determine the best route when multiple modules provide promises to handle a message?
 
 ## Suggestions for Improving this Document
 
 - Develop comprehensive error handling and logging for broken promises to ensure accountability and system robustness.
+- Add more examples and case studies to illustrate core principles and use cases.
+- Expand on the description of the hierarchical syscall tree and its role in routing and filtering messages.
+- Update the sections with any additional questions or areas of exploration that arise during implementation and testing.
 
 ## References
 
