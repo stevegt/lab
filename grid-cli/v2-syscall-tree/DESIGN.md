@@ -114,8 +114,7 @@ func (k *Kernel) consultModules(ctx context.Context, parms ...interface{}) ([]by
 - Nodes interact with peers over the network via WebSocket connections.
 - WebSocket is the message transport mechanism we're using for now, although other mechanisms may be adopted in the future.
 - A sandboxed module can interact with the network by sending and receiving messages through the kernel.
-- The kernel communicates with the outside world (both network and
-  local I/O) via non-sandboxed modules.  
+- The kernel communicates with the outside world (both network and local I/O) via non-sandboxed modules.  
 
 ```go
 func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *http.Request) {
@@ -159,7 +158,9 @@ func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *h
 - How can we dynamically adjust the acceptance criteria of modules to adapt to changing workloads and conditions without manual intervention?
 - What mechanisms can be implemented to handle broken promises more effectively, ensuring minimal disruption to the system?
 - Should there be a standardized format for the payload in promise messages to facilitate easier parsing and validation across different modules?
-- TODO Regarding the design choice of using a separate Accept() and Handle() method -- does this not break promise theory's principle of not making promises on behalf of others? If there is a separate Accept() and Handle() method, this means that the Accept() code path is making a promise on behalf of the Handle() code path. What are the implications of this? Should this design be changed?
+- TODO Regarding the design choice of using a separate `Accept()` and `HandleMessage()` method -- does this not break promise theory's principle of not making promises on behalf of others? If there is a separate `Accept()` and `HandleMessage()` method, this means that the `Accept()` code path is making a promise on behalf of the `HandleMessage()` code path. What are the implications of this? Should this design be changed?
+
+## Suggestions for improvement
 
 ## References
 
