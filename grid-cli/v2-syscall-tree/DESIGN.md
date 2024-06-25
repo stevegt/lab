@@ -6,28 +6,17 @@ This document outlines the design considerations and architecture for implementi
 
 ## Core Concepts
 
-1. **Decentralized Architecture**: PromiseGrid operates as a
-   decentralized computing, communications, and governance system. It
-   is designed to be owned and operated by its users rather than any
-   single entity.
+1. **Decentralized Architecture**: PromiseGrid operates as a decentralized computing, communications, and governance system. It is designed to be owned and operated by its users rather than any single entity.
 
-2. **Capability-as-Promise Model**: Capabilities are treated as
-   promises, similar to the concepts from Promise Theory. A capability
-   token represents a promise that can either be fulfilled or revoked.
+2. **Capability-as-Promise Model**: Capabilities are treated as promises, similar to the concepts from Promise Theory. A capability token represents a promise that can either be fulfilled or revoked.
 
-3. **Content-addressable Code**: Both code and data are addressed by
-   their content, not by location or name. This allows the grid to
-   store and execute code and access data from any node in the
-   network.
+3. **Content-addressable Code**: Both code and data are addressed by their content, not by location or name. This allows the grid to store and execute code and access data from any node in the network.
 
-4. **Promises All the Way Down**: Every interaction in the system is
-   based on promises. A response to a promise is another promise.
+4. **Promises All the Way Down**: Every interaction in the system is based on promises. A response to a promise is another promise.
 
 ## Message Structure
 
-- The `Message` structure includes the promise as the first element in
-  the `Parms` field. Recipients route or discard messages based on the
-  leading promise.
+- The `Message` structure includes the promise as the first element in the `Parms` field. Recipients route or discard messages based on the leading promise.
 
 ```go
 type Message struct {
@@ -38,10 +27,7 @@ type Message struct {
 
 ## Syscall Tree
 
-- **Hierarchical Syscall Tree**: The kernel uses a hierarchical
-  syscall tree to store acceptance history. This tree functions as an
-  "ant routing" mechanism, caching successful paths to optimize future
-  routing.
+- **Hierarchical Syscall Tree**: The kernel uses a hierarchical syscall tree to store acceptance history. This tree functions as an "ant routing" mechanism, caching successful paths to optimize future routing.
 
 ```go
 type SyscallNode struct {
@@ -55,18 +41,11 @@ type Kernel struct {
 }
 ```
 
-- **Dynamic Acceptance History**: The syscall tree captures positive
-  and negative acceptance history. It starts empty and is populated
-  during operation as the kernel consults built-in and other modules
-  to handle received messages.
+- **Dynamic Acceptance History**: The syscall tree captures positive and negative acceptance history. It starts empty and is populated during operation as the kernel consults built-in and other modules to handle received messages.
 
 ## Module Interface
 
-- **`Accept()` Function**: The `Module` interface includes an
-  `Accept()` function that returns a promise message. The returned
-  promise is a promise that the module can handle the message. The
-  kernel routes the message to the module whose syscall tree key
-  matches the most leading parameter components.
+- **`Accept()` Function**: The `Module` interface includes an `Accept()` function that returns a promise message. The returned promise is a promise that the module can handle the message. The kernel routes the message to the module whose syscall tree key matches the most leading parameter components.
 
 ```go
 type Module interface {
@@ -125,15 +104,8 @@ func (k *Kernel) consultModules(ctx context.Context, parms ...interface{}) ([]by
 
 ## Acceptance as a Form of Promise
 
-- **Promises and Accountability**: The acceptance of a message itself
-  is a promise. Modules track which requests they accept and must
-  fulfill these promises by successfully handling the requests.
-- The use of "accept" in this context aligns with the definitions in
-  computing theory [^church][^turing][^chomsky]: An automaton accepts
-  an input if it reaches an accepting state. Similarly, PromiseGrid
-  modules accept a message if they can handle it, making a promise to
-  process it, akin to how a Turing machine or a language automaton
-  accepts strings belonging to a language.
+- **Promises and Accountability**: The acceptance of a message itself is a promise. Modules track which requests they accept and must fulfill these promises by successfully handling the requests.
+- The use of "accept" in this context aligns with the definitions in computing theory [^church][^turing][^chomsky]: An automaton accepts an input if it reaches an accepting state. Similarly, PromiseGrid modules accept a message if they can handle it, making a promise to process it, akin to how a Turing machine or a language automaton accepts strings belonging to a language.
 
 ## Integration with WebSocket
 
@@ -207,4 +179,3 @@ func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *h
 [^turing]: Turing, Alan. "On computable numbers, with an application to the Entscheidungsproblem." Proceedings of the London Mathematical Society 2.1 (1937): 230-265.  XXX add URL
 
 [^chomsky]: Chomsky, Noam. "Three models for the description of language." IRE transactions on information theory 2.3 (1956): 113-124. XXX add URL
-```
