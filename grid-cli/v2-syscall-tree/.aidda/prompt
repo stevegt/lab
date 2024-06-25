@@ -5,6 +5,7 @@ Out: DESIGN.md
 
 update DESIGN.md: 
 
-- Address unknowns in an "Open Questions" section.
-- Add suggestions for improvement in a "Suggestions for Improving this Document" section.
+- Regarding the design choice of using a separate `Accept()` and `HandleMessage()` method -- does this not break promise theory's principle of not making promises on behalf of others? If there is a separate `Accept()` and `HandleMessage()` method, this means that the `Accept()` code path is making a promise on behalf of the `HandleMessage()` code path. What are the implications of this? Should this design be changed?
+- Add unknowns to the "Open Questions" section.
+- Add suggestions for improvement to the "Suggestions for Improving this Document" section.
 
