@@ -105,7 +105,7 @@ func (k *Kernel) consultModules(ctx context.Context, parms ...interface{}) ([]by
 ## Acceptance as a Form of Promise
 
 - **Promises and Accountability**: The acceptance of a message itself is a promise. Modules track which requests they accept and must fulfill these promises by successfully handling the requests.
-- The use of "accept" in this context aligns with the definitions in computing theory [^church][^turing][^chomsky]: An automaton accepts an input if it reaches an accepting state. Similarly, PromiseGrid modules accept a message if they can handle it, making a promise to process it, akin to how a Turing machine or a language automaton accepts strings belonging to a language.
+- The use of "accept" in this context aligns with the definitions in computing theory: An automaton accepts an input if it reaches an accepting state. Similarly, PromiseGrid modules accept a message if they can handle it, making a promise to process it, akin to how a Turing machine or a language automaton accepts strings belonging to a language. 
 
 ## Integration with WebSocket
 
@@ -113,8 +113,7 @@ func (k *Kernel) consultModules(ctx context.Context, parms ...interface{}) ([]by
 - WebSocket is the message transport mechanism we're using for now, although other mechanisms may be adopted in the future.
 - A sandboxed module can interact with the network by sending and receiving messages through the kernel.
 - The kernel communicates with the outside world (both network and
-  local I/O) via non-sandboxed modules.  TODO describe how these are
-  analogous to device drivers in a microkernel operating system.
+  local I/O) via non-sandboxed modules.  
 
 ```go
 func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *http.Request) {
@@ -162,8 +161,3 @@ func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *h
 
 ## References
 
-[^church]: TODO add reference to Church's work on lambda calculus
-
-[^turing]: Turing, Alan. "On computable numbers, with an application to the Entscheidungsproblem." Proceedings of the London Mathematical Society 2.1 (1937): 230-265.  TODO add URL
-
-[^chomsky]: Chomsky, Noam. "Three models for the description of language." IRE transactions on information theory 2.3 (1956): 113-124. TODO add URL

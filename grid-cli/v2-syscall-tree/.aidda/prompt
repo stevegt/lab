@@ -5,7 +5,7 @@ Out: DESIGN.md
 
 update DESIGN.md: 
 
-- add URLs to references
+- describe how non-sandboxed modules are analogous to device drivers in a microkernel operating system.
 
 - Address unknowns in an "Open Questions" section.
 
