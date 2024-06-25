@@ -26,9 +26,9 @@ This document outlines the design considerations and architecture for implementi
 ## Message Structure
 
 - The `Message` structure includes the promise as the first element in
-  the `Parms` field.  Recipients route or discard messages based on the
-  promise.
-  
+  the `Parms` field. Recipients route or discard messages based on the
+  leading promise.
+
 ```go
 type Message struct {
     Parms    []interface{}          `json:"parms"`    // Parameters, with promise as the first element
@@ -55,11 +55,18 @@ type Kernel struct {
 }
 ```
 
-- **Dynamic Acceptance History**: The syscall tree captures positive and negative acceptance history. It starts empty and is populated during operation as the kernel consults built-in and other modules to handle received messages.
+- **Dynamic Acceptance History**: The syscall tree captures positive
+  and negative acceptance history. It starts empty and is populated
+  during operation as the kernel consults built-in and other modules
+  to handle received messages.
 
 ## Module Interface
 
-- **Single `Accept()` Function**: The `Module` interface includes a single `Accept()` function that returns a promise message. The kernel routes the message to the module whose syscall tree key matches the most leading parameter components.
+- **`Accept()` Function**: The `Module` interface includes an
+  `Accept()` function that returns a promise message.  The returned
+  promise is a promise that the module can handle the message. The
+  kernel routes the message to the module whose syscall tree key
+  matches the most leading parameter components.
 
 ```go
 type Module interface {
@@ -88,7 +95,7 @@ func (m *LocalCacheModule) HandleMessage(ctx context.Context, parms ...interface
 ## Routing and Filtering
 
 - **Optimized Routing**: In the case of a cache miss, the kernel consults modules based on the hierarchical syscall tree. It routes the message to the module with the longest matching parameter slice.
-  
+
 ```go
 func (k *Kernel) consultModules(ctx context.Context, parms ...interface{}) ([]byte, error) {
     bestMatch := k.findBestMatch(parms...)
@@ -125,8 +132,8 @@ func (k *Kernel) consultModules(ctx context.Context, parms ...interface{}) ([]by
 ## Integration with WebSocket
 
 - **WebSocket Handling**: The kernel interacts with modules through
-  WebSocket connections, routing and filtering messages based on the
-  hierarchical syscall tree.
+  WebSocket connections (XXX is this true?), routing and filtering
+  messages based on the hierarchical syscall tree.
 
 ```go
 func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *http.Request) {

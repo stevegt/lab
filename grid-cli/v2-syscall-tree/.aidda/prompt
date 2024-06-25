@@ -3,5 +3,10 @@ Content-Transfer-Encoding: quoted-printable
 In: DESIGN.md, context.md, /home/stevegt/lab/promisegrid/promisegrid/README.md
 Out: DESIGN.md
 
-Describe why acceptance of a message is a form of promise.  
+Describe why acceptance of a message is a form of promise.  Discuss
+the definition of "accept" in the context of Church, Turing, and Chomsky.
+
+
+clarify whether it's true that the kernel communicates with modules
+via websockets.  If so, explain why this is a good design choice.
 
