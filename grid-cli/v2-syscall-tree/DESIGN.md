@@ -83,12 +83,12 @@ func NewLocalCacheModule(cacheDir string) *LocalCacheModule {
 }
 
 func (m *LocalCacheModule) Accept(ctx context.Context, parms ...interface{}) (Message, error) {
-    // Implement logic to accept or reject based on parms
+    // Implement logic to accept or reject based on parms.
     return Message{Parms: append([]interface{}{true}, parms...), Payload: map[string]interface{}{"info": "cache module"}}, nil
 }
 
 func (m *LocalCacheModule) HandleMessage(ctx context.Context, parms ...interface{}) ([]byte, error) {
-    // Implement logic to handle messages
+    // Implement logic to handle messages.
 }
 ```
 
@@ -179,17 +179,32 @@ func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *h
 }
 ```
 
-## Summary
+## Open Questions
 
-- **Unified Message Structure**: Integrating promises directly into
-  the message parameters.
-- **Hierarchical Syscall Tree**: Ensuring efficient routing and
-  caching based on successful paths.
-- **Promise-Based Acceptance**: Treating acceptance as a promise,
-  ensuring modules fulfill their commitments.
-- **Integration with WebSocket**: Providing a consistent interface for
-  handling and routing messages in a decentralized manner.
-- **Promises All the Way Down**: XXX
+- What are the specific conditions under which the kernel should
+  invalidate or update cached syscall paths in the hierarchical
+  syscall tree?
+- How can we dynamically adjust the acceptance criteria of modules to
+  adapt to changing workloads and conditions without manual
+  intervention?
+- What mechanisms can be implemented to handle broken promises more
+  effectively, ensuring minimal disruption to the system?
+- Should there be a standardized format for the payload in promise
+  messages to facilitate easier parsing and validation across
+  different modules?
+- Regarding the design choice of using a separate Accept() and
+  Handle() method -- does this not break promise theory's principle of
+  not making promises on behalf of others?  I.E. if there is a
+  separate Accept() and Handle() method, this means that the Accept()
+  code path is making a promise on behalf of the Handle() code path.
+  What are the implications of this?  Should this design be changed?
 
-This design aligns with the principles of decentralized governance, modular interaction, and trust-based operations, ensuring a robust and efficient system for PromiseGrid.
 
+## References
+
+[^church]: XXX some reference to Church's work on lambda calculus
+
+[^turing]: Turing, Alan. "On computable numbers, with an application to the Entscheidungsproblem." Proceedings of the London Mathematical Society 2.1 (1937): 230-265.  XXX add URL
+
+[^chomsky]: Chomsky, Noam. "Three models for the description of language." IRE transactions on information theory 2.3 (1956): 113-124. XXX add URL
+```

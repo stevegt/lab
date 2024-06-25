@@ -5,14 +5,8 @@ Out: DESIGN.md
 
 update DESIGN.md: 
 
-- Resolve any XXX marks by reasoning about the design choices.  Seek
-  improvements.  Address unknowns in an "Open Questions" section.
-- Add missing footnotes 
+- Follow instructions in XXX marks.
+- Reason about design choices.  Seek improvements.  Address
+  unknowns in an "Open Questions" section.
 - Wrap text lines at 70 characters
-- discuss the design choice of using a separate Accept() and Handle()
-  method -- does this not break promise theory's principle of
-  not making promises on behalf of others?  I.E. if there is a separate
-  Accept() and Handle() method, this means that the Accept() code path
-  is making a promise on behalf of the Handle() code path.  What are
-  the implications of this?  should this design be changed?
 
