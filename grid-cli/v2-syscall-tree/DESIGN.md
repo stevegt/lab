@@ -63,7 +63,7 @@ type Kernel struct {
 ## Module Interface
 
 - **`Accept()` Function**: The `Module` interface includes an
-  `Accept()` function that returns a promise message.  The returned
+  `Accept()` function that returns a promise message. The returned
   promise is a promise that the module can handle the message. The
   kernel routes the message to the module whose syscall tree key
   matches the most leading parameter components.
@@ -128,12 +128,20 @@ func (k *Kernel) consultModules(ctx context.Context, parms ...interface{}) ([]by
 - **Promises and Accountability**: The acceptance of a message itself
   is a promise. Modules track which requests they accept and must
   fulfill these promises by successfully handling the requests.
+- The use of "accept" in this context aligns with the definitions in
+  computing theory [^church][^turing][^chomsky]: An automaton accepts
+  an input if it reaches an accepting state. Similarly, PromiseGrid
+  modules accept a message if they can handle it, making a promise to
+  process it, akin to how a Turing machine or a language automaton
+  accepts strings belonging to a language.
 
 ## Integration with WebSocket
 
-- **WebSocket Handling**: The kernel interacts with modules through
-  WebSocket connections (XXX is this true?), routing and filtering
-  messages based on the hierarchical syscall tree.
+- XXX nodes interact with peers over the network via WebSocket connections
+- XXX decide whether websocket is the only transport or if we can have others
+- XXX decide how a sandboxed module can interact with the network
+- XXX decide whether the kernel should handle the WebSocket connection or if it should be handled by non-sandboxed modules
+
 
 ```go
 func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *http.Request) {
@@ -173,10 +181,15 @@ func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *h
 
 ## Summary
 
-- **Unified Message Structure**: Integrating promises directly into the message parameters.
-- **Hierarchical Syscall Tree**: Ensuring efficient routing and caching based on successful paths.
-- **Promise-Based Acceptance**: Treating acceptance as a promise, ensuring modules fulfill their commitments.
-- **Integration with WebSocket**: Providing a consistent interface for handling and routing messages in a decentralized manner.
+- **Unified Message Structure**: Integrating promises directly into
+  the message parameters.
+- **Hierarchical Syscall Tree**: Ensuring efficient routing and
+  caching based on successful paths.
+- **Promise-Based Acceptance**: Treating acceptance as a promise,
+  ensuring modules fulfill their commitments.
+- **Integration with WebSocket**: Providing a consistent interface for
+  handling and routing messages in a decentralized manner.
+- **Promises All the Way Down**: XXX
 
 This design aligns with the principles of decentralized governance, modular interaction, and trust-based operations, ensuring a robust and efficient system for PromiseGrid.
 

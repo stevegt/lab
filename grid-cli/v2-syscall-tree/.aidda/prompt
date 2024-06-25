@@ -5,11 +5,10 @@ Out: DESIGN.md
 
 update DESIGN.md: 
 
-- describe why acceptance of a message is a form of promise.  Discuss
-  the definition of "accept" in the context of Church, Turing, and
-  Chomsky.
-- clarify whether it's true that the kernel communicates with modules
-  via websockets.  revisit this design choice.
+- Resolve any XXX marks by reasoning about the design choices.  Seek
+  improvements.  Address unknowns in an "Open Questions" section.
+- Add missing footnotes 
+- Wrap text lines at 70 characters
 - discuss the design choice of using a separate Accept() and Handle()
   method -- does this not break promise theory's principle of
   not making promises on behalf of others?  I.E. if there is a separate
