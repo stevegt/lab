@@ -109,11 +109,12 @@ func (k *Kernel) consultModules(ctx context.Context, parms ...interface{}) ([]by
 
 ## Integration with WebSocket
 
-- XXX nodes interact with peers over the network via WebSocket connections
-- XXX decide whether websocket is the only transport or if we can have others
-- XXX decide how a sandboxed module can interact with the network
-- XXX decide whether the kernel should handle the WebSocket connection or if it should be handled by non-sandboxed modules
-
+- Nodes interact with peers over the network via WebSocket connections.
+- WebSocket is the message transport mechanism we're using for now, although other mechanisms may be adopted in the future.
+- A sandboxed module can interact with the network by sending and receiving messages through the kernel.
+- The kernel communicates with the outside world (both network and
+  local I/O) via non-sandboxed modules.  TODO describe how these are
+  analogous to device drivers in a microkernel operating system.
 
 ```go
 func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *http.Request) {
@@ -157,12 +158,12 @@ func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *h
 - How can we dynamically adjust the acceptance criteria of modules to adapt to changing workloads and conditions without manual intervention?
 - What mechanisms can be implemented to handle broken promises more effectively, ensuring minimal disruption to the system?
 - Should there be a standardized format for the payload in promise messages to facilitate easier parsing and validation across different modules?
-- Regarding the design choice of using a separate Accept() and Handle() method -- does this not break promise theory's principle of not making promises on behalf of others?  I.E. if there is a separate Accept() and Handle() method, this means that the Accept() code path is making a promise on behalf of the Handle() code path. What are the implications of this?  Should this design be changed?
+- Regarding the design choice of using a separate Accept() and Handle() method -- does this not break promise theory's principle of not making promises on behalf of others? If there is a separate Accept() and Handle() method, this means that the Accept() code path is making a promise on behalf of the Handle() code path. What are the implications of this? Should this design be changed?
 
 ## References
 
-[^church]: XXX some reference to Church's work on lambda calculus
+[^church]: TODO add reference to Church's work on lambda calculus
 
-[^turing]: Turing, Alan. "On computable numbers, with an application to the Entscheidungsproblem." Proceedings of the London Mathematical Society 2.1 (1937): 230-265.  XXX add URL
+[^turing]: Turing, Alan. "On computable numbers, with an application to the Entscheidungsproblem." Proceedings of the London Mathematical Society 2.1 (1937): 230-265.  TODO add URL
 
-[^chomsky]: Chomsky, Noam. "Three models for the description of language." IRE transactions on information theory 2.3 (1956): 113-124. XXX add URL
+[^chomsky]: Chomsky, Noam. "Three models for the description of language." IRE transactions on information theory 2.3 (1956): 113-124. TODO add URL

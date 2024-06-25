@@ -5,12 +5,7 @@ Out: DESIGN.md
 
 update DESIGN.md: 
 
-- describe how nodes interact with peers over the network via WebSocket connections
-- describe the fact that websocket is the message transport mechanism we're
-  using for now -- there will likely be others.  
-- describe how a sandboxed module can interact with the network
-- describe whether the kernel should handle the WebSocket connection or if it should be handled by non-sandboxed modules
-
+- add URLs to references
 
 - Address unknowns in an "Open Questions" section.
 
