@@ -9,5 +9,11 @@ update DESIGN.md:
   the definition of "accept" in the context of Church, Turing, and
   Chomsky.
 - clarify whether it's true that the kernel communicates with modules
-  via websockets.  If so, explain why this is a good design choice.
+  via websockets.  revisit this design choice.
+- discuss the design choice of using a separate Accept() and Handle()
+  method -- does this not break promise theory's principle of
+  not making promises on behalf of others?  I.E. if there is a separate
+  Accept() and Handle() method, this means that the Accept() code path
+  is making a promise on behalf of the Handle() code path.  What are
+  the implications of this?  should this design be changed?
 
