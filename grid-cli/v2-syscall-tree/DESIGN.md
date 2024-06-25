@@ -47,7 +47,7 @@ type Kernel struct {
 
 ## Module Interface
 
-- **`Accept()` Function**: The `Module` interface includes an `Accept()` function that returns a promise message. The returned promise is a promise that the module can handle the message. The kernel routes the message to the module whose syscall tree key matches the most leading parameter components.
+- **Accept() Function**: The `Module` interface includes an `Accept()` function that returns a promise message. The returned promise is a promise that the module can handle the message. The kernel routes the message to the module whose syscall tree key matches the most leading parameter components.
 
 ```go
 type Module interface {

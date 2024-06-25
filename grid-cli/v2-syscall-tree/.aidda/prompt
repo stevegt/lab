@@ -3,9 +3,16 @@ Content-Transfer-Encoding: quoted-printable
 In: DESIGN.md, context.md, /home/stevegt/lab/promisegrid/promisegrid/README.md
 Out: DESIGN.md
 
-update DESIGN.md: 
+Improve DESIGN.md: 
 
-- Regarding the design choice of using a separate `Accept()` and `HandleMessage()` method -- does this not break promise theory's principle of not making promises on behalf of others? If there is a separate `Accept()` and `HandleMessage()` method, this means that the `Accept()` code path is making a promise on behalf of the `HandleMessage()` code path. What are the implications of this? Should this design be changed?
+- The design choice of using a separate `Accept()` and
+  `HandleMessage()` method breaks promise theory's principle of not
+  making promises on behalf of others.  Refactor the design to
+  include a 'test' boolean in the `HandleMessage()` method to
+  test if the message is acceptable.  If the message is acceptable,
+  the `HandleMessage()` method should return a promise that the handler
+  can handle the message.  
+
 - Add unknowns to the "Open Questions" section.
 - Add suggestions for improvement to the "Suggestions for Improving this Document" section.
 
