@@ -5,7 +5,6 @@ Out: DESIGN.md
 
 update DESIGN.md: 
 
-- Find all instances of "TODO" and provide suggestions for completing or revising those sections.
 - Address unknowns in an "Open Questions" section.
-- Add suggestions for improvement in a "Suggestions for Improvement" section.
+- Add suggestions for improvement in a "Suggestions for Improving this Document" section.
 

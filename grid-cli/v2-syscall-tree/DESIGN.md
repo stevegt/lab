@@ -157,10 +157,16 @@ func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *h
 - What are the specific conditions under which the kernel should invalidate or update cached syscall paths in the hierarchical syscall tree?
 - How can we dynamically adjust the acceptance criteria of modules to adapt to changing workloads and conditions without manual intervention?
 - What mechanisms can be implemented to handle broken promises more effectively, ensuring minimal disruption to the system?
-- Should there be a standardized format for the payload in promise messages to facilitate easier parsing and validation across different modules?
-- TODO Regarding the design choice of using a separate `Accept()` and `HandleMessage()` method -- does this not break promise theory's principle of not making promises on behalf of others? If there is a separate `Accept()` and `HandleMessage()` method, this means that the `Accept()` code path is making a promise on behalf of the `HandleMessage()` code path. What are the implications of this? Should this design be changed?
+- Regarding the design choice of using a separate `Accept()` and `HandleMessage()` method -- does this not break promise theory's principle of not making promises on behalf of others? If there is a separate `Accept()` and `HandleMessage()` method, this means that the `Accept()` code path is making a promise on behalf of the `HandleMessage()` code path. What are the implications of this? Should this design be changed?
 
-## Suggestions for improvement
+## Suggestions for Improving this Document
+
+- Develop comprehensive error handling and logging for broken promises to ensure accountability and system robustness.
 
 ## References
 
+- Promise Theory by Mark Burgess
+- Content-Addressable Storage
+- Capability-Based Security
+- WebAssembly (WASM) and WebAssembly System Interface (WASI)
+- Large Language Models (LLMs)
