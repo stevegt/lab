@@ -47,12 +47,14 @@ type Kernel struct {
 
 ## Module Interface
 
-- **Accept() Function**: The `Module` interface includes an `Accept()` function that returns a promise message. The returned promise is a promise that the module can handle the message. The kernel routes the message to the module whose syscall tree key matches the most leading parameter components.
-
 ```go
+// Module interface defines the methods that a module must implement.
 type Module interface {
-    Accept(ctx context.Context, parms ...interface{}) (Message, error)
-    HandleMessage(ctx context.Context, parms ...interface{}) ([]byte, error)
+    // HandleMessage handles an incoming message, returning a promise.
+    // If `test` is true, it does not execute the actual handling
+    // logic, but instead checks if the handler can handle the
+    // message, and returns a promise of handling ability.
+    HandleMessage(ctx context.Context, test bool, in *Message) (out *Message, error)
 }
 
 type LocalCacheModule struct {
@@ -63,13 +65,15 @@ func NewLocalCacheModule(cacheDir string) *LocalCacheModule {
     return &LocalCacheModule{cacheDir: cacheDir}
 }
 
-func (m *LocalCacheModule) Accept(ctx context.Context, parms ...interface{}) (Message, error) {
-    // Implement logic to accept or reject based on parms.
-    return Message{Parms: append([]interface{}{true}, parms...), Payload: map[string]interface{}{"info": "cache module"}}, nil
-}
-
-func (m *LocalCacheModule) HandleMessage(ctx context.Context, parms ...interface{}) ([]byte, error) {
+func (m *LocalCacheModule) HandleMessage(ctx context.Context, test bool, in *Message) (out *Message, error) {
+    // Check if the message is acceptable
+    if test {
+        accept := ... // Logic to check if the message is acceptable
+        return accept, nil, nil
+    }
     // Implement logic to handle messages.
+    data := ... // Logic to process the message
+    return true, data, nil
 }
 ```
 
@@ -94,7 +98,12 @@ func (k *Kernel) consultModules(ctx context.Context, parms ...interface{}) ([]by
     }
 
     for _, module := range promisingModules {
-        data, err := module.HandleMessage(ctx, parms...)
+        acceptable, data, err := module.HandleMessage(ctx, true, parms...)
+        if err != nil || !acceptable {
+            continue
+        }
+        // Now handle the message
+        _, data, err = module.HandleMessage(ctx, false, parms...)
         if err == nil {
             return data, nil
         }
@@ -152,6 +161,14 @@ func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *h
 }
 ```
 
+## Glossary of Terms and Concepts
+
+- **Decentralized Architecture**: A system design where control is distributed among various actors or nodes, rather than centralized in a single entity.
+- **Capability-as-Promise Model**: A model where capabilities represent promises that can either be fulfilled or revoked.
+- **Content-addressable Code**: Code and data addressed based on their content, allowing decentralized storage and execution.
+- **Promises All the Way Down**: A paradigm where every interaction in the system results in a promise, with responses being new promises.
+- **Non-Sandboxed Modules**: Modules granted more access and responsibility, analogous to device drivers, for handling specific external operations.
+
 ## Open Questions
 
 - What are the specific conditions under which the kernel should invalidate or update cached syscall paths in the hierarchical syscall tree?
@@ -159,6 +176,8 @@ func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *h
 - What mechanisms can be implemented to handle broken promises more effectively, ensuring minimal disruption to the system?
 - Regarding the design choice of using a separate `Accept()` and `HandleMessage()` method -- does this not break promise theory's principle of not making promises on behalf of others? If there is a separate `Accept()` and `HandleMessage()` method, this means that the `Accept()` code path is making a promise on behalf of the `HandleMessage()` code path. What are the implications of this? Should this design be changed?
 - How does the kernel determine the best route when multiple modules provide promises to handle a message?
+- How will the system manage latency in the context of decentralized and distributed nodes?
+- What measures can be taken to ensure data consistency across the decentralized cache system over unreliable networks?
 
 ## Suggestions for Improving this Document
 
@@ -166,11 +185,5 @@ func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *h
 - Add more examples and case studies to illustrate core principles and use cases.
 - Expand on the description of the hierarchical syscall tree and its role in routing and filtering messages.
 - Update the sections with any additional questions or areas of exploration that arise during implementation and testing.
-
-## References
-
-- Promise Theory by Mark Burgess
-- Content-Addressable Storage
-- Capability-Based Security
-- WebAssembly (WASM) and WebAssembly System Interface (WASI)
-- Large Language Models (LLMs)
+- Refine the glossary to include more specialized terms and concepts as they arise in the documentation.
+- Incorporate visual aids (e.g., diagrams, flowcharts) to enhance understanding of system architecture and data flow.

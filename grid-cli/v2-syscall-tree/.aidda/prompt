@@ -1,18 +1,8 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In: DESIGN.md, /home/stevegt/lab/promisegrid/promisegrid/README.md
-Out: DESIGN.md
+In: DESIGN.md, /home/stevegt/lab/promisegrid/promisegrid/README.md, module.go
+Out: module.go
 
-Improve DESIGN.md: 
+Revise module.go to use the API described in DESIGN.md.  
 
-- Refactor the design to
-  include a 'test' boolean in the `HandleMessage()` method to
-  test if the message is acceptable.  If the message is acceptable,
-  the `HandleMessage()` method should return a promise that the handler
-  can handle the message.  
-
-- Create a glossary of terms and concepts to help new readers understand the specialized vocabulary used in the document.
-
-- Add unknowns to the "Open Questions" section.
-- Add suggestions for improvement to the "Suggestions for Improving this Document" section.
 
