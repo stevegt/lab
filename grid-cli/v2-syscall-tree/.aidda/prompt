@@ -3,5 +3,5 @@ Content-Transfer-Encoding: quoted-printable
 In: DESIGN.md, context.md, /home/stevegt/lab/promisegrid/promisegrid/README.md
 Out: DESIGN.md
 
-add sections to DESIGN.md based on the contents of context.md and README.md
-`
+Describe why acceptance of a message is a form of promise.  
+
