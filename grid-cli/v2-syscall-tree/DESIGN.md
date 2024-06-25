@@ -14,6 +14,8 @@ This document outlines the design considerations and architecture for implementi
 
 4. **Promises All the Way Down**: Every interaction in the system is based on promises. A response to a promise is another promise.
 
+5. **Non-Sandboxed Modules**: Non-sandboxed modules in PromiseGrid are analogous to device drivers in a microkernel OS. Just as device drivers handle specific hardware functionality in a microkernel, non-sandboxed modules handle specific external operations in the grid (e.g., network communications, file access). The kernel delegates these operations to non-sandboxed modules while maintaining control over the overall execution.
+
 ## Message Structure
 
 - The `Message` structure includes the promise as the first element in the `Parms` field. Recipients route or discard messages based on the leading promise.
@@ -157,7 +159,7 @@ func handleWebSocket(ctx context.Context, k *Kernel, w http.ResponseWriter, r *h
 - How can we dynamically adjust the acceptance criteria of modules to adapt to changing workloads and conditions without manual intervention?
 - What mechanisms can be implemented to handle broken promises more effectively, ensuring minimal disruption to the system?
 - Should there be a standardized format for the payload in promise messages to facilitate easier parsing and validation across different modules?
-- Regarding the design choice of using a separate Accept() and Handle() method -- does this not break promise theory's principle of not making promises on behalf of others? If there is a separate Accept() and Handle() method, this means that the Accept() code path is making a promise on behalf of the Handle() code path. What are the implications of this? Should this design be changed?
+- TODO Regarding the design choice of using a separate Accept() and Handle() method -- does this not break promise theory's principle of not making promises on behalf of others? If there is a separate Accept() and Handle() method, this means that the Accept() code path is making a promise on behalf of the Handle() code path. What are the implications of this? Should this design be changed?
 
 ## References
 

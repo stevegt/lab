@@ -5,7 +5,6 @@ Out: DESIGN.md
 
 update DESIGN.md: 
 
-- describe how non-sandboxed modules are analogous to device drivers in a microkernel operating system.
-
+- Find all instances of "TODO" and provide suggestions for completing or revising those sections.
 - Address unknowns in an "Open Questions" section.
 
