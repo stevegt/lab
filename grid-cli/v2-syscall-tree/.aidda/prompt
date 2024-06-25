@@ -5,10 +5,10 @@ Out: DESIGN.md
 
 update DESIGN.md: 
 
-- XXX nodes interact with peers over the network via WebSocket connections
-- XXX decide whether websocket is the only transport or if we can have others
-- XXX decide how a sandboxed module can interact with the network
-- XXX decide whether the kernel should handle the WebSocket connection or if it should be handled by non-sandboxed modules
+- describe how nodes interact with peers over the network via WebSocket connections
+- decide whether websocket is the only transport or if we can have others
+- decide how a sandboxed module can interact with the network
+- decide whether the kernel should handle the WebSocket connection or if it should be handled by non-sandboxed modules
 
 
 - Address unknowns in an "Open Questions" section.
