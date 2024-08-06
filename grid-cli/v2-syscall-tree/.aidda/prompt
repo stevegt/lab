@@ -1,8 +1,8 @@
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 In: DESIGN.md, /home/stevegt/lab/promisegrid/promisegrid/README.md, module.go
-Out: module.go
+XOut: module.go
+Out: cmd/grid-cli/main.go
 
-Revise module.go to use the API described in DESIGN.md.  
-
+create cmd/grid-cli/main.go 
 
