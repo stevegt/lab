@@ -32,7 +32,8 @@ example_config='
 # (use no spaces around the arrow)
 # literal:==>bar/
 
-# git filter-repo --analyze found the following renames:
+# git filter-repo --analyze found the following renames.  They need to 
+# be included in a Keep statement so renames are followed:
 '
 
 while getopts "i:o:f:h" opt; do
