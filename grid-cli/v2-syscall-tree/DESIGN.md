@@ -20,62 +20,12 @@ This document outlines the design considerations and architecture for implementi
 
 - The `Message` structure includes the promise as the first element in the `Parms` field. Recipients route or discard messages based on the leading promise.
 
-```go
-type Message struct {
-    Parms    []interface{}          `json:"parms"`    // Parameters, with promise as the first element
-    Payload  map[string]interface{} `json:"payload"`  // Meta information or additional data
-}
-```
-
 ## Syscall Tree
 
 - **Hierarchical Syscall Tree**: The kernel uses a hierarchical syscall tree to store acceptance history. This tree functions as an "ant routing" mechanism, caching successful paths to optimize future routing.
 
-```go
-type SyscallNode struct {
-    modules  []Module
-    children map[string]*SyscallNode
-}
-
-type Kernel struct {
-    root          *SyscallNode
-    knownMessages map[string]Message
-}
-```
 
 - **Dynamic Acceptance History**: The syscall tree captures positive and negative acceptance history. It starts empty and is populated during operation as the kernel consults built-in and other modules to handle received messages.
-
-## Module Interface
-
-```go
-// Module interface defines the methods that a module must implement.
-type Module interface {
-    // HandleMessage handles an incoming message, returning a promise.
-    // If `test` is true, it does not execute the actual handling
-    // logic, but instead checks if the handler can handle the
-    // message, and returns a promise of handling ability.
-    HandleMessage(ctx context.Context, test bool, in *Message) (out *Message, error)
-}
-
-type LocalCacheModule struct {
-    cacheDir string
-}
-
-func NewLocalCacheModule(cacheDir string) *LocalCacheModule {
-    return &LocalCacheModule{cacheDir: cacheDir}
-}
-
-func (m *LocalCacheModule) HandleMessage(ctx context.Context, test bool, in *Message) (out *Message, error) {
-    // Check if the message is acceptable
-    if test {
-        accept := ... // Logic to check if the message is acceptable
-        return accept, nil, nil
-    }
-    // Implement logic to handle messages.
-    data := ... // Logic to process the message
-    return true, data, nil
-}
-```
 
 ## Routing and Filtering
 
