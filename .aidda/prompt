@@ -7,5 +7,7 @@ Out:
 Sysmsg: You are an expert graphviz developer. Please make the requested changes
  to the given graph.
 
-remove arrows from heads that touch point nodes
+revise the graph:
+- add labels to each point node describing the transition event
+
 
