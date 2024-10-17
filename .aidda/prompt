@@ -1,0 +1,11 @@
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In: 
+ hypergraph-graphviz/graph.dot
+Out: 
+ hypergraph-graphviz/graph.dot
+Sysmsg: You are an expert graphviz developer. Please make the requested changes
+ to the given graph.
+
+remove arrows from heads that touch point nodes
+
