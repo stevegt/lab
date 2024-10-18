@@ -8,8 +8,8 @@ Sysmsg: You are an expert graphviz developer. Please make the requested changes
  to the given graph.
 
 revise the graph:
-- add labels to each point node describing the transition event that
-  occurs at that hyperedge
-- don't label edges
+- label the nodes that have a point shape
+ - label the edges that have a solid line style- don't label edges-
+   - label them with random event names
 
 
