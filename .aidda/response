@@ -10,9 +10,9 @@ digraph AcyclicSingleGraph {
     C -> D;
 
     // Hyperedge with multiple tails and heads
-    node [shape=point];
-    B -> E [arrowhead=none, label="Transition1"];
-    D -> E [arrowhead=none, label="Transition2"];
+    node [shape=point, label="Point"];
+    B -> E [arrowhead=none, label="EventA"];
+    D -> E [arrowhead=none, label="EventB"];
 
     node [shape=circle];
     E -> F;
@@ -23,73 +23,73 @@ digraph AcyclicSingleGraph {
     H -> I;
     J -> K;
 
-    node [shape=point];
-    F -> L [arrowhead=none, label="Transition3"];
-    G -> L [arrowhead=none, label="Transition4"];
-    I -> L [arrowhead=none, label="Transition5"];
+    node [shape=point, label="Point"];
+    F -> L [arrowhead=none, label="EventC"];
+    G -> L [arrowhead=none, label="EventD"];
+    I -> L [arrowhead=none, label="EventE"];
 
     node [shape=circle];
     L -> M;
     L -> N;
 
     // A new hyperedge connecting multiple nodes
-    node [shape=point];
-    M -> O [arrowhead=none, label="Transition6"];
-    N -> O [arrowhead=none, label="Transition7"];
+    node [shape=point, label="Point"];
+    M -> O [arrowhead=none, label="EventF"];
+    N -> O [arrowhead=none, label="EventG"];
 
     node [shape=circle];
     O -> P;
     O -> Q;
 
     // Hyperedge with more tails than heads
-    node [shape=point];
-    P -> R [arrowhead=none, label="Transition8"];
-    Q -> S [arrowhead=none, label="Transition9"];
+    node [shape=point, label="Point"];
+    P -> R [arrowhead=none, label="EventH"];
+    Q -> S [arrowhead=none, label="EventI"];
 
     node [shape=circle];
     R -> T;
     S -> U;
 
     // Continuing to interconnect all nodes
-    node [shape=point];
-    T -> V [arrowhead=none, label="Transition10"];
-    U -> V [arrowhead=none, label="Transition11"];
+    node [shape=point, label="Point"];
+    T -> V [arrowhead=none, label="EventJ"];
+    U -> V [arrowhead=none, label="EventK"];
 
     node [shape=circle];
     V -> W;
     V -> X;
 
     // A hyperedge branching into multiple heads
-    node [shape=point];
-    W -> Y [arrowhead=none, label="Transition12"];
-    X -> Z [arrowhead=none, label="Transition13"];
+    node [shape=point, label="Point"];
+    W -> Y [arrowhead=none, label="EventL"];
+    X -> Z [arrowhead=none, label="EventM"];
 
     node [shape=circle];
     Y -> A1;
     Z -> B1;
 
     // More hyperedges with diverse head/tail counts
-    node [shape=point];
-    A1 -> C1 [arrowhead=none, label="Transition14"];
-    B1 -> C1 [arrowhead=none, label="Transition15"];
+    node [shape=point, label="Point"];
+    A1 -> C1 [arrowhead=none, label="EventN"];
+    B1 -> C1 [arrowhead=none, label="EventO"];
 
     node [shape=circle];
     C1 -> D1;
     C1 -> E1;
 
     // More complex hyperedge connections
-    node [shape=point];
-    D1 -> F1 [arrowhead=none, label="Transition16"];
-    E1 -> F1 [arrowhead=none, label="Transition17"];
+    node [shape=point, label="Point"];
+    D1 -> F1 [arrowhead=none, label="EventP"];
+    E1 -> F1 [arrowhead=none, label="EventQ"];
 
     node [shape=circle];
     F1 -> G1;
     F1 -> H1;
 
     // Final segment ensuring no cycles
-    node [shape=point];
-    G1 -> I1 [arrowhead=none, label="Transition18"];
-    H1 -> I1 [arrowhead=none, label="Transition19"];
+    node [shape=point, label="Point"];
+    G1 -> I1 [arrowhead=none, label="EventR"];
+    H1 -> I1 [arrowhead=none, label="EventS"];
 
     node [shape=circle];
     I1 -> J1;
